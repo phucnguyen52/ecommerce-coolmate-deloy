@@ -1,0 +1,23 @@
+/* CSS cho dot */
+ul li {
+   cursor: pointer;
+   opacity: 0.5;
+   border-radius: 5px;
+ }
+ ul li a img {
+   border-radius: 3px;
+ }
+ 
+ /* CSS cho dot khi được chọn */
+ ul .slick-active{
+   opacity: 1; 
+ }
+ ul li a img:hover{
+   border: 1px solid black;
+ }
+
+ .voucher:hover .detaiVoucher {
+  display: inline;
+}
+
+ 

@@ -1,0 +1,15 @@
+input[type="checkbox"]:checked  + div,
+input[type="radio"]:checked  + div  {
+   background-color: #2F5ACF;
+   color: white
+} 
+
+label input[type="checkbox"]:checked ~ .check,
+label input[type="radio"]:checked ~ .check{
+   background: #2F5ACF;
+}
+
+input[type="checkbox"]:checked  + div  {
+   background-color: #2F5ACF;
+   color: white
+}
