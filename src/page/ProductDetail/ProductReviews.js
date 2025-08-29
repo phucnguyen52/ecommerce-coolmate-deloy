@@ -8,7 +8,9 @@ const ProductReviews = (props) => {
 
     const fetchRating = async () => {
         try {
-            const req = await fetch(`http://localhost:8080/api/customer/rating/${id}`)
+            const req = await fetch(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/rating/${id}`,
+            )
             const res = await req.json()
             if (res.succes) {
                 const count = res.rating[0].totalRecords

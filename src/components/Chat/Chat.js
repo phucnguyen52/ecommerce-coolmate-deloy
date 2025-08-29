@@ -18,9 +18,12 @@ const Chat = ({ roomId = 'room1' }) => {
 
     const fetchUserId = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/customer', {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                'https://ecommerce-coolmate-server-production.up.railway.app/api/customer',
+                {
+                    withCredentials: true,
+                },
+            )
 
             if (response.data.success) {
                 setUserId(response.data.user.id)
@@ -38,9 +41,12 @@ const Chat = ({ roomId = 'room1' }) => {
 
     const loadMessages = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/customer/messenger/4', {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/messenger/4',
+                {
+                    withCredentials: true,
+                },
+            )
 
             setMessages(response.data.message)
         } catch (error) {
@@ -79,7 +85,7 @@ const Chat = ({ roomId = 'room1' }) => {
 
             try {
                 const response = await axios.post(
-                    `http://localhost:8080/api/customer/messenger/4`, // Địa chỉ API của bạn
+                    `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/messenger/4`, // Địa chỉ API của bạn
                     newMessage,
                     {
                         withCredentials: true, // Thêm thuộc tính này để gửi cookie nếu cần

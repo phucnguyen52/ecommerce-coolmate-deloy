@@ -71,9 +71,12 @@ const ListCart = () => {
     }, [checkedItems, data])
     const fetchCartData = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/customer/cart', {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart',
+                {
+                    withCredentials: true,
+                },
+            )
             if (response.data.succes) {
                 const cartItem = response.data.cart
 
@@ -82,7 +85,12 @@ const ListCart = () => {
                 const filteredCartItems = cartItem.filter((item) => !item.isOrder)
                 const productIds = filteredCartItems.map((cartItem) => cartItem.ProductId)
                 const productRequests = productIds.map((productId) =>
-                    axios.get(`http://localhost:8080/api/customer/product/${productId}`, { withCredentials: true }),
+                    axios.get(
+                        `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${productId}`,
+                        {
+                            withCredentials: true,
+                        },
+                    ),
                 )
                 const productResponses = await Promise.all(productRequests)
 
@@ -99,9 +107,12 @@ const ListCart = () => {
     }
     const handleRemoveCartItem = async (cartItemId, index) => {
         try {
-            const response = await axios.delete(`http://localhost:8080/api/customer/cart/${cartItemId}`, {
-                withCredentials: true,
-            })
+            const response = await axios.delete(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart/${cartItemId}`,
+                {
+                    withCredentials: true,
+                },
+            )
             if (response.status === 200) {
                 toast.success('Đã xóa sản phẩm khỏi giỏ hàng', {
                     position: 'top-right',

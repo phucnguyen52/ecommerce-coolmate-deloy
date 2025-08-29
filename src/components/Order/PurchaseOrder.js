@@ -20,9 +20,12 @@ const PurchaseOrder = () => {
     const [ratingDescription, setRatingDescription] = useState('')
     const fetchOrdersByStatus = async (status) => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/customer/order/${status}`, {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/order/${status}`,
+                {
+                    withCredentials: true,
+                },
+            )
             const orders = response.data.order
 
             if (response.data.succes) {
@@ -65,7 +68,9 @@ const PurchaseOrder = () => {
     }
     const cancelOrder = async () => {
         try {
-            const response = await axios.delete(`http://localhost:8080/api/customer/order/${orderIdToCancel}`)
+            const response = await axios.delete(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/order/${orderIdToCancel}`,
+            )
             if (response.data.succes) {
                 fetchOrdersByStatus(currentStatus)
                 setShowModal(false)
@@ -90,7 +95,7 @@ const PurchaseOrder = () => {
         formData.append('images', file)
         setIsLoading(true)
         try {
-            const response = await fetch('http://localhost:8080/upload', {
+            const response = await fetch('https://ecommerce-coolmate-server-production.up.railway.app/upload', {
                 method: 'POST',
                 body: formData,
             })
@@ -115,7 +120,10 @@ const PurchaseOrder = () => {
             }
 
             try {
-                const response = await axios.post('http://localhost:8080/api/customer/rating', requestBody)
+                const response = await axios.post(
+                    'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/rating',
+                    requestBody,
+                )
                 const data = response.data
                 if (data.succes) {
                     setRating(null)

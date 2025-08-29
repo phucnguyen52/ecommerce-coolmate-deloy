@@ -23,7 +23,7 @@ const ProductPage = () => {
 
     const fetchCategory = async () => {
         try {
-            const req = await fetch(`http://localhost:8080/api/admin/category`)
+            const req = await fetch(`https://ecommerce-coolmate-server-production.up.railway.app/api/admin/category`)
             const res = await req.json()
             if (res.succes) {
                 setCategory(res.category)
@@ -35,9 +35,9 @@ const ProductPage = () => {
 
     const fetchProduct = async () => {
         try {
-            // http://localhost:8080/api/customer/product?category=1, 2&sort=sale&type=ASC&min=0&max=10000
+            // https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product?category=1, 2&sort=sale&type=ASC&min=0&max=10000
             const req = await fetch(
-                `http://localhost:8080/api/customer/product?` +
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product?` +
                     `${filter.min ? `&min=${filter.min}` : '&min=0'}` +
                     `${filter.max ? `&max=${filter.max}` : '&max=1000000'}` +
                     `${filter.size.length > 0 ? `&size=${filter.size.map((size) => `'${size}'`).join(',')}` : ''}` +

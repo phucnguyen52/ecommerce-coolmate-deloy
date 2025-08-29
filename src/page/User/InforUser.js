@@ -24,9 +24,12 @@ const InforUser = () => {
 
     const fetchInformation = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/customer', {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                'https://ecommerce-coolmate-server-production.up.railway.app/api/customer',
+                {
+                    withCredentials: true,
+                },
+            )
             setImageUrl(response.data.user.picture)
             setValues((prevValues) => ({
                 ...prevValues,
@@ -62,9 +65,12 @@ const InforUser = () => {
     const [loading, setLoading] = useState(false)
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/customer/address', {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address',
+                {
+                    withCredentials: true,
+                },
+            )
             if (response.data.succes) {
                 setAddresses(response.data.address)
             }
@@ -96,7 +102,7 @@ const InforUser = () => {
     const handleSetDefaultAddress = async (addressId) => {
         try {
             const response = await axios.put(
-                `http://localhost:8080/api/customer/address/${addressId}`,
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address/${addressId}`,
                 { isAddress: true },
                 {
                     withCredentials: true,
@@ -112,9 +118,12 @@ const InforUser = () => {
     const handleDeleteAddress = async (addressId) => {
         try {
             const updatedAddresses = addresses.filter((address) => address.id !== addressId)
-            const response = await axios.delete(`http://localhost:8080/api/customer/address/${addressId}`, {
-                withCredentials: true,
-            })
+            const response = await axios.delete(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address/${addressId}`,
+                {
+                    withCredentials: true,
+                },
+            )
             if (response.data.succes) {
                 setAddresses(updatedAddresses)
                 toast.success('Xóa địa chỉ thành công', { autoClose: 1000 })
@@ -183,7 +192,7 @@ const InforUser = () => {
                 const formattedAddress = formatAddress()
 
                 const response = await axios.post(
-                    'http://localhost:8080/api/customer/address',
+                    'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address',
                     { address: formattedAddress, numberPhone: phone },
                     {
                         withCredentials: true,
@@ -284,7 +293,7 @@ const InforUser = () => {
         if (validate()) {
             try {
                 const response = await axios.put(
-                    `http://localhost:8080/api/customer/address/${idd}`,
+                    `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address/${idd}`,
                     {
                         address: readOnlyValue,
                         numberPhone: phoneAddress,
@@ -313,9 +322,13 @@ const InforUser = () => {
             picture: imageUrl,
         }
         try {
-            const response = await axios.put(`http://localhost:8080/api/admin/user/${values.id}`, req, {
-                withCredentials: true,
-            })
+            const response = await axios.put(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/admin/user/${values.id}`,
+                req,
+                {
+                    withCredentials: true,
+                },
+            )
             if (response.data.success) {
                 toast.success('Cập nhật thông tin thành công')
             }
@@ -337,7 +350,7 @@ const InforUser = () => {
         formData.append('images', file)
         setIsLoading(true)
         try {
-            const response = await fetch('http://localhost:8080/upload', {
+            const response = await fetch('https://ecommerce-coolmate-server-production.up.railway.app/upload', {
                 method: 'POST',
                 body: formData,
             })

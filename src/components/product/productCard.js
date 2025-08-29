@@ -21,7 +21,9 @@ function ProductCard(props) {
     }
     const fetchRating = async () => {
         try {
-            const req = await fetch(`http://localhost:8080/api/customer/rating/${value.id}`)
+            const req = await fetch(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/rating/${value.id}`,
+            )
 
             const res = await req.json()
             if (res.succes) {
@@ -40,7 +42,9 @@ function ProductCard(props) {
     }
     const fetchVariant = async () => {
         try {
-            const req = await fetch(`http://localhost:8080/api/customer/product/${value.id}/detail`)
+            const req = await fetch(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${value.id}/detail`,
+            )
             const res = await req.json()
 
             if (res.succes && Array.isArray(res.product) && res.product.length > 0) {
@@ -77,7 +81,7 @@ function ProductCard(props) {
             return 0
         }
         try {
-            const req = await fetch(`http://localhost:8080/api/customer/cart`, {
+            const req = await fetch(`https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

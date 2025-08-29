@@ -21,9 +21,12 @@ const ProductDropdowns = ({
     useEffect(() => {
         const fetchProductData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/products/${productId}`, {
-                    withCredentials: true,
-                })
+                const response = await axios.get(
+                    `https://ecommerce-coolmate-server-production.up.railway.app/api/products/${productId}`,
+                    {
+                        withCredentials: true,
+                    },
+                )
                 if (response.data.succes) {
                     const { product } = response.data
                     if (product && product.VariantProducts) {

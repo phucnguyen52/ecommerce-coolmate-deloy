@@ -34,7 +34,9 @@ const ProductDetail = () => {
 
     const fetchProduct = async () => {
         try {
-            const req = await fetch(`http://localhost:8080/api/customer/product/${id}`)
+            const req = await fetch(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${id}`,
+            )
             const res = await req.json()
             if (res.succes) {
                 setData(res.product)
@@ -47,7 +49,9 @@ const ProductDetail = () => {
     }
     const fetchProductDetail = async () => {
         try {
-            const req = await fetch(`http://localhost:8080/api/customer/product/${id}/detail`)
+            const req = await fetch(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${id}/detail`,
+            )
             const res = await req.json()
             if (res.succes) {
                 const checkSize = !res.product.every((i) => i.size.trim() === '')
@@ -70,7 +74,7 @@ const ProductDetail = () => {
         const token = Cookies.get('token')
         try {
             const req = await fetch(
-                `http://localhost:8080/api/customer/voucher${token ? '' : '/active'}?productId=${id}`,
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/voucher${token ? '' : '/active'}?productId=${id}`,
                 {
                     method: 'GET',
                     ...(token && { credentials: 'include' }),
@@ -138,7 +142,7 @@ const ProductDetail = () => {
             return 0
         }
         try {
-            const req = await fetch(`http://localhost:8080/api/customer/cart`, {
+            const req = await fetch(`https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

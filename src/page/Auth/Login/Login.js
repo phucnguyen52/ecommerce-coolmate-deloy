@@ -22,10 +22,13 @@ function Login() {
         e.preventDefault()
         if (validate()) {
             try {
-                const response = await axios.post('http://localhost:8080/api/customer/login', {
-                    email: email,
-                    password: password,
-                })
+                const response = await axios.post(
+                    'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/login',
+                    {
+                        email: email,
+                        password: password,
+                    },
+                )
                 // && response.data.roleID === 2
                 if (response && response.data && response.data.role === 'customer') {
                     Cookies.set('token', response.data.token)
@@ -60,20 +63,20 @@ function Login() {
             toast.warning('Email không hợp lệ!')
         }
         if (!password.trim()) {
-            resultPassword = false;
-            setPasswordError('Vui lòng nhập mật khẩu của bạn!');
-            toast.warning('Vui lòng nhập mật khẩu của bạn!');
+            resultPassword = false
+            setPasswordError('Vui lòng nhập mật khẩu của bạn!')
+            toast.warning('Vui lòng nhập mật khẩu của bạn!')
         } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
-            resultPassword = false;
+            resultPassword = false
             toast.warning(
-                'Mật khẩu không hợp lệ! Tối thiểu tám ký tự, ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt.'
-            );
+                'Mật khẩu không hợp lệ! Tối thiểu tám ký tự, ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt.',
+            )
             setPasswordError(
-                'Mật khẩu không hợp lệ! Tối thiểu tám ký tự, ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt.'
-            );
+                'Mật khẩu không hợp lệ! Tối thiểu tám ký tự, ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt.',
+            )
         } else {
-            setPasswordError('');
-            resultPassword = true;
+            setPasswordError('')
+            resultPassword = true
         }
         return resultEmail && resultPassword
     }

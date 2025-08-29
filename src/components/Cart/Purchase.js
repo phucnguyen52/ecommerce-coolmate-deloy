@@ -30,9 +30,12 @@ const Purchase = () => {
     const [note, setNote] = useState('')
     const fetchInformation = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/customer', {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                'https://ecommerce-coolmate-server-production.up.railway.app/api/customer',
+                {
+                    withCredentials: true,
+                },
+            )
             setName(response.data.user.fullName)
         } catch (error) {
             console.error('Lỗi khi fetch dữ liệu', error)
@@ -47,9 +50,12 @@ const Purchase = () => {
     const [defaultAddressId, setDefaultAddressId] = useState(null)
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/customer/address', {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address',
+                {
+                    withCredentials: true,
+                },
+            )
             if (response.data.succes) {
                 setAddresses(response.data.address)
                 const defaultAddress = response.data.address.find((address) => address.isAddress)
@@ -64,9 +70,12 @@ const Purchase = () => {
     const fetchVoucher = async () => {
         const productId = selectedProducts.map((i) => i.ProductId).join(',')
         try {
-            const response = await axios.get(`http://localhost:8080/api/customer/voucher?productId=${productId}`, {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/voucher?productId=${productId}`,
+                {
+                    withCredentials: true,
+                },
+            )
             if (response.data.success) {
                 setVouchers(response.data.voucher)
             }
@@ -96,9 +105,13 @@ const Purchase = () => {
             try {
                 const orderData = await prepareOrderData(selectedProducts)
 
-                const response = await axios.post('http://localhost:8080/api/customer/order', orderData, {
-                    withCredentials: true,
-                })
+                const response = await axios.post(
+                    'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/order',
+                    orderData,
+                    {
+                        withCredentials: true,
+                    },
+                )
                 if (response.data.succes) {
                     toast.success('Đặt hàng thành công!', {
                         autoClose: 1000,
@@ -107,9 +120,12 @@ const Purchase = () => {
 
                 selectedProducts.forEach(async (item) => {
                     try {
-                        const response = await axios.delete(`http://localhost:8080/api/customer/cart/${item.id}`, {
-                            withCredentials: true,
-                        })
+                        const response = await axios.delete(
+                            `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart/${item.id}`,
+                            {
+                                withCredentials: true,
+                            },
+                        )
                         if (response.status === 200) {
                             console.log('Xóa đơn hàng trong giỏ hàng thành công')
                         }
@@ -144,7 +160,7 @@ const Purchase = () => {
             selectedProducts.map(async (product) => {
                 try {
                     const response = await fetch(
-                        `http://localhost:8080/api/customer/product/${product.ProductId}/detail`,
+                        `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${product.ProductId}/detail`,
                     )
                     const data = await response.json()
 
@@ -186,7 +202,7 @@ const Purchase = () => {
 
         try {
             const response = await axios.get(
-                `http://localhost:8080/api/customer/voucher/calculate?productIds=${productId}&sizes=${size}&colors=${color}&quantity=${quantity}&discountCode=${voucher.discountCode}`,
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/voucher/calculate?productIds=${productId}&sizes=${size}&colors=${color}&quantity=${quantity}&discountCode=${voucher.discountCode}`,
                 { withCredentials: true },
             )
 

@@ -12,7 +12,9 @@ const Search = () => {
         setEmptyProduct(false)
         if (search.trim() !== '') {
             try {
-                const response = await axios.get(`http://localhost:8080/api/customer/search?search=${search}`)
+                const response = await axios.get(
+                    `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/search?search=${search}`,
+                )
                 if (response.data.succes) {
                     setSearchResults(response.data.product)
                     if (response.data.product.length === 0) {

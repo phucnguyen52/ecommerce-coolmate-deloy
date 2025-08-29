@@ -10,7 +10,9 @@ const ProductRelate = (props) => {
 
     const fetchAPI = async () => {
         try {
-            const req = await fetch(`http://localhost:8080/api/customer/product/${id}/relate`)
+            const req = await fetch(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${id}/relate`,
+            )
             const res = await req.json()
             if (res.succes) {
                 setData(res.product.slice(0, 5))

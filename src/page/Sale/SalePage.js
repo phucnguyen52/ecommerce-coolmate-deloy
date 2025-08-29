@@ -19,10 +19,13 @@ const SalePage = () => {
         const token = Cookies.get('token')
 
         try {
-            const req = await fetch(`http://localhost:8080/api/customer/voucher${token ? '' : '/active'}`, {
-                method: 'GET',
-                ...(token && { credentials: 'include' }),
-            })
+            const req = await fetch(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/voucher${token ? '' : '/active'}`,
+                {
+                    method: 'GET',
+                    ...(token && { credentials: 'include' }),
+                },
+            )
             const res = await req.json()
 
             if (res.success) {
@@ -34,7 +37,7 @@ const SalePage = () => {
     }
     const fetchCategory = async () => {
         try {
-            const req = await fetch(`http://localhost:8080/api/admin/category`)
+            const req = await fetch(`https://ecommerce-coolmate-server-production.up.railway.app/api/admin/category`)
             const res = await req.json()
             if (res.succes) {
                 setCategorys([{ id: 0, categoryName: 'Tất cả' }, ...res.category])
@@ -46,7 +49,7 @@ const SalePage = () => {
     const fetchProduct = async () => {
         try {
             const req = await fetch(
-                `http://localhost:8080/api/customer/product?sort=sale&type=${filter.type}&min=0&max=10000000&percent=30` +
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product?sort=sale&type=${filter.type}&min=0&max=10000000&percent=30` +
                     (filter.category ? `&category=${filter.category}` : ''),
             )
             const res = await req.json()

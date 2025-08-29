@@ -138,7 +138,10 @@ function Register() {
             }
 
             try {
-                const response = await axios.post('http://localhost:8080/api/customer/signup', requestBody)
+                const response = await axios.post(
+                    'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/signup',
+                    requestBody,
+                )
                 const data = response.data
                 if (response.status === 201) {
                     toast.success(data.message)
@@ -155,10 +158,13 @@ function Register() {
         const codes = otp.join('')
         if (codes.length === 6) {
             try {
-                const response = await axios.post('http://localhost:8080/api/customer/active', {
-                    token: token,
-                    code: codes,
-                })
+                const response = await axios.post(
+                    'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/active',
+                    {
+                        token: token,
+                        code: codes,
+                    },
+                )
                 const data = response.data
                 if (data.success === true) {
                     toast.success('Đăng kí thành công.')

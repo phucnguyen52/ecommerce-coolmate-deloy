@@ -37,9 +37,12 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
         if (!value || !value.ProductId) return
 
         try {
-            const response = await axios.get(`http://localhost:8080/api/customer/product/${value.ProductId}`, {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${value.ProductId}`,
+                {
+                    withCredentials: true,
+                },
+            )
             if (response.data.succes) {
                 setProduct(response.data.product)
             }
@@ -64,9 +67,12 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
     }, [product, quantity, value.id])
     const fetchVariant = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/customer/product/${value?.ProductId}/detail`, {
-                withCredentials: true,
-            })
+            const response = await axios.get(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${value?.ProductId}/detail`,
+                {
+                    withCredentials: true,
+                },
+            )
             if (response.data.succes) {
                 setVariant(response.data.product)
                 const uniqueColors = [...new Set(response.data.product.map((item) => item.color))]
@@ -132,9 +138,13 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
     }
     const updateCartItem = async (updatedData) => {
         try {
-            const response = await axios.put(`http://localhost:8080/api/customer/cart/${value.id}`, updatedData, {
-                withCredentials: true,
-            })
+            const response = await axios.put(
+                `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart/${value.id}`,
+                updatedData,
+                {
+                    withCredentials: true,
+                },
+            )
             if (response.data.succes) {
                 fetchCartData()
                 toast.success('Cập nhật sản phẩm thành công', {
