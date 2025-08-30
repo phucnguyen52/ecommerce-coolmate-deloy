@@ -141,6 +141,7 @@ function Register() {
                 const response = await axios.post(
                     'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/signup',
                     requestBody,
+                    { withCredentials: true },
                 )
                 const data = response.data
                 if (response.status === 201) {
@@ -164,6 +165,7 @@ function Register() {
                         token: token,
                         code: codes,
                     },
+                    { withCredentials: true },
                 )
                 const data = response.data
                 if (data.success === true) {

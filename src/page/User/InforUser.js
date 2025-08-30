@@ -353,6 +353,7 @@ const InforUser = () => {
             const response = await fetch('https://ecommerce-coolmate-server-production.up.railway.app/upload', {
                 method: 'POST',
                 body: formData,
+                credentials: 'include',
             })
             const data = await response.json()
             setImageUrl(data[0])

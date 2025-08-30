@@ -44,6 +44,7 @@ const ProductPage = () => {
                     `${filter.category.length > 0 ? `&category=${filter.category.join(',')}` : ''}` +
                     `${filter.type ? `&type=${filter.type}` : ''}` +
                     `${filter.sort ? `&sort=${filter.sort}` : ''}`,
+                { credentials: 'include' },
             )
             const res = await req.json()
             if (res.succes) {

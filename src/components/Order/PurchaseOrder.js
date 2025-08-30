@@ -70,6 +70,7 @@ const PurchaseOrder = () => {
         try {
             const response = await axios.delete(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/order/${orderIdToCancel}`,
+                { withCredentials: true },
             )
             if (response.data.succes) {
                 fetchOrdersByStatus(currentStatus)
@@ -98,6 +99,7 @@ const PurchaseOrder = () => {
             const response = await fetch('https://ecommerce-coolmate-server-production.up.railway.app/upload', {
                 method: 'POST',
                 body: formData,
+                credentials: 'include',
             })
             const data = await response.json()
             setImageUrl(data[0])
@@ -123,6 +125,7 @@ const PurchaseOrder = () => {
                 const response = await axios.post(
                     'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/rating',
                     requestBody,
+                    { withCredentials: true },
                 )
                 const data = response.data
                 if (data.succes) {

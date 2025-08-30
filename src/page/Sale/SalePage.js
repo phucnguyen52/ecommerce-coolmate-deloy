@@ -23,7 +23,7 @@ const SalePage = () => {
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/voucher${token ? '' : '/active'}`,
                 {
                     method: 'GET',
-                    ...(token && { credentials: true }),
+                    ...(token && { credentials: 'include' }),
                 },
             )
             const res = await req.json()
@@ -51,6 +51,9 @@ const SalePage = () => {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product?sort=sale&type=${filter.type}&min=0&max=10000000&percent=30` +
                     (filter.category ? `&category=${filter.category}` : ''),
+                {
+                    credentials: 'include',
+                },
             )
             const res = await req.json()
 

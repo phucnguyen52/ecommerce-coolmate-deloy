@@ -23,6 +23,7 @@ function ProductCard(props) {
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/rating/${value.id}`,
+                { credentials: 'include' },
             )
 
             const res = await req.json()
@@ -44,6 +45,7 @@ function ProductCard(props) {
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${value.id}/detail`,
+                { credentials: 'include' },
             )
             const res = await req.json()
 
@@ -86,7 +88,7 @@ function ProductCard(props) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: true,
+                credentials: 'include',
                 body: JSON.stringify(addProduct),
             })
 

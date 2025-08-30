@@ -161,6 +161,7 @@ const Purchase = () => {
                 try {
                     const response = await fetch(
                         `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${product.ProductId}/detail`,
+                        { credentials: 'include' },
                     )
                     const data = await response.json()
 

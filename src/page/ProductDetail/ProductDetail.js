@@ -36,6 +36,7 @@ const ProductDetail = () => {
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${id}`,
+                { credentials: 'include' },
             )
             const res = await req.json()
             if (res.succes) {
@@ -51,6 +52,7 @@ const ProductDetail = () => {
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${id}/detail`,
+                { credentials: 'include' },
             )
             const res = await req.json()
             if (res.succes) {
@@ -147,7 +149,7 @@ const ProductDetail = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: true,
+                credentials: 'include',
                 body: JSON.stringify(addProduct),
             })
 

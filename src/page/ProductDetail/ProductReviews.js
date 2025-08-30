@@ -10,6 +10,7 @@ const ProductReviews = (props) => {
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/rating/${id}`,
+                { credentials: 'include' },
             )
             const res = await req.json()
             if (res.succes) {

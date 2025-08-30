@@ -14,6 +14,7 @@ const Search = () => {
             try {
                 const response = await axios.get(
                     `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/search?search=${search}`,
+                    { withCredentials: true },
                 )
                 if (response.data.succes) {
                     setSearchResults(response.data.product)

@@ -21,6 +21,7 @@ const ListProducts = () => {
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product?sort=${option}&type=ASC&min=0&max=10000`,
+                { credentials: 'include' },
             )
             const res = await req.json()
             if (res.succes) {
