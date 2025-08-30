@@ -23,7 +23,7 @@ const SalePage = () => {
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/voucher${token ? '' : '/active'}`,
                 {
                     method: 'GET',
-                    ...(token && { credentials: 'include' }),
+                    ...(token && { credentials: true }),
                 },
             )
             const res = await req.json()

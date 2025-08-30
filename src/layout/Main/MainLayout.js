@@ -23,7 +23,7 @@ function MainLayout() {
         else
             try {
                 fetch(`https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart`, {
-                    credentials: 'include',
+                    credentials: true,
                 })
                     .then((req) => req.json())
                     .then((res) => {
