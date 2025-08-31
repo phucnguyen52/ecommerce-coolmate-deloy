@@ -6,7 +6,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
 import Cookies from 'js-cookie'
-import Chat from '../../components/Chat/Chat'
+// import Chat from '../../components/Chat/Chat'
 
 export const StoreContext = createContext()
 function MainLayout() {
@@ -54,7 +54,7 @@ function MainLayout() {
                 </main>
                 <Footer />
 
-                {token && <Chat></Chat>}
+                {/* {token && <Chat></Chat>} */}
             </div>
         </StoreContext.Provider>
     )
