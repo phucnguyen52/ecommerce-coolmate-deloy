@@ -2,13 +2,14 @@ import { RouterProvider } from 'react-router-dom'
 import router from './router/routing'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import './toastify-responsive.css'
 function App() {
     return (
         <div className="App">
             {' '}
             <RouterProvider router={router} />
             <ToastContainer
-                position="top-right"
+                position="top-center"
                 autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}

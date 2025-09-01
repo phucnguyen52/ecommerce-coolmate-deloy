@@ -82,10 +82,10 @@ function Login() {
         return resultEmail && resultPassword
     }
     return (
-        <div className="mx-auto my-0 flex w-4/6 items-center">
-            <div className="w-3/6">
+        <div className="mx-auto  flex h-screen w-full max-w-5xl items-center justify-center md:flex-row">
+            <div className="w-full p-4 md:w-3/6">
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-4 text-5xl font-medium">Đăng nhập</div>
+                    <div className="mb-4 text-3xl font-medium md:text-5xl">Đăng nhập</div>
                     <div className="mb-4 text-sm">
                         Đăng nhập để không bỏ lỡ quyền lợi tích luỹ và hoàn tiền <br />
                         cho bất kỳ đơn hàng nào.
@@ -97,7 +97,7 @@ function Login() {
                         </a>
                     </div>
                     <div className="relative">
-                        <div className="ml-10 p-4 text-sm before:absolute before:left-0 before:top-7 before:block before:h-px before:w-[6%] before:flex-1 before:bg-gray-400 before:content-[''] after:absolute after:right-0 after:top-7 after:block after:h-px after:w-10/12 after:flex-1 after:bg-gray-400 after:content-['']">
+                        <div className="ml-5 p-4 text-sm before:absolute before:left-0 before:top-7 before:block before:h-px before:w-[6%] before:flex-1 before:bg-gray-400 before:content-[''] after:absolute after:right-0 after:top-7 after:block after:h-px after:w-[78%] after:flex-1 after:bg-gray-400 after:content-[''] lg:after:w-10/12">
                             Hoặc
                         </div>
                     </div>
@@ -147,7 +147,7 @@ function Login() {
                     </div>
                 </form>
             </div>
-            <img src={Image} alt="" className="ml-4 h-auto w-3/6" />
+            <img src={Image} alt="" className="hidden h-auto w-full p-4 sm:block md:w-3/6" />
         </div>
     )
 }

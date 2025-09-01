@@ -187,9 +187,9 @@ function Register() {
         }
     }
     return (
-        <div className="mx-auto flex w-4/6 items-center justify-center">
-            <div className="w-3/6">
-                <div className="mb-4 text-5xl font-medium">Đăng ký</div>
+        <div className="mx-auto  flex h-screen w-full max-w-5xl items-center justify-center md:flex-row">
+            <div className="w-full p-4 md:w-3/6">
+                <div className="mb-4 text-3xl font-medium md:text-5xl">Đăng ký</div>
                 <div className="mb-4 text-sm">
                     Đăng nhập để không bỏ lỡ quyền lợi tích luỹ và hoàn tiền <br />
                     cho bất kỳ đơn hàng nào.
@@ -201,7 +201,7 @@ function Register() {
                     </a>
                 </div>
                 <div className="relative">
-                    <div className="ml-10 p-4 text-sm before:absolute before:left-0 before:top-7 before:block before:h-px before:w-[6%] before:flex-1 before:bg-gray-400 before:content-[''] after:absolute after:right-0 after:top-7 after:block after:h-px after:w-10/12 after:flex-1 after:bg-gray-400 after:content-['']">
+                    <div className="ml-5 p-4 text-sm before:absolute before:left-0 before:top-7 before:block before:h-px before:w-[6%] before:flex-1 before:bg-gray-400 before:content-[''] after:absolute after:right-0 after:top-7 after:block after:h-px after:w-[78%] after:flex-1 after:bg-gray-400 after:content-[''] lg:after:w-10/12">
                         Hoặc
                     </div>
                 </div>
@@ -285,7 +285,7 @@ function Register() {
                                     <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
                                 </div>
 
-                                <div className="relative rounded-xl bg-white p-8 shadow-xl">
+                                <div className="relative w-full max-w-md rounded-xl bg-white p-6 shadow-xl sm:p-8">
                                     <button
                                         type="button"
                                         className="absolute right-0 top-0 flex h-8 w-8 items-center justify-center rounded-lg rounded-tr-xl bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
@@ -304,19 +304,21 @@ function Register() {
                                             />
                                         </svg>
                                     </button>
-                                    <h2 className="mb-4 text-center text-3xl font-semibold">Xác thực email</h2>
-                                    <p className="mb-4 text-center text-gray-600">
+                                    <h2 className="mb-4 text-center text-2xl font-semibold sm:text-3xl">
+                                        Xác thực email
+                                    </h2>
+                                    <p className="mb-4 text-center text-sm text-gray-600 sm:text-base">
                                         Chúng tôi đã gửi mã đến email <strong>{email}</strong>. <br />
                                         Vui lòng kiểm tra email của bạn!
                                     </p>
 
                                     <div className="text-center">
-                                        <div className="mb-4 flex justify-center space-x-4">
+                                        <div className="mb-4 flex justify-center space-x-2 sm:space-x-4">
                                             {[0, 1, 2, 3, 4, 5].map((index) => (
                                                 <input
                                                     key={index}
                                                     ref={(el) => (otpRefs.current[index] = el)}
-                                                    className="h-12 w-12 rounded-xl border border-gray-300 text-center focus:border-blue-700 focus:ring-blue-700"
+                                                    className="h-10 w-10 rounded-xl border border-gray-300 text-center focus:border-blue-700 focus:ring-blue-700 sm:h-12 sm:w-12"
                                                     type="text"
                                                     maxLength="1"
                                                     value={otp[index]}
@@ -356,7 +358,7 @@ function Register() {
                     </>
                 )}
             </div>
-            <img src={Image} alt="" className="ml-4 h-auto w-3/6" />
+            <img src={Image} alt="" className="hidden h-auto w-full p-4 sm:block md:w-3/6" />
         </div>
     )
 }
