@@ -28,6 +28,7 @@ function ProductCard(props) {
 
             const res = await req.json()
             if (res.succes) {
+                // console.log("1",res)
                 const count = res.rating[0].totalRecords
                 const total = res.rating[0].totalStars
                 setRating({
@@ -62,7 +63,8 @@ function ProductCard(props) {
 
     useEffect(() => {
         fetchRating()
-    }, [])
+    }, [value])
+
     useEffect(() => {
         fetchVariant()
     }, [value])
@@ -110,13 +112,13 @@ function ProductCard(props) {
             <div className="relative h-full w-full">
                 {variant
                     ? variant.every((item) => item.quantity === 0) && (
-                          <div className="absolute z-10 flex h-full w-full items-center justify-center rounded-lg bg-black text-[50px] text-white opacity-50">
+                          <div className="absolute z-10 flex h-full w-full items-center justify-center rounded-lg bg-black text-2xl font-bold text-white opacity-50 md:text-4xl">
                               HẾT HÀNG
                           </div>
                       )
                     : null}
 
-                <div className="product-img relative block h-[70%] ">
+                <div className="product-img relative block h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px]">
                     <Link to={`/product/${value.id}`}>
                         <img className="relative h-full w-full rounded-lg object-cover" src={images[1]} />
 

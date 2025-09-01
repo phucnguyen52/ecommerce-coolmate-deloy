@@ -8,11 +8,17 @@ import { APP_ROUTER } from '../../utils/Constants'
 import { StoreContext } from '../../layout/Main/MainLayout'
 import { toast } from 'react-toastify'
 import LOGO from '../../assets/img/LOGO.png'
+import { FaList } from 'react-icons/fa6'
+import { HiOutlineHome } from 'react-icons/hi2'
+import { IoPricetagsOutline } from 'react-icons/io5'
+import { BiCategory } from 'react-icons/bi'
+import { LuClipboardList } from 'react-icons/lu'
 function Header() {
     const data = useContext(StoreContext)
     const userDataString = Cookies.get('token')
     const [searchValue, setSearchValue] = useState('')
     const navigate = useNavigate()
+    const [openMenu, setOpenMenu] = useState(false)
     const inputRef = useRef(null)
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value)
@@ -30,123 +36,183 @@ function Header() {
     const isSearchPage = window.location.pathname.startsWith('/search')
     return (
         <header>
-            <div className="sticky top-0 z-50 w-full bg-white text-black shadow-lg">
-                <div className="flex items-center justify-around ">
-                    <div className="ml-10">
-                        <Link to={APP_ROUTER.HOME}>
-                            <img src={LOGO} alt="Coolmate" className="h-24 w-24" />
-                        </Link>
-                    </div>
-                    <div className="flex grow justify-center gap-x-10 text-xl font-semibold">
-                        <Link to={APP_ROUTER.HOME} className="cursor-pointer p-6 hover:font-semibold hover:underline">
-                            TRANG CHỦ
-                        </Link>
-                        <Link
-                            to={APP_ROUTER.PRODUCT}
-                            className="cursor-pointer p-6 hover:font-semibold hover:underline"
+            <div className="z-50 flex w-full items-center justify-between px-4 py-2 text-black shadow-lg lg:px-10">
+                <div className="">
+                    <Link to={APP_ROUTER.HOME}>
+                        <img src={LOGO} alt="Coolmate" className="h-14 w-14 lg:h-20 lg:w-20" />
+                    </Link>
+                </div>
+                <div className="hidden grow justify-center gap-x-10 text-xl font-semibold lg:flex">
+                    <Link to={APP_ROUTER.HOME} className="cursor-pointer px-6 hover:font-semibold hover:underline">
+                        TRANG CHỦ
+                    </Link>
+                    <Link to={APP_ROUTER.PRODUCT} className="cursor-pointer px-6 hover:font-semibold hover:underline">
+                        SẢN PHẨM
+                    </Link>
+                    <Link to={APP_ROUTER.SALE} className="cursor-pointer px-6 hover:font-semibold hover:underline">
+                        GIẢM GIÁ
+                    </Link>
+                </div>
+                {!isSearchPage && (
+                    <div
+                        className="relative hidden w-48 rounded-md border bg-white md:flex lg:w-80"
+                        data-twe-input-wrapper-init
+                        data-twe-input-group-ref
+                    >
+                        <input
+                            type="search"
+                            className="peer-focus:text-primary dark:autofill:shadow-autofill dark:peer-focus:text-primary peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] text-slate-800 outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0"
+                            placeholder="Search"
+                            aria-label="Search"
+                            ref={inputRef}
+                            value={searchValue}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleClickSearch()
+                                }
+                            }}
+                            onChange={handleSearchChange}
+                            id="search-input"
+                            aria-describedby="search-button"
+                            autoComplete="off"
+                        />
+                        <label
+                            htmlFor="search-input"
+                            className="peer-focus:text-primary dark:peer-focus:text-primary pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] text-sm leading-[1.6] text-slate-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.5rem] peer-focus:scale-[0.8] peer-focus:text-white peer-data-[twe-input-state-active]:-translate-y-[0.9rem] peer-data-[twe-input-state-active]:scale-[0.8] motion-reduce:transition-none lg:text-base dark:text-neutral-400"
                         >
-                            SẢN PHẨM
-                        </Link>
-                        <Link to={APP_ROUTER.SALE} className="cursor-pointer p-6 hover:font-semibold hover:underline">
-                            GIẢM GIÁ
-                        </Link>
-                    </div>
-                    {!isSearchPage && (
-                        <div
-                            className="relative flex rounded-md border bg-white text-base"
-                            data-twe-input-wrapper-init
-                            data-twe-input-group-ref
+                            Tìm kiếm sản phẩm
+                        </label>
+                        <button
+                            className="shadow-primary-3 hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2  relative z-[2] -ms-0.5 flex items-center rounded-e  px-5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out focus:outline-none focus:ring-0 "
+                            type="button"
+                            id="search-button"
+                            data-twe-ripple-init
+                            data-twe-ripple-color="light"
+                            onClick={handleClickSearch}
                         >
-                            <input
-                                type="search"
-                                className="peer-focus:text-primary dark:autofill:shadow-autofill dark:peer-focus:text-primary peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] text-slate-800 outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0"
-                                placeholder="Search"
-                                aria-label="Search"
-                                ref={inputRef}
-                                value={searchValue}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        handleClickSearch()
-                                    }
-                                }}
-                                onChange={handleSearchChange}
-                                id="search-input"
-                                aria-describedby="search-button"
-                                autoComplete="off"
-                            />
-                            <label
-                                htmlFor="search-input"
-                                className="peer-focus:text-primary dark:peer-focus:text-primary pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-slate-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.5rem] peer-focus:scale-[0.8] peer-focus:text-white peer-data-[twe-input-state-active]:-translate-y-[0.9rem] peer-data-[twe-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-400"
-                            >
-                                Tìm kiếm sản phẩm
-                            </label>
-                            <button
-                                className="shadow-primary-3 hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2  relative z-[2] -ms-0.5 flex items-center rounded-e  px-5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out focus:outline-none focus:ring-0 "
-                                type="button"
-                                id="search-button"
-                                data-twe-ripple-init
-                                data-twe-ripple-color="light"
-                                onClick={handleClickSearch}
-                            >
-                                <span className="[&>svg]:h-5 [&>svg]:w-5">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth="1.5"
-                                        stroke="black"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                                        />
-                                    </svg>
-                                </span>
-                            </button>
+                            <span className="[&>svg]:h-5 [&>svg]:w-5">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="1.5"
+                                    stroke="black"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                                    />
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                )}
+
+                <div className="flex items-center gap-4 lg:ml-10 lg:gap-8">
+                    {userDataString ? (
+                        <Link to="/user" className="hidden md:block">
+                            <FaUser className="h-7 w-7" />
+                        </Link>
+                    ) : (
+                        <Link to="/auth/login" className="hidden md:block">
+                            <IoIosLogIn className="h-7 w-7" />
+                        </Link>
+                    )}
+
+                    {/* Cart */}
+                    {userDataString && (
+                        <div className="relative">
+                            <Link to="/shopping-cart">
+                                <FaCartShopping className="h-7 w-7" />
+                            </Link>
+                            <div className="absolute right-[-5px] top-[-6px] flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-[10px] font-bold text-white">
+                                {data.count}
+                            </div>
                         </div>
                     )}
 
-                    <div className="mx-10 flex grow-0 gap-5">
-                        {userDataString && (
-                            <div className={userDataString ? '' : 'hidden'}>
-                                <Link to="/user">
-                                    <FaUser className="h-7 w-7" />
-                                </Link>
-                            </div>
-                        )}
-                        <div className={userDataString ? 'hidden' : ''}>
-                            <Link to="/auth/login">
-                                <IoIosLogIn className="h-7 w-7" />
-                            </Link>
-                        </div>
-                        <div className={userDataString ? '' : 'hidden'}>
-                            <div className="relative">
-                                <Link
-                                    to={{
-                                        pathname: '/shopping-cart',
-                                    }}
-                                >
-                                    <FaCartShopping className="h-7 w-7" />
-                                </Link>
-                                <div className="absolute right-[-5px] top-[-6px] flex h-[16px] w-[16px] items-center justify-center rounded-full bg-red-600 text-center text-[12px] font-bold text-white">
-                                    {data.count}
-                                </div>
-                            </div>
-                        </div>
-                        <div className={userDataString ? '' : 'hidden'}>
-                            <Link to="/order">
+                    {/* Order + Logout */}
+                    {userDataString && (
+                        <>
+                            <Link to="/order" className="hidden md:block">
                                 <IoIosListBox className="h-7 w-7" />
                             </Link>
-                        </div>
-                        <div className={userDataString ? '' : 'hidden'}>
-                            <Link to="/auth/logout">
+                            <Link to="/auth/logout" className="hidden md:block">
                                 <IoIosLogOut className="h-7 w-7" />
                             </Link>
-                        </div>
-                    </div>
+                        </>
+                    )}
+                    <button
+                        className="flex items-center justify-center rounded-md md:hidden"
+                        onClick={() => setOpenMenu(!openMenu)}
+                    >
+                        <FaList className="h-6 w-6" />
+                    </button>
                 </div>
             </div>
+            {openMenu && (
+                <div className="fixed inset-0 z-40 bg-black/40 md:hidden" onClick={() => setOpenMenu(false)}>
+                    <div
+                        className={`
+        fixed left-0 top-0 z-50 h-full w-64 transform bg-white p-6 shadow-lg transition-transform duration-300
+        ${openMenu ? 'translate-x-0' : '-translate-x-full'}
+      `}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button className="mb-6 w-full text-right" onClick={() => setOpenMenu(false)}>
+                            ✕
+                        </button>
+                        <nav className="flex flex-col gap-4 text-lg font-medium">
+                            <Link
+                                to={APP_ROUTER.HOME}
+                                onClick={() => setOpenMenu(false)}
+                                className="flex items-center gap-3"
+                            >
+                                <HiOutlineHome />
+                                Trang chủ
+                            </Link>
+                            <Link
+                                to={APP_ROUTER.PRODUCT}
+                                onClick={() => setOpenMenu(false)}
+                                className="flex items-center gap-3"
+                            >
+                                <BiCategory />
+                                Sản phẩm
+                            </Link>
+                            <Link
+                                to={APP_ROUTER.SALE}
+                                onClick={() => setOpenMenu(false)}
+                                className="flex items-center gap-3"
+                            >
+                                <IoPricetagsOutline />
+                                Giảm giá
+                            </Link>
+
+                            {userDataString ? (
+                                <div className="flex flex-col gap-4">
+                                    <Link to="/user" className="hidden md:block">
+                                        <FaUser />
+                                    </Link>
+                                    <Link to="/order" className="flex items-center gap-3">
+                                        <LuClipboardList />
+                                        Đơn hàng
+                                    </Link>
+                                    <Link to="/auth/logout" className="flex items-center gap-3">
+                                        <IoIosLogOut />
+                                        Đăng xuất
+                                    </Link>
+                                </div>
+                            ) : (
+                                <Link to="/auth/login" className="flex items-center gap-3">
+                                    <IoIosLogIn />
+                                    Đăng nhập
+                                </Link>
+                            )}
+                        </nav>
+                    </div>
+                </div>
+            )}
         </header>
     )
 }

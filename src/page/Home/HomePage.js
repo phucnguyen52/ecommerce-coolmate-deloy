@@ -26,7 +26,10 @@ const HomePage = () => {
                 />
             )} */}
             {Category && (
-                <div className="mx-4 mb-10 flex gap-4">
+                <div
+                    className="mx-4 mb-10 mt-10 grid grid-cols-2 gap-4 
+      md:grid-cols-4  lg:mt-0"
+                >
                     {Category.map((item) => (
                         <Link className="relative" key={item}>
                             <img className="h-full w-full rounded-sm object-cover" src={item} alt="" />

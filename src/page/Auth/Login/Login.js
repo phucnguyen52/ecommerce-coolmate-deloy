@@ -95,12 +95,9 @@ function Login() {
                         <a href="#!" className="mr-2 rounded border border-solid border-gray-400 p-2">
                             <FcGoogle className="h-8 w-8" />
                         </a>
-                        <a href="#!" className="rounded border border-solid border-gray-400 p-2">
-                            <FaFacebookF className="h-8 w-8 text-blue-800 " />
-                        </a>
                     </div>
                     <div className="relative">
-                        <div className="ml-10 p-4 text-sm before:absolute before:left-0 before:top-7 before:block before:h-px before:w-12 before:flex-1 before:bg-gray-400 before:content-[''] after:absolute after:right-0 after:top-7 after:block after:h-px after:w-[398px] after:flex-1 after:bg-gray-400 after:content-['']">
+                        <div className="ml-10 p-4 text-sm before:absolute before:left-0 before:top-7 before:block before:h-px before:w-[6%] before:flex-1 before:bg-gray-400 before:content-[''] after:absolute after:right-0 after:top-7 after:block after:h-px after:w-10/12 after:flex-1 after:bg-gray-400 after:content-['']">
                             Hoặc
                         </div>
                     </div>
@@ -144,9 +141,9 @@ function Login() {
                         >
                             Đăng ký tài khoản mới
                         </Link>
-                        <div className="cursor-pointer text-sm font-medium text-blue-700 hover:text-black">
+                        {/* <div className="cursor-pointer text-sm font-medium text-blue-700 hover:text-black">
                             Quên mật khẩu
-                        </div>
+                        </div> */}
                     </div>
                 </form>
             </div>
