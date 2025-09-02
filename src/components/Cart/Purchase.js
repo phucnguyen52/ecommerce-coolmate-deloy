@@ -108,7 +108,7 @@ const Purchase = () => {
                 }
             }
             const orderData = await prepareOrderData(selectedProducts)
-            console.log('orderData', orderData)
+
             try {
                 const orderData = await prepareOrderData(selectedProducts)
 

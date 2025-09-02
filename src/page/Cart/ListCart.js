@@ -253,7 +253,7 @@ const ListCart = () => {
             <div className="mx-auto mt-4 w-full px-2 pb-12 sm:w-11/12 md:w-4/5 lg:w-2/3">
                 <div className="flex flex-row items-center justify-center ">
                     <HiShoppingCart className="mr-2  h-6 w-6" />
-                    <div className="my-5 text-2xl font-bold">GIỎ HÀNG</div>
+                    <div className="my-2 text-xl font-bold md:my-5 md:text-2xl">GIỎ HÀNG</div>
                 </div>
                 <hr className="mb-3 flex" />
                 <div className="mb-3 flex">
@@ -265,7 +265,7 @@ const ListCart = () => {
                             <input
                                 id="select-all-checkbox"
                                 type="checkbox"
-                                className="before:content[''] border-blue-gray-200 before:bg-blue-gray-500 peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-12 before:w-12 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10"
+                                className="before:content[''] border-blue-gray-200 before:bg-blue-gray-500 peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-9 before:w-9 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10 md:before:h-12 md:before:w-12"
                                 checked={selectAll}
                                 onChange={handleSelectAll}
                             />
@@ -329,8 +329,8 @@ const ListCart = () => {
                                                         type="checkbox"
                                                         className={
                                                             cart.quantitySub.quantity > 0
-                                                                ? "before:content[''] border-blue-gray-200 before:bg-blue-gray-500 peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-12 before:w-12 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10"
-                                                                : "before:content[''] border-blue-gray-200 before:bg-blue-gray-500 peer relative h-5 w-5 cursor-not-allowed appearance-none rounded-md border transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-12 before:w-12 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10"
+                                                                ? "before:content[''] border-blue-gray-200 before:bg-blue-gray-500 peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-9 before:w-9 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10 md:before:h-12 md:before:w-12"
+                                                                : "before:content[''] border-blue-gray-200 before:bg-blue-gray-500 peer relative h-5 w-5 cursor-not-allowed appearance-none rounded-md border transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-9 before:w-9 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10 md:before:h-12 md:before:w-12"
                                                         }
                                                         checked={checkedItems[index]}
                                                         onChange={() => handleCheckboxChange(index)}

@@ -155,16 +155,16 @@ const PurchaseOrder = () => {
     }
 
     return (
-        <div className="mx-auto w-2/3">
+        <div className="mx-auto w-full md:w-2/3">
             <div className="flex flex-row items-center justify-center">
-                <HiMiniShoppingBag className="mr-2 h-6 w-6" />
-                <div className="my-5 text-2xl font-bold">ĐƠN MUA</div>
+                <HiMiniShoppingBag className="mr-2 h-5 w-5 md:h-6 md:w-6" />
+                <div className="my-5 text-xl font-bold md:text-2xl">ĐƠN MUA</div>
             </div>
             <hr className="mb-3 flex" />
-            <div className="flex justify-around">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                 <a
                     onClick={() => handleStatusClick(1)}
-                    className={`group text-black transition-all duration-300 ease-in-out focus:text-pink-500 ${
+                    className={`group text-center text-black transition-all duration-300 ease-in-out focus:text-pink-500 ${
                         currentStatus === 1 && 'text-pink-500'
                     }`}
                     href="#"
@@ -173,9 +173,10 @@ const PurchaseOrder = () => {
                         ĐANG CHỜ XÁC NHẬN
                     </span>
                 </a>
+
                 <a
                     onClick={() => handleStatusClick(2)}
-                    className={`group text-black transition-all duration-300 ease-in-out focus:text-pink-500 ${
+                    className={`group text-center text-black transition-all duration-300 ease-in-out focus:text-pink-500 ${
                         currentStatus === 2 && 'text-pink-500'
                     }`}
                     href="#"
@@ -184,9 +185,10 @@ const PurchaseOrder = () => {
                         ĐANG CHỜ VẬN CHUYỂN
                     </span>
                 </a>
+
                 <a
                     onClick={() => handleStatusClick(3)}
-                    className={`group text-black transition-all duration-300 ease-in-out focus:text-pink-500 ${
+                    className={`group text-center text-black transition-all duration-300 ease-in-out focus:text-pink-500 ${
                         currentStatus === 3 && 'text-pink-500'
                     }`}
                     href="#"
@@ -195,9 +197,10 @@ const PurchaseOrder = () => {
                         ĐANG GIAO HÀNG
                     </span>
                 </a>
+
                 <a
                     onClick={() => handleStatusClick(4)}
-                    className={`group text-black transition-all duration-300 ease-in-out focus:text-pink-500 ${
+                    className={`group text-center text-black transition-all duration-300 ease-in-out focus:text-pink-500 ${
                         currentStatus === 4 && 'text-pink-500'
                     }`}
                     href="#"
@@ -207,6 +210,7 @@ const PurchaseOrder = () => {
                     </span>
                 </a>
             </div>
+
             <hr className="my-3 flex" />
             <div>
                 {currentStatus && groupedOrders.length === 0 && (
@@ -218,9 +222,9 @@ const PurchaseOrder = () => {
                 {currentStatus && groupedOrders && (
                     <div>
                         {groupedOrders.map((group, idx) => (
-                            <div key={groupedOrders.id} className="mb-6 rounded-md bg-gray-200/60">
+                            <div key={groupedOrders.id} className="mx-2 mb-6 rounded-md bg-gray-200/60">
                                 <div>
-                                    <div className="text-md flex items-center justify-between py-2">
+                                    <div className="text-md hidden items-center justify-between py-2 md:flex">
                                         <div
                                             className={
                                                 currentStatus !== 4
@@ -267,49 +271,92 @@ const PurchaseOrder = () => {
                                     </div>
                                     <hr className="flex" />
                                     {group.OrderDetail.map((order, orderIdx) => (
-                                        <div className="flex items-center justify-around p-2" key={orderIdx}>
-                                            <div className="flex w-5/12 items-center">
+                                        <div
+                                            className="flex flex-col border-b p-3 md:flex-row md:items-center md:justify-around"
+                                            key={orderIdx}
+                                        >
+                                            {/* Hình + tên sp */}
+                                            <div className="flex w-full items-center justify-between md:w-5/12">
                                                 <Link
                                                     to={`/product/${order.productID}`}
                                                     target="_blank"
-                                                    className="w-1/3"
+                                                    className="w-1/3 md:w-1/4"
                                                 >
                                                     <img
                                                         src={JSON.parse(order.picture)[0]}
                                                         alt=""
-                                                        className="border- rounded border object-cover"
+                                                        className="h-36 w-full rounded border object-cover"
                                                     />
                                                 </Link>
-                                                <div className="ml-3 w-2/3">
-                                                    <div className="mb-[2px] text-base font-semibold leading-5">
-                                                        <div>{order.product}</div>
+                                                <div className="ml-3 flex w-2/3 flex-col md:w-3/4 md:flex-col">
+                                                    <div className="mb-1 text-base font-semibold leading-5">
+                                                        {order.product}
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div className="flex w-2/12 items-center justify-center">
-                                                <div className="mb-2">
-                                                    <div className="text-slate-500">
-                                                        {order
-                                                            ? order.size === ''
-                                                                ? order.color
-                                                                : `${order.color} / ${order.size}`
-                                                            : null}
+                                                    <div className="flex flex-nowrap gap-2 text-sm text-slate-500 md:hidden">
+                                                        <div>Màu sắc/Kích thước:</div>
+                                                        <span>
+                                                            {order.color ? (
+                                                                order.color
+                                                            ) : (
+                                                                <span className="italic">/(Không có)</span>
+                                                            )}
+                                                            {order.color && order.size ? ' / ' : ''}
+                                                            {order.size ? (
+                                                                order.size
+                                                            ) : (
+                                                                <span className="italic">/(Không có)</span>
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-sm text-slate-700 md:hidden">
+                                                        Số lượng: {order.quantity}
+                                                    </div>
+                                                    <div className="flex flex-nowrap gap-2 text-sm font-bold text-orange-600 md:hidden">
+                                                        <div className="text-slate-700">Thành tiền: </div>
+                                                        {Math.round(order.price * order.quantity).toLocaleString(
+                                                            'vi-VN',
+                                                        )}
+                                                        .000
+                                                    </div>
+                                                    <div className="flex w-full justify-end">
+                                                        {currentStatus === 4 && (
+                                                            <button
+                                                                onClick={() => handleRateProduct(order.orderDetailID)}
+                                                                className="mt-1 flex w-2/5 select-none justify-center rounded-lg border border-gray-900 px-3 py-2 text-xs font-bold text-gray-900 hover:opacity-75 md:hidden"
+                                                            >
+                                                                Đánh giá
+                                                            </button>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div className="flex w-1/12 justify-center">{order.quantity}</div>
-
-                                            <div className="flex flex-col items-center justify-center">
-                                                <div className="text-base font-bold text-orange-600">
-                                                    {Math.round(order.price * order.quantity).toLocaleString('vi-VN')}
-                                                    .000
+                                            {/* Tablet/Desktop columns */}
+                                            <div className="hidden w-2/12 items-center justify-center md:flex">
+                                                <div className="text-slate-500">
+                                                    {order.color ? (
+                                                        order.color
+                                                    ) : (
+                                                        <span className="italic">/(Không có)</span>
+                                                    )}
+                                                    {order.color && order.size ? ' / ' : ''}
+                                                    {order.size ? (
+                                                        order.size
+                                                    ) : (
+                                                        <span className="italic">/(Không có)</span>
+                                                    )}
                                                 </div>
                                             </div>
+                                            <div className="hidden w-1/12 justify-center md:flex">{order.quantity}</div>
+                                            <div className="hidden w-1/12 justify-center font-bold text-orange-600 md:flex">
+                                                {Math.round(order.price * order.quantity).toLocaleString('vi-VN')}.000
+                                            </div>
+
+                                            {/* Nút đánh giá chỉ hiện trên desktop khi currentStatus = 4 */}
                                             {currentStatus === 4 && (
                                                 <button
                                                     onClick={() => handleRateProduct(order.orderDetailID)}
-                                                    className="ml-3 flex select-none rounded-lg border border-gray-900 px-2 py-2 text-center align-middle font-sans text-xs font-bold text-gray-900 transition-all hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                                    className="ml-0 mt-2 flex hidden select-none rounded-lg border border-gray-900 px-3 py-2 text-xs font-bold text-gray-900 hover:opacity-75 md:ml-3 md:mt-0 md:flex"
                                                 >
                                                     Đánh giá
                                                 </button>
@@ -318,39 +365,27 @@ const PurchaseOrder = () => {
                                     ))}
                                 </div>
                                 <hr className="mb-3 flex" />
-                                <div className="flex items-center justify-between gap-3 pb-3 ">
-                                    <div className="ml-10 text-slate-500">
+                                <div className="flex flex-col items-start justify-between gap-1 px-3 pb-3 md:flex-row md:items-center md:px-6">
+                                    <div className="text-sm text-slate-500">
                                         Thời gian đặt hàng:{' '}
-                                        {format(new Date(group.OrderDetail[0].dayOrder), 'dd/MM/yyyy HH:mm ')}
+                                        {format(new Date(group.OrderDetail[0].dayOrder), 'dd/MM/yyyy HH:mm')}
                                     </div>
-                                    <div className="flex items-center justify-end gap-3 pr-4">
-                                        <div className="flex justify-end">
-                                            <div className="flex justify-end">
-                                                {group && (
-                                                    <div className="text-lg font-semibold text-sky-800">
-                                                        Tổng giá trị đơn hàng:{' '}
-                                                        {Math.round(totalPriceByOrderId[group.id]).toLocaleString(
-                                                            'vi-VN',
-                                                        )}
-                                                        .000
-                                                    </div>
-                                                )}
-                                            </div>
+                                    <div className="flex w-full flex-row items-start items-center justify-between gap-3 md:w-auto md:flex-row md:items-center md:pr-4">
+                                        <div className="text-base font-semibold text-sky-800 md:text-lg">
+                                            Tổng: {Math.round(totalPriceByOrderId[group.id]).toLocaleString('vi-VN')}
+                                            .000
                                         </div>
-                                        <div>
-                                            {currentStatus === 1 && (
-                                                <button
-                                                    onClick={() => {
-                                                        handleCancelOrder(group.id)
-                                                    }}
-                                                    className="select-none rounded-lg border border-gray-900 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-gray-900 transition-all hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                                >
-                                                    Hủy đơn hàng
-                                                </button>
-                                            )}
-                                        </div>
+                                        {currentStatus === 1 && (
+                                            <button
+                                                onClick={() => handleCancelOrder(group.id)}
+                                                className="select-none rounded-lg border border-gray-900 px-4 py-2 text-xs font-bold uppercase text-gray-900 hover:opacity-75"
+                                            >
+                                                Hủy đơn hàng
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
+
                                 {showModal && (
                                     <div
                                         id="popup-modal"

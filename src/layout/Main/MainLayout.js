@@ -17,7 +17,7 @@ function MainLayout() {
     const token = localStorage.getItem('token')
     const fetchCart = () => {
         const token = localStorage.getItem('token')
-        console.log('token', token)
+
         if (!token) console.log(0)
         else
             try {
@@ -40,8 +40,10 @@ function MainLayout() {
             }
     }
     useEffect(() => {
-        fetchCart()
-    }, [])
+        if (token) {
+            fetchCart()
+        }
+    }, [token]) // thêm token vào dependency
     const decreaseCount = (num) => {
         setCount((prevCount) => prevCount - num)
     }

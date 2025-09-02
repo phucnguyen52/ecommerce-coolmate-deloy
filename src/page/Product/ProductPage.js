@@ -117,12 +117,12 @@ const ProductPage = () => {
     return (
         <>
             <div>
-                <div className="mx-6 mt-10">
-                    <div className="mx-4 flex">
-                        <div className="basis-1/4 border-r pr-14">
+                <div className="mt-6 px-4 md:mt-10 md:px-6">
+                    <div className="flex flex-col md:flex-row">
+                        <div className="mb-6 md:mb-0 md:basis-1/4 md:border-r md:pr-8 lg:pr-14">
                             {/* <form action="" onSubmit={submitFilter}> */}
                             <button
-                                className="float-right mx-3 italic text-blue-600 underline"
+                                className="float-right mb-4 text-sm italic text-blue-600 underline md:mx-3"
                                 onClick={() => handleDeleteFilter()}
                             >
                                 Xoá lọc
@@ -130,11 +130,11 @@ const ProductPage = () => {
                             <div>
                                 <div className="mb-4 font-semibold text-gray-500">Danh mục</div>
                                 {category && (
-                                    <div>
+                                    <div className="grid grid-cols-2 gap-2 md:block">
                                         {category.map((item, index) => (
                                             <label
                                                 key={index}
-                                                className={`relative my-2 block w-fit cursor-pointer pl-9`}
+                                                className="relative my-1 block w-fit cursor-pointer pl-7 text-sm md:my-2 md:pl-9 md:text-base"
                                             >
                                                 <input
                                                     type="checkbox"
@@ -151,21 +151,21 @@ const ProductPage = () => {
                                 )}
                             </div>
 
-                            <div className="my-8 border-t pt-4">
-                                <div className="mb-6 mt-4 font-semibold text-gray-500">Giá: </div>
+                            <div className="my-6 w-[90%] border-t pt-4 md:my-8">
+                                <div className="mb-6 mt-4 font-semibold text-gray-500 ">Giá: </div>
                                 <Slider
                                     range
                                     max={1000}
                                     step={50}
                                     marks={{
                                         0: '0',
-                                        1000: '1.000.000VNĐ',
+                                        1000: '1.000.000 VNĐ',
                                     }}
                                     defaultValue={[filter.min, filter.max]}
                                     onChangeComplete={onChangePrice}
                                 />
                             </div>
-                            <div className="flex flex-wrap gap-2">
+                            <div className="mt-11 flex flex-wrap gap-2 md:mt-0">
                                 {sizeList.map((item, index) => (
                                     <label key={index} className={`cursor-pointer`}>
                                         <input
@@ -175,18 +175,19 @@ const ProductPage = () => {
                                             className="hidden"
                                             onChange={(e) => handleFilter(e, 'size')}
                                         />
-                                        <div className="w-16 rounded-lg border p-1 text-center">{item}</div>
+                                        <div className="w-12 rounded-md border p-1 text-center text-sm md:w-16 md:rounded-lg md:text-base">
+                                            {item}
+                                        </div>
                                     </label>
                                 ))}
                             </div>
                         </div>
-                        <div className="ml-4 basis-3/4">
-                            <div className="mb-4 flex items-center">
-                                <div className="grow px-3">{listData?.length || 0} kết quả</div>
-                                <div className="flex items-center gap-4">
-                                    <div className="font-medium text-gray-400">PHÂN LOẠI</div>
+                        <div className="md:ml-4 md:basis-3/4">
+                            <div className="mb-4 flex flex-row items-center justify-between gap-2 md:gap-0">
+                                <div className="flex w-full items-center gap-2 md:gap-4">
+                                    <div className="hidden font-medium text-gray-400 md:block">PHÂN LOẠI</div>
                                     <select
-                                        className="float-right rounded-md border-2 px-2 py-1"
+                                        className="rounded-md border-2 px-2 py-1 text-sm md:text-base"
                                         name="sort"
                                         onChange={handleSort}
                                     >
@@ -198,10 +199,13 @@ const ProductPage = () => {
                                         <option value="price DESC">Giá cao đến thấp</option>
                                     </select>
                                 </div>
+                                <div className="text-nowrap px-1 text-sm text-gray-500 md:grow md:px-3 md:text-base">
+                                    {listData?.length || 0} kết quả
+                                </div>
                             </div>
                             {data && (
                                 <>
-                                    <div className="grid grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
                                         {data.map((item, index) => (
                                             <ProductCard key={index} value={item} className="w-full" />
                                         ))}
