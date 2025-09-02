@@ -32,7 +32,7 @@ function Login() {
                 )
                 // && response.data.roleID === 2
                 if (response && response.data && response.data.role === 'customer') {
-                    // Cookies.set('token', response.data.token)
+                    Cookies.set('token', response.data.token)
                     toast.success('Đăng nhập thành công', {
                         autoClose: 500,
                     })
