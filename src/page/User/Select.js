@@ -12,12 +12,12 @@ const Select = ({ label, options, value, setValue, type, reset, name }) => {
                     !name ? setValue(e.target.value) : setValue((prev) => ({ ...prev, [name]: e.target.value }))
                 }
                 id="select-address"
-                className="w-65 rounded-md border border-gray-300 p-2 outline-none"
+                className="w-full truncate rounded-md border border-gray-300 p-2 outline-none"
             >
                 <option value="">{`--Chọn ${label}--`}</option>
                 {options?.map((item) => {
                     return (
-                        <option key={item.code} value={item.code}>
+                        <option key={item.code} value={item.code} className="truncate">
                             {item.name}
                         </option>
                     )

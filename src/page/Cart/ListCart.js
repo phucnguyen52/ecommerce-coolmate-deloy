@@ -248,7 +248,7 @@ const ListCart = () => {
     }
     return (
         <>
-            <div className=" mx-auto mt-4 w-2/3 pb-12">
+            <div className="mx-auto mt-4 w-full px-2 pb-12 sm:w-11/12 md:w-4/5 lg:w-2/3">
                 <div className="flex flex-row items-center justify-center ">
                     <HiShoppingCart className="mr-2  h-6 w-6" />
                     <div className="my-5 text-2xl font-bold">GIỎ HÀNG</div>
@@ -257,7 +257,7 @@ const ListCart = () => {
                 <div className="mb-3 flex">
                     <div className="inline-flex items-center">
                         <label
-                            className="relative flex cursor-pointer items-center rounded-full p-3"
+                            className="relative mr-2 flex cursor-pointer items-center rounded-full md:p-3"
                             htmlFor="select-all-checkbox"
                         >
                             <input
@@ -284,17 +284,20 @@ const ListCart = () => {
                                 </svg>
                             </span>
                         </label>
+                        <div className="flex text-sm md:hidden md:text-base">Tất cả</div>
                     </div>
-                    <div className="grid w-full grid-cols-11 gap-1">
-                        <div className="col-span-4 flex items-center gap-2 text-slate-700">Sản phẩm</div>
+                    <div className="hidden w-full grid-cols-12 gap-1 md:grid">
+                        <div className="col-span-5 flex items-center justify-center gap-2 text-slate-700">Sản phẩm</div>
                         <div className="col-span-3 flex items-center justify-center text-slate-700">Màu sắc / Size</div>
-                        <div className="col-span-1 flex items-center justify-center text-slate-700">Đơn giá</div>
+                        <div className="col-span-1 flex items-center justify-center text-slate-700">Số lượng</div>
                         <div className="col-span-3 flex items-center justify-center text-slate-700">
-                            <div className="flex w-2/5 items-center justify-center">Số lượng</div>
+                            <div className="flex w-2/5 items-center justify-center">Đơn giá</div>
                             <div className="flex w-2/5 justify-end">Thành tiền</div>
                         </div>
                     </div>
-                    <div className="flex items-center justify-center text-center text-slate-700">Thao tác</div>
+                    <div className="hidden items-center justify-center text-center text-slate-700 md:flex">
+                        Thao tác
+                    </div>
                 </div>
                 <hr className="mb-3 flex" />
                 {isEmptyCart ? (
@@ -308,14 +311,14 @@ const ListCart = () => {
                         <div>
                             {data &&
                                 data.map((cart, index) => (
-                                    <div key={cart.id} className="flex flex-col py-5">
+                                    <div key={cart.id} className="flex flex-col py-3 md:py-5">
                                         <div className="flex">
                                             <div className="inline-flex items-center">
                                                 <label
                                                     className={
                                                         cart.quantitySub.quantity > 0
-                                                            ? 'relative flex items-center rounded-full p-3'
-                                                            : 'relative flex cursor-not-allowed items-center rounded-full p-3'
+                                                            ? 'relative mr-2 flex items-center rounded-full md:p-3'
+                                                            : 'relative mr-2 flex cursor-not-allowed items-center rounded-full md:p-3'
                                                     }
                                                     htmlFor={`checkbox-${index}`}
                                                 >
@@ -365,8 +368,8 @@ const ListCart = () => {
                                                     className="flex cursor-pointer items-center"
                                                     onClick={() => handleRemoveCartItem(cart.id, index)}
                                                 >
-                                                    <FaRegTrashCan className="cursor-pointer" />
-                                                    <div className="cursor-pointer pl-1">Xóa</div>
+                                                    <FaRegTrashCan className="h-4 w-4 cursor-pointer md:h-5 md:w-5" />
+                                                    <div className="cursor-pointer pl-1 text-sm md:text-base">Xóa</div>
                                                 </button>
                                             </div>
                                         </div>
@@ -377,18 +380,17 @@ const ListCart = () => {
                 )}
 
                 <hr className="mb-3 flex" />
-                <div className="sticky bottom-0 mb-3 flex justify-between rounded border border-solid bg-white px-2 py-5">
-                    <div className="mx-8 flex items-center justify-center"></div>
-                    <div className="flex">
+                <div className="sticky bottom-0 z-10 mb-3 flex justify-between rounded border border-solid bg-white px-1 py-2 md:px-2 md:py-5">
+                    <div className="flex w-full items-center justify-end md:justify-between">
                         <div className="mr-4 flex items-center justify-center">
-                            <div className="mr-2">Tổng thanh toán:</div>
-                            <div className=" text-2xl font-semibold">
+                            <div className="mr-2 text-nowrap text-sm md:text-base">Tổng thanh toán:</div>
+                            <div className="text-xl font-semibold md:text-2xl">
                                 {Math.round(calculateTotalPriceOfCheckedItems()).toLocaleString('vi-VN')}.000
                             </div>
                         </div>
                         <button
                             type="submit"
-                            className="min-w-48 rounded-full bg-black px-4 py-3 text-sm text-white hover:bg-neutral-300 hover:text-black hover:transition-all"
+                            className="rounded-full bg-black px-3 py-2 text-sm text-white hover:bg-neutral-300 hover:text-black hover:transition-all md:min-w-48 md:px-4 md:py-3 "
                             onClick={handlePurchase}
                             disabled={isEmptyCart}
                             style={{

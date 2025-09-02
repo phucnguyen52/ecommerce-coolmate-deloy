@@ -42,7 +42,7 @@ function Banner() {
         <div>
             <Slider className="mb-6 sm:mb-10" {...settings}>
                 {imgs.map((item, index) => (
-                    <div className="h-[200px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]" key={index}>
+                    <div className="h-[250px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]" key={index}>
                         <img className="h-full w-full object-cover" src={item} alt="" />
                     </div>
                 ))}

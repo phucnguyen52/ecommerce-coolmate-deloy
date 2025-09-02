@@ -14,9 +14,9 @@ const ListProducts = () => {
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 640)
-                setSlide(1) // mobile
+                setSlide(2) // mobile
             else if (window.innerWidth < 768)
-                setSlide(2) // tablet nhỏ
+                setSlide(3) // tablet nhỏ
             else if (window.innerWidth < 1024)
                 setSlide(3) // tablet lớn / laptop nhỏ
             else if (window.innerWidth < 1280)

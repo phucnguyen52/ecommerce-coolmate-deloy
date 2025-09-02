@@ -5,6 +5,8 @@ import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { HiMinusSm } from 'react-icons/hi'
+import { HiMiniPlus } from 'react-icons/hi2'
 const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
     const [product, setProduct] = useState(null)
     const [variant, setVariant] = useState([])
@@ -213,148 +215,167 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
                 <div
                     className={
                         renderInventory() > 0
-                            ? 'grid grid-cols-11 gap-1'
-                            : 'relative grid grid-cols-11 gap-1 opacity-30'
+                            ? 'flex flex-row gap-2 md:grid md:grid-cols-11 md:gap-1 lg:grid-cols-12 lg:gap-4'
+                            : 'relative flex flex-row gap-2 opacity-30 md:grid md:grid-cols-11 md:gap-1 lg:grid-cols-12 lg:gap-4'
                     }
                 >
-                    <div className="col-span-4 flex items-center gap-2">
-                        <Link to={`/product/${value.ProductId}`} className="h-auto w-1/3" target="_blank">
-                            {product && (
-                                <img
-                                    src={product ? JSON.parse(product.image)[0] : '1'}
-                                    alt=""
-                                    className="h-auto w-full rounded object-cover"
-                                />
-                            )}
-                        </Link>
-
-                        <div className="w-2/3">
-                            <div className="mb-[2px] text-base font-semibold leading-5">
-                                <Link to={`/product/${value.ProductId}`} target="_blank">
-                                    {product && product.product_name}
-                                </Link>
-                            </div>
-                            <div className="">
-                                <div className="text-slate-500">Số lượng còn lại: {renderInventory()}</div>
-                                <div className="italic text-slate-500">
-                                    Giảm giá: {product ? `${product.discount} %` : []}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        className={
-                            renderInventory() > 0
-                                ? 'col-span-3 flex items-center justify-center'
-                                : 'col-span-3 flex items-center justify-center'
-                        }
-                    >
-                        <div className="flex gap-2">
-                            <div>
-                                <select
-                                    id="color"
-                                    value={selectedColor}
-                                    onChange={handleColorChange}
-                                    className="z-10 box-border inline-flex h-[44px] min-w-[100px] max-w-28 items-center justify-center rounded-[100vmax] border border-solid border-slate-200 opacity-100"
-                                >
-                                    {colors.map((color) => (
-                                        <option key={color} value={color}>
-                                            {color}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            {selectedSize !== '' && (
-                                <>
-                                    <div>
-                                        <select
-                                            id="size"
-                                            value={selectedSize}
-                                            onChange={handleSizeChange}
-                                            className="box-border inline-flex h-[44px] min-w-[50px] max-w-14 items-center justify-center rounded-[100vmax] border border-solid border-slate-200"
-                                        >
-                                            {filteredSizes.map((size) => (
-                                                <option key={size} value={size}>
-                                                    {size}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                    <div className="col-span-1 flex items-center justify-center">
-                        <div className="">{product ? Math.round(product.price) : ''}.000</div>
-                    </div>
-                    <div className="col-span-3 flex items-center justify-center">
-                        {value && (
-                            <>
-                                <div
-                                    className={
-                                        renderInventory() > 0
-                                            ? 'box-border inline-flex h-[44px] w-2/5 items-center justify-center rounded-[100vmax] border border-solid border-slate-400'
-                                            : 'box-border inline-flex h-[44px] w-2/5 cursor-not-allowed items-center justify-center rounded-[100vmax] border border-solid border-slate-400'
-                                    }
-                                >
-                                    <button
-                                        className={
-                                            renderInventory() > 0
-                                                ? 'line h-full w-6 cursor-pointer items-center justify-center rounded-bl-lg rounded-tl-lg border-none p-0 text-lg outline-none'
-                                                : 'line h-full w-6 cursor-not-allowed items-center justify-center rounded-bl-lg rounded-tl-lg border-none p-0 text-lg outline-none'
-                                        }
-                                        onClick={renderInventory() > 0 ? () => handleDecreaseQuantity() : null}
-                                    >
-                                        -
-                                    </button>
-                                    <input
-                                        type="text"
-                                        name=""
-                                        id=""
-                                        value={quantity ?? 0}
-                                        readOnly={true}
-                                        className={
-                                            renderInventory() > 0
-                                                ? 'm-0 h-full w-6 border-none py-1 text-center text-sm outline-none'
-                                                : 'm-0 h-full w-6 cursor-not-allowed border-none py-1 text-center text-sm outline-none'
-                                        }
-                                    />
-                                    <button
-                                        className={
-                                            renderInventory() > 0
-                                                ? 'line h-full w-6 cursor-pointer items-center justify-center rounded-bl-lg rounded-tl-lg border-none p-0 text-lg outline-none'
-                                                : 'line h-full w-6 cursor-not-allowed items-center justify-center rounded-bl-lg rounded-tl-lg border-none p-0 text-lg outline-none'
-                                        }
-                                        onClick={renderInventory() > 0 ? () => handleIncreaseQuantity() : null}
-                                    >
-                                        +
-                                    </button>
-                                </div>
-                            </>
+                    <Link to={`/product/${value.ProductId}`} className="h-1/3 w-1/3 md:hidden" target="_blank">
+                        {product && (
+                            <img
+                                src={product ? JSON.parse(product.image)[0] : '1'}
+                                alt=""
+                                className="flex h-full w-full items-center justify-center rounded object-cover"
+                            />
                         )}
-                        <div className="flex w-2/5 justify-end">
-                            <div>
-                                <div className="flex flex-col">
-                                    <div className="text-base font-bold text-orange-600">
-                                        {product
-                                            ? Math.round(
-                                                  ((product.price * quantity) / 100) * (100 - product.discount),
-                                              ).toLocaleString('vi-VN')
-                                            : 0}
-                                        .000
+                    </Link>
+                    <Link
+                        to={`/product/${value.ProductId}`}
+                        className="hidden h-auto md:col-span-2 md:block lg:col-span-2"
+                        target="_blank"
+                    >
+                        {product && (
+                            <img
+                                src={product ? JSON.parse(product.image)[0] : '1'}
+                                alt=""
+                                className="h-full w-full rounded object-cover"
+                            />
+                        )}
+                    </Link>
+                    <div className="w-full md:col-span-10 md:grid md:grid-cols-12 lg:col-span-10">
+                        <div className="col-span-4 flex items-center gap-2 ">
+                            <div className="w-full">
+                                <div className="mb-[2px] text-xs font-semibold leading-5 md:text-base ">
+                                    <Link to={`/product/${value.ProductId}`} target="_blank">
+                                        {product && product.product_name}
+                                    </Link>
+                                </div>
+                                <div className="">
+                                    <div className="text-xs text-slate-500 md:text-base">
+                                        Số lượng còn lại: {renderInventory()}
                                     </div>
-                                    <div>
-                                        {product && product.discount !== 0 && (
-                                            <>
-                                                <div className="flex justify-end text-sm text-gray-500 line-through">
-                                                    {product
-                                                        ? Math.round(product.price * quantity).toLocaleString('vi-VN')
-                                                        : ''}
-                                                    .000
-                                                </div>
-                                            </>
-                                        )}
+                                    <div className="mt-1 text-xs italic text-slate-500 md:text-base">
+                                        Giảm giá: {product ? `${product.discount} %` : []}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            className={
+                                renderInventory() > 0
+                                    ? 'col-span-3 mb-1 mt-1 flex w-full items-center justify-start'
+                                    : 'col-span-3 mt-1 w-full opacity-30'
+                            }
+                        >
+                            <div className="flex flex-wrap items-center justify-start gap-2">
+                                <div>
+                                    <select
+                                        id="color"
+                                        value={selectedColor}
+                                        onChange={handleColorChange}
+                                        className="z-10 box-border inline-flex max-w-28 items-center justify-center rounded-xl border border-solid border-slate-200 px-1 py-1 text-xs opacity-100 md:px-2 md:py-2 md:text-base"
+                                    >
+                                        {colors.map((color) => (
+                                            <option key={color} value={color}>
+                                                {color}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {selectedSize !== '' && (
+                                    <>
+                                        <div>
+                                            <select
+                                                id="size"
+                                                value={selectedSize}
+                                                onChange={handleSizeChange}
+                                                className="z-10 box-border inline-flex max-w-28 items-center justify-center rounded-xl border border-solid border-slate-200 px-1 py-1 text-xs opacity-100 md:px-2 md:py-2 md:text-base"
+                                            >
+                                                {filteredSizes.map((size) => (
+                                                    <option key={size} value={size}>
+                                                        {size}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="col-span-5 flex grid-cols-3 items-end justify-between md:grid md:items-center">
+                            {value && (
+                                <div className="flex items-center justify-center md:col-span-1">
+                                    <div
+                                        className={
+                                            renderInventory() > 0
+                                                ? 'z-10 box-border inline-flex  items-center justify-center rounded-xl border border-solid border-slate-200  px-1 py-1 text-sm opacity-100 md:text-base'
+                                                : 'z-10 box-border inline-flex  cursor-not-allowed items-center justify-center rounded-xl border border-solid border-slate-200 px-1 py-1 text-sm opacity-100 md:text-base'
+                                        }
+                                    >
+                                        <button
+                                            className={
+                                                renderInventory() > 0
+                                                    ? 'line h-full w-6 cursor-pointer items-center justify-center rounded-bl-lg rounded-tl-lg border-none p-0 text-2xl outline-none'
+                                                    : 'line h-full w-6 cursor-not-allowed items-center justify-center rounded-bl-lg rounded-tl-lg border-none p-0 text-lg outline-none'
+                                            }
+                                            onClick={renderInventory() > 0 ? () => handleDecreaseQuantity() : null}
+                                        >
+                                            <HiMinusSm />
+                                        </button>
+                                        <input
+                                            type="text"
+                                            name=""
+                                            id=""
+                                            value={quantity ?? 0}
+                                            readOnly={true}
+                                            className={
+                                                renderInventory() > 0
+                                                    ? 'm-0 h-full w-6 border-none py-1 text-center text-xs outline-none md:text-base'
+                                                    : 'm-0 h-full w-6 cursor-not-allowed border-none py-1 text-center text-xs outline-none md:text-base'
+                                            }
+                                        />
+                                        <button
+                                            className={
+                                                renderInventory() > 0
+                                                    ? 'line h-full w-6 cursor-pointer items-center justify-center rounded-bl-lg rounded-tl-lg border-none p-0 text-lg outline-none'
+                                                    : 'line h-full w-6 cursor-not-allowed items-center justify-center rounded-bl-lg rounded-tl-lg border-none p-0 text-lg outline-none'
+                                            }
+                                            onClick={renderInventory() > 0 ? () => handleIncreaseQuantity() : null}
+                                        >
+                                            <HiMiniPlus />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            <div className=" hidden items-center justify-center md:flex ">
+                                <div className="">{product ? Math.round(product.price) : ''}.000</div>
+                            </div>
+                            <div className="flex items-center justify-center">
+                                <div>
+                                    <div className="flex flex-col">
+                                        <div>
+                                            {product && product.discount !== 0 && (
+                                                <>
+                                                    <div className="flex justify-end text-xs text-gray-500 line-through">
+                                                        {product
+                                                            ? Math.round(product.price * quantity).toLocaleString(
+                                                                  'vi-VN',
+                                                              )
+                                                            : ''}
+                                                        .000
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                        <div className="text-sm font-bold text-orange-600 md:text-base">
+                                            {product
+                                                ? Math.round(
+                                                      ((product.price * quantity) / 100) * (100 - product.discount),
+                                                  ).toLocaleString('vi-VN')
+                                                : 0}
+                                            .000
+                                        </div>
                                     </div>
                                 </div>
                             </div>

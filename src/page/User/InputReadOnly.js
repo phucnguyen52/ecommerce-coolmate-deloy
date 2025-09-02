@@ -6,7 +6,7 @@ const InputReadOnly = ({ label, value }) => {
             <label className="font-medium" htmlFor="exactly-address">
                 {label}
             </label>
-            <input
+            <textarea
                 type="text"
                 id="exactly-address"
                 readOnly

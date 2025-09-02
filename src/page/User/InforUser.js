@@ -365,17 +365,17 @@ const InforUser = () => {
 
     return (
         <div>
-            <div className="mx-auto w-4/6">
+            <div className="mx-auto w-11/12 md:w-4/6">
                 <div>
-                    <div className="py-12 text-2xl font-semibold">Thông tin tài khoản</div>
+                    <div className="py-6 text-2xl font-semibold md:py-12">Thông tin tài khoản</div>
                 </div>
                 <hr />
                 <div>
-                    <div className="flex">
-                        <div className="w-3/4 pt-3">
-                            <div className="mt-12 flex">
-                                <div className="flex min-w-[150px] items-center text-lg text-[#121f43]">Email</div>
-                                <label htmlFor="email">
+                    <div className="flex flex-col md:flex-row">
+                        <div className="w-full pt-3 md:w-3/4">
+                            <div className="mt-6 flex flex-col md:mt-12 md:flex-row md:items-center">
+                                <div className="mb-2 min-w-[150px] text-lg text-[#121f43] md:mb-0">Email</div>
+                                <label htmlFor="email" className="flex-1">
                                     <input
                                         type="text"
                                         name="email"
@@ -384,14 +384,14 @@ const InforUser = () => {
                                         value={values.email}
                                         onChange={handleChange}
                                         placeholder="Email"
-                                        className="peer resize-none rounded-lg border border-[#B1C9DC] px-3.5 py-3 font-medium leading-normal text-[#121F43] outline-none duration-200 placeholder:text-base placeholder:text-slate-500 hover:border-[#121F43] focus:border-red-400 focus:ring-1 focus:ring-red-400"
+                                        className="peer w-full resize-none rounded-lg border border-[#B1C9DC] px-3.5 py-3 font-medium leading-normal text-[#121F43] outline-none duration-200 placeholder:text-base placeholder:text-slate-500 hover:border-[#121F43] focus:border-red-400 focus:ring-1 focus:ring-red-400 md:w-2/3"
                                     />
                                 </label>
                             </div>
 
-                            <div className="mt-8 flex">
-                                <div className="flex min-w-[150px] items-center text-lg text-[#121f43]">Họ và tên</div>
-                                <label htmlFor="name" className="relative">
+                            <div className="mt-8 flex flex-col md:flex-row md:items-center">
+                                <div className="mb-2 min-w-[150px] text-lg text-[#121f43] md:mb-0">Họ và tên</div>
+                                <label htmlFor="name" className="relative flex-1">
                                     <input
                                         type="text"
                                         name="name"
@@ -399,36 +399,40 @@ const InforUser = () => {
                                         defaultValue={values.username}
                                         onChange={(e) => handleChange(e)}
                                         placeholder="Họ và tên"
-                                        className="peer resize-none rounded-lg border border-[#B1C9DC] px-3.5 py-3 font-medium leading-normal text-[#121F43] outline-none duration-200 placeholder:text-base placeholder:text-slate-500 hover:border-[#121F43] focus:border-[#2499ef] focus:ring-1 focus:ring-[#2499ef]"
+                                        className="peer w-full resize-none rounded-lg border border-[#B1C9DC] px-3.5 py-3 font-medium leading-normal text-[#121F43] outline-none duration-200 placeholder:text-base placeholder:text-slate-500 hover:border-[#121F43] focus:border-[#2499ef] focus:ring-1 focus:ring-[#2499ef] md:w-2/3"
                                     />
-                                    <span className="pointer-events-none absolute left-0 top-3 ml-3 bg-white px-1 text-base font-medium text-slate-400 duration-200 peer-valid:-translate-y-6 peer-valid:text-sm peer-focus:-translate-y-6 peer-focus:text-sm peer-focus:text-[#2499ef]">
-                                        Họ và tên
-                                    </span>
                                 </label>
                             </div>
 
-                            <div className="mt-8 flex items-center">
-                                <div className="flex min-w-[150px] items-center text-lg text-[#121f43]">Địa chỉ</div>
-                                <div id="defaultAddress">
-                                    {defaultAddress ? (
-                                        <p>{defaultAddress.address}</p>
-                                    ) : (
-                                        <p className="text-base italic text-slate-500">Bạn chưa có địa chỉ nào...</p>
-                                    )}
+                            <div className="mt-8 flex flex-col md:flex-row md:items-center">
+                                <div className="mb-2 min-w-[150px] text-lg text-[#121f43] md:mb-0">Địa chỉ</div>
+                                <div className="flex flex-row items-center gap-2">
+                                    <div
+                                        id="defaultAddress"
+                                        className="peer resize-none rounded-lg border border-[#B1C9DC] px-3.5 py-3 font-medium leading-normal text-[#121F43] outline-none duration-200 placeholder:text-base placeholder:text-slate-500 hover:border-[#121F43] focus:border-[#2499ef] focus:ring-1 focus:ring-[#2499ef] md:w-2/3"
+                                    >
+                                        {defaultAddress ? (
+                                            <p>{defaultAddress.address}</p>
+                                        ) : (
+                                            <p className="text-base italic text-slate-500">
+                                                Bạn chưa có địa chỉ nào...
+                                            </p>
+                                        )}
+                                    </div>
+                                    <button
+                                        className="mb-1 ml-0 cursor-pointer rounded px-3 py-2 text-sm font-semibold text-blue-500 outline-none transition-all duration-150 ease-linear hover:bg-slate-100 hover:shadow-lg active:bg-slate-300 md:ml-2 md:mt-0"
+                                        type="button"
+                                        onClick={() => setShowModalAddress(true)}
+                                    >
+                                        Thay đổi
+                                    </button>
                                 </div>
-                                <button
-                                    className="mb-1 ml-2 mr-3 cursor-pointer rounded  px-3 py-2 text-sm font-semibold text-blue-500 outline-none transition-all duration-150 ease-linear hover:bg-slate-100 hover:shadow-lg  focus:border-black active:bg-slate-300"
-                                    type="button"
-                                    onClick={() => setShowModalAddress(true)}
-                                >
-                                    Thay đổi
-                                </button>
 
                                 {/* Modal */}
                             </div>
                         </div>
-                        <hr className="h-auto w-px bg-gray-200" />
-                        <div className="mt-14 w-1/2">
+                        <hr className="mx-4 hidden h-auto w-px bg-gray-200 md:block" />
+                        <div className="mt-10 w-full md:mt-14 md:w-1/2">
                             <div className="mb-5 flex items-center justify-center">
                                 {isLoading ? (
                                     <div role="status" className="flex items-center justify-center">
@@ -524,26 +528,31 @@ const InforUser = () => {
 
                 {showModalAddress ? (
                     <>
-                        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
-                            <div className="relative mx-auto my-6 w-auto">
+                        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto px-2">
+                            <div className="relative mx-auto my-6 w-full lg:w-3/5">
                                 {/*content*/}
                                 <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
                                     {/*header*/}
                                     <button
-                                        className="background-transparent absolute right-[22px] top-[18px] text-sm font-bold uppercase text-red-500 outline-none transition-all duration-150 ease-linear focus:outline-none"
+                                        className="absolute right-4 top-4 text-red-500 hover:text-red-600"
                                         type="button"
                                         onClick={() => setShowModalAddress(false)}
                                     >
                                         <FaWindowClose className="h-8 w-8" />
                                     </button>
-                                    <div className="border-blueGray-200 flex items-start justify-between rounded-t border-b border-solid p-5">
-                                        <h3 className="pr-10 text-3xl font-semibold">Địa chỉ của người dùng</h3>
+                                    <div className="flex items-start justify-between rounded-t border-b p-5">
+                                        <h3 className="pr-10 text-xl font-semibold md:text-3xl">
+                                            Địa chỉ của người dùng
+                                        </h3>
                                     </div>
                                     {/*body*/}
                                     <div className="relative flex-auto p-6">
                                         <div>
                                             {addresses.map((data, index) => (
-                                                <div key={index} className="mb-4 flex items-center justify-between">
+                                                <div
+                                                    key={index}
+                                                    className="mb-4 flex flex-col justify-between gap-2 rounded-lg border p-3 lg:flex-row lg:items-center"
+                                                >
                                                     <div className="flex flex-col">
                                                         {`${data.numberPhone} - `}
                                                         {cleanAddress(data.address)}
@@ -553,7 +562,7 @@ const InforUser = () => {
                                                             </span>
                                                         )}
                                                     </div>
-                                                    <div className="ml-4">
+                                                    <div className="flex flex-wrap justify-end gap-2 md:ml-4">
                                                         <button
                                                             className=" mr-2 rounded-lg bg-blue-700 px-3 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                                             onClick={() => handleUpdateAddress(data.id)}
@@ -590,9 +599,9 @@ const InforUser = () => {
                                         </div>
                                     </div>
                                     {/*footer*/}
-                                    <div className="border-blueGray-200 flex items-center justify-end rounded-b border-t border-solid p-6">
+                                    <div className=" flex items-center justify-end rounded-b border-t border-solid p-6">
                                         <button
-                                            className="rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-5 py-2.5 text-center text-base font-medium uppercase text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
+                                            className="cursor-pointer rounded-md bg-black px-8 py-3 text-center text-base text-white hover:bg-neutral-300 hover:text-black hover:transition-all"
                                             type="button"
                                             onClick={() => setShowModalAddress(false)}
                                         >
@@ -607,8 +616,8 @@ const InforUser = () => {
                 ) : null}
                 {showUpdateAddressModal ? (
                     <>
-                        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
-                            <div className="relative mx-auto my-6 w-auto">
+                        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto px-2">
+                            <div className="relative mx-auto my-6 w-full max-w-3xl">
                                 {/*content*/}
                                 <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
                                     {/*header*/}
@@ -619,14 +628,14 @@ const InforUser = () => {
                                     >
                                         <FaWindowClose className="h-8 w-8" />
                                     </button>
-                                    <div className="border-blueGray-200 flex items-start justify-between rounded-t border-b border-solid p-5">
-                                        <h3 className="pr-10 text-3xl font-semibold">Cập nhật địa chỉ</h3>
+                                    <div className="flex items-start justify-between rounded-t border-b p-5">
+                                        <h3 className="pr-10 text-xl font-semibold md:text-3xl">Cập nhật địa chỉ</h3>
                                     </div>
                                     {/*body*/}
                                     {!loading ? (
                                         <>
                                             <div>
-                                                <div className="flex flex-col px-16 py-4">
+                                                <div className="relative max-h-[80vh] overflow-y-auto px-4 py-6 md:px-16">
                                                     <div className="mb-4">
                                                         <label className="font-medium" htmlFor="phone">
                                                             Số điện thoại
@@ -643,7 +652,7 @@ const InforUser = () => {
                                                     </div>
                                                     <div className="w-full">
                                                         <div className="flex flex-col gap-4">
-                                                            <div className="flex items-center gap-4">
+                                                            <div className="flex flex-col gap-4 md:flex-row">
                                                                 <Select
                                                                     type="province"
                                                                     value={province}
@@ -705,9 +714,9 @@ const InforUser = () => {
                                     )}
 
                                     {/*footer*/}
-                                    <div className="border-blueGray-200 flex items-center justify-end rounded-b border-t border-solid p-6">
+                                    <div className=" flex items-center justify-end rounded-b border-t border-solid p-6">
                                         <button
-                                            className="rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-5 py-2.5 text-center text-base font-medium uppercase text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
+                                            className="cursor-pointer rounded-md bg-black px-8 py-3 text-center text-base text-white hover:bg-neutral-300 hover:text-black hover:transition-all"
                                             type="button"
                                             onClick={() => updateAddressUser()}
                                         >
@@ -722,8 +731,8 @@ const InforUser = () => {
                 ) : null}
                 {showAddAddressModal ? (
                     <>
-                        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
-                            <div className="relative mx-auto my-6 w-auto">
+                        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto px-2">
+                            <div className="relative mx-auto my-6 w-full max-w-3xl">
                                 {/*content*/}
                                 <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
                                     {/*header*/}
@@ -734,12 +743,14 @@ const InforUser = () => {
                                     >
                                         <FaWindowClose className="h-8 w-8" />
                                     </button>
-                                    <div className="border-blueGray-200 flex items-start justify-between rounded-t border-b border-solid p-5">
-                                        <h3 className="text-3xl font-semibold">Thêm địa chỉ người dùng</h3>
+                                    <div className="flex items-start justify-between rounded-t border-b p-5">
+                                        <h3 className="pr-10 text-xl font-semibold md:text-3xl">
+                                            Thêm địa chỉ người dùng
+                                        </h3>
                                     </div>
                                     {/*body*/}
                                     <div>
-                                        <div className="flex flex-col px-16 py-4">
+                                        <div className="relative max-h-[80vh] overflow-y-auto px-4 py-6 md:px-16">
                                             <div className="mb-4">
                                                 <label className="font-medium" htmlFor="phone">
                                                     Số điện thoại
@@ -756,7 +767,7 @@ const InforUser = () => {
                                             </div>
                                             <div className="w-full">
                                                 <div className="flex flex-col gap-4">
-                                                    <div className="flex items-center gap-4">
+                                                    <div className="flex flex-col gap-4 md:flex-row">
                                                         <Select
                                                             type="province"
                                                             value={province}
@@ -802,9 +813,9 @@ const InforUser = () => {
                                         </div>
                                     </div>
                                     {/*footer*/}
-                                    <div className="border-blueGray-200 flex items-center justify-end rounded-b border-t border-solid p-6">
+                                    <div className=" flex items-center justify-end rounded-b border-t border-solid p-6">
                                         <button
-                                            className="rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-5 py-2.5 text-center text-base font-medium uppercase text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
+                                            className="cursor-pointer rounded-md bg-black px-8 py-3 text-center text-base text-white hover:bg-neutral-300 hover:text-black hover:transition-all"
                                             type="button"
                                             onClick={handleAddNewAddress}
                                         >
