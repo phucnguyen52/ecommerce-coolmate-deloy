@@ -23,9 +23,6 @@ const ProductDropdowns = ({
             try {
                 const response = await axios.get(
                     `https://ecommerce-coolmate-server-production.up.railway.app/api/products/${productId}`,
-                    {
-                        withCredentials: true,
-                    },
                 )
                 if (response.data.succes) {
                     const { product } = response.data

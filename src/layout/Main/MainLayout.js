@@ -5,7 +5,6 @@ import { createContext, useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
-import Cookies from 'js-cookie'
 // import Chat from '../../components/Chat/Chat'
 
 export const StoreContext = createContext()
@@ -15,15 +14,17 @@ function MainLayout() {
     const handleCount = (num) => {
         setCount(num)
     }
-    const token = Cookies.get('token')
+    const token = localStorage.getItem('token')
     const fetchCart = () => {
-        const token = Cookies.get('token')
-
+        const token = localStorage.getItem('token')
+        console.log('token', token)
         if (!token) console.log(0)
         else
             try {
-                fetch(`https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart`, {
-                    credentials: 'include',
+                fetch(`http://localhost:8080/api/customer/cart`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 })
                     .then((req) => req.json())
                     .then((res) => {

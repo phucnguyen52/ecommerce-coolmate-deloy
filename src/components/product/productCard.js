@@ -23,7 +23,6 @@ function ProductCard(props) {
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/rating/${value.id}`,
-                { credentials: 'include' },
             )
 
             const res = await req.json()
@@ -46,7 +45,6 @@ function ProductCard(props) {
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${value.id}/detail`,
-                { credentials: 'include' },
             )
             const res = await req.json()
 
@@ -79,7 +77,7 @@ function ProductCard(props) {
             quantity: 1,
             ProductId: value.id,
         }
-        const userDataString = Cookies.get('token')
+        const userDataString = localStorage.getItem('token')
         if (!userDataString) {
             toast.warning('Vui lòng đăng nhập')
             return 0
@@ -89,8 +87,9 @@ function ProductCard(props) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${userDataString}`,
                 },
-                credentials: 'include',
+
                 body: JSON.stringify(addProduct),
             })
 
@@ -184,7 +183,7 @@ function ProductCard(props) {
                         })}
                     </div>
                 )}
-                <Link>
+                <Link to={`/product/${value.id}`}>
                     <div className="pb-2 text-base text-[#231f20]">{value.nameProduct}</div>
                 </Link>
                 {value.discount ? (

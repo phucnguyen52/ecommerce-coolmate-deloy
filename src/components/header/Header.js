@@ -15,7 +15,7 @@ import { BiCategory } from 'react-icons/bi'
 import { LuClipboardList } from 'react-icons/lu'
 function Header() {
     const data = useContext(StoreContext)
-    const userDataString = Cookies.get('token')
+    const userDataString = localStorage.getItem('token')
     const [searchValue, setSearchValue] = useState('')
     const navigate = useNavigate()
     const [openMenu, setOpenMenu] = useState(false)

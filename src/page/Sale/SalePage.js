@@ -16,14 +16,14 @@ const SalePage = () => {
     })
 
     const fetchVoucher = async () => {
-        const token = Cookies.get('token')
+        const token = localStorage.getItem('token')
 
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/voucher${token ? '' : '/active'}`,
                 {
                     method: 'GET',
-                    ...(token && { credentials: 'include' }),
+                    ...(token && { headers: { Authorization: `Bearer ${token}` } }),
                 },
             )
             const res = await req.json()
@@ -51,9 +51,6 @@ const SalePage = () => {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product?sort=sale&type=${filter.type}&min=0&max=10000000&percent=30` +
                     (filter.category ? `&category=${filter.category}` : ''),
-                {
-                    credentials: 'include',
-                },
             )
             const res = await req.json()
 

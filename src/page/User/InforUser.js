@@ -21,13 +21,15 @@ const InforUser = () => {
             [name]: value,
         }))
     }
-
+    const token = localStorage.getItem('token')
     const fetchInformation = async () => {
         try {
             const response = await axios.get(
                 'https://ecommerce-coolmate-server-production.up.railway.app/api/customer',
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             setImageUrl(response.data.user.picture)
@@ -68,7 +70,9 @@ const InforUser = () => {
             const response = await axios.get(
                 'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address',
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             if (response.data.succes) {
@@ -105,7 +109,9 @@ const InforUser = () => {
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address/${addressId}`,
                 { isAddress: true },
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             if (response.data.succes) {
@@ -121,7 +127,9 @@ const InforUser = () => {
             const response = await axios.delete(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address/${addressId}`,
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             if (response.data.succes) {
@@ -195,7 +203,9 @@ const InforUser = () => {
                     'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address',
                     { address: formattedAddress, numberPhone: phone },
                     {
-                        withCredentials: true,
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
                     },
                 )
                 if (response.data.succes) {
@@ -298,7 +308,11 @@ const InforUser = () => {
                         address: readOnlyValue,
                         numberPhone: phoneAddress,
                     },
-                    { withCredentials: true },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    },
                 )
                 if (response.data.succes) {
                     fetchData()
@@ -326,7 +340,9 @@ const InforUser = () => {
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/admin/user/${values.id}`,
                 req,
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             if (response.data.success) {
@@ -353,7 +369,9 @@ const InforUser = () => {
             const response = await fetch('https://ecommerce-coolmate-server-production.up.railway.app/upload', {
                 method: 'POST',
                 body: formData,
-                credentials: 'include',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             })
             const data = await response.json()
             setImageUrl(data[0])

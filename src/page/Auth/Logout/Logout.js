@@ -5,7 +5,7 @@ const Logout = () => {
     const navigate = useNavigate()
     useEffect(() => {
         localStorage.clear()
-        Cookies.remove('token')
+        localStorage.removeItem('token')
         navigate('/home')
         window.location.reload()
     }, [navigate])

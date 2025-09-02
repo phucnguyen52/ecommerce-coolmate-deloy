@@ -18,12 +18,15 @@ const PurchaseOrder = () => {
     const [selectedOrderDetailId, setSelectedOrderDetailId] = useState(null)
     const ratingDescriptions = ['Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
     const [ratingDescription, setRatingDescription] = useState('')
+    const token = localStorage.getItem('token')
     const fetchOrdersByStatus = async (status) => {
         try {
             const response = await axios.get(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/order/${status}`,
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             const orders = response.data.order
@@ -70,7 +73,11 @@ const PurchaseOrder = () => {
         try {
             const response = await axios.delete(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/order/${orderIdToCancel}`,
-                { withCredentials: true },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
             )
             if (response.data.succes) {
                 fetchOrdersByStatus(currentStatus)
@@ -125,7 +132,6 @@ const PurchaseOrder = () => {
                 const response = await axios.post(
                     'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/rating',
                     requestBody,
-                    { withCredentials: true },
                 )
                 const data = response.data
                 if (data.succes) {

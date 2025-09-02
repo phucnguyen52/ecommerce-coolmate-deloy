@@ -18,6 +18,7 @@ const ListCart = () => {
     const [checkedItems, setCheckedItems] = useState([])
     const [products, setProducts] = useState([])
     const [isEmptyCart, setIsEmptyCart] = useState(true)
+    const token = localStorage.getItem('token')
     const navigate = useNavigate()
     useEffect(() => {
         setIsEmptyCart(data.length === 0)
@@ -74,7 +75,9 @@ const ListCart = () => {
             const response = await axios.get(
                 'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart',
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             if (response.data.succes) {
@@ -87,9 +90,6 @@ const ListCart = () => {
                 const productRequests = productIds.map((productId) =>
                     axios.get(
                         `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${productId}`,
-                        {
-                            withCredentials: true,
-                        },
                     ),
                 )
                 const productResponses = await Promise.all(productRequests)
@@ -110,7 +110,9 @@ const ListCart = () => {
             const response = await axios.delete(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart/${cartItemId}`,
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             if (response.status === 200) {

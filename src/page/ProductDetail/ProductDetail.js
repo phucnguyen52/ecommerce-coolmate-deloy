@@ -36,7 +36,6 @@ const ProductDetail = () => {
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${id}`,
-                { credentials: 'include' },
             )
             const res = await req.json()
             if (res.succes) {
@@ -52,7 +51,6 @@ const ProductDetail = () => {
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${id}/detail`,
-                { credentials: 'include' },
             )
             const res = await req.json()
             if (res.succes) {
@@ -73,13 +71,13 @@ const ProductDetail = () => {
         }
     }
     const fetchVoucher = async () => {
-        const token = Cookies.get('token')
+        const token = localStorage.getItem('token')
         try {
             const req = await fetch(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/voucher${token ? '' : '/active'}?productId=${id}`,
                 {
                     method: 'GET',
-                    ...(token && { credentials: 'include' }),
+                    ...(token && { headers: { Authorization: `Bearer ${token}` } }),
                 },
             )
             const res = await req.json()
@@ -137,7 +135,7 @@ const ProductDetail = () => {
             ProductId: id,
         }
 
-        const userDataString = Cookies.get('token')
+        const userDataString = localStorage.getItem('token')
         if (!userDataString) {
             toast.warning('Vui lòng đăng nhập')
             navigate('/auth/login')
@@ -148,8 +146,8 @@ const ProductDetail = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${userDataString}`,
                 },
-                credentials: 'include',
                 body: JSON.stringify(addProduct),
             })
 

@@ -26,6 +26,7 @@ const Purchase = () => {
     const [vouchers, setVouchers] = useState()
     const [voucher, setVoucher] = useState()
     const [price, setPrice] = useState()
+    const token = localStorage.getItem('token')
     const navigate = useNavigate()
     const [note, setNote] = useState('')
     const fetchInformation = async () => {
@@ -33,7 +34,9 @@ const Purchase = () => {
             const response = await axios.get(
                 'https://ecommerce-coolmate-server-production.up.railway.app/api/customer',
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             setName(response.data.user.fullName)
@@ -53,7 +56,9 @@ const Purchase = () => {
             const response = await axios.get(
                 'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address',
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             if (response.data.succes) {
@@ -73,7 +78,9 @@ const Purchase = () => {
             const response = await axios.get(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/voucher?productId=${productId}`,
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             if (response.data.success) {
@@ -109,7 +116,9 @@ const Purchase = () => {
                     'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/order',
                     orderData,
                     {
-                        withCredentials: true,
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
                     },
                 )
                 if (response.data.succes) {
@@ -123,7 +132,9 @@ const Purchase = () => {
                         const response = await axios.delete(
                             `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart/${item.id}`,
                             {
-                                withCredentials: true,
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
                             },
                         )
                         if (response.status === 200) {
@@ -161,7 +172,11 @@ const Purchase = () => {
                 try {
                     const response = await fetch(
                         `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${product.ProductId}/detail`,
-                        { credentials: 'include' },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        },
                     )
                     const data = await response.json()
 
@@ -204,7 +219,11 @@ const Purchase = () => {
         try {
             const response = await axios.get(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/voucher/calculate?productIds=${productId}&sizes=${size}&colors=${color}&quantity=${quantity}&discountCode=${voucher.discountCode}`,
-                { withCredentials: true },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
             )
 
             if (response.data.success) {

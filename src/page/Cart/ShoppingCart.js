@@ -41,9 +41,6 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
         try {
             const response = await axios.get(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${value.ProductId}`,
-                {
-                    withCredentials: true,
-                },
             )
             if (response.data.succes) {
                 setProduct(response.data.product)
@@ -71,9 +68,6 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
         try {
             const response = await axios.get(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/product/${value?.ProductId}/detail`,
-                {
-                    withCredentials: true,
-                },
             )
             if (response.data.succes) {
                 setVariant(response.data.product)
@@ -138,13 +132,16 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
         })
         fetchCartData()
     }
+    const token = localStorage.getItem('token')
     const updateCartItem = async (updatedData) => {
         try {
             const response = await axios.put(
                 `https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart/${value.id}`,
                 updatedData,
                 {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
             )
             if (response.data.succes) {
@@ -219,7 +216,7 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
                             : 'relative flex flex-row gap-2 opacity-30 md:grid md:grid-cols-11 md:gap-1 lg:grid-cols-12 lg:gap-4'
                     }
                 >
-                    <Link to={`/product/${value.ProductId}`} className="h-1/3 w-1/3 md:hidden" target="_blank">
+                    <Link to={`/product/${value.ProductId}`} className="h-auto w-1/3 md:hidden" target="_blank">
                         {product && (
                             <img
                                 src={product ? JSON.parse(product.image)[0] : '1'}
@@ -262,7 +259,7 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
                         <div
                             className={
                                 renderInventory() > 0
-                                    ? 'col-span-3 mb-1 mt-1 flex w-full items-center justify-start'
+                                    ? 'col-span-3 mb-1 mt-1 flex w-full items-center justify-start md:justify-center'
                                     : 'col-span-3 mt-1 w-full opacity-30'
                             }
                         >
@@ -283,22 +280,20 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
                                 </div>
 
                                 {selectedSize !== '' && (
-                                    <>
-                                        <div>
-                                            <select
-                                                id="size"
-                                                value={selectedSize}
-                                                onChange={handleSizeChange}
-                                                className="z-10 box-border inline-flex max-w-28 items-center justify-center rounded-xl border border-solid border-slate-200 px-1 py-1 text-xs opacity-100 md:px-2 md:py-2 md:text-base"
-                                            >
-                                                {filteredSizes.map((size) => (
-                                                    <option key={size} value={size}>
-                                                        {size}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </>
+                                    <div>
+                                        <select
+                                            id="size"
+                                            value={selectedSize}
+                                            onChange={handleSizeChange}
+                                            className="z-10 box-border inline-flex max-w-28 items-center justify-center rounded-xl border border-solid border-slate-200 px-1 py-1 text-xs opacity-100 md:px-2 md:py-2 md:text-base"
+                                        >
+                                            {filteredSizes.map((size) => (
+                                                <option key={size} value={size}>
+                                                    {size}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -309,8 +304,8 @@ const ShoppingCart = ({ value, fetchCartData, onCalculate }) => {
                                     <div
                                         className={
                                             renderInventory() > 0
-                                                ? 'z-10 box-border inline-flex  items-center justify-center rounded-xl border border-solid border-slate-200  px-1 py-1 text-sm opacity-100 md:text-base'
-                                                : 'z-10 box-border inline-flex  cursor-not-allowed items-center justify-center rounded-xl border border-solid border-slate-200 px-1 py-1 text-sm opacity-100 md:text-base'
+                                                ? 'z-10 box-border inline-flex  items-center justify-center rounded-xl border border-solid border-slate-200  text-sm opacity-100 md:px-1 md:py-1 md:text-base'
+                                                : 'z-10 box-border inline-flex  cursor-not-allowed items-center justify-center rounded-xl border border-solid border-slate-200 text-sm opacity-100 md:px-1 md:py-1 md:text-base'
                                         }
                                     >
                                         <button
