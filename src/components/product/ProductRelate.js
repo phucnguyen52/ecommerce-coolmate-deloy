@@ -26,18 +26,18 @@ const ProductRelate = (props) => {
     useEffect(() => {
         fetchAPI()
     }, [])
+
     return (
-        <div className="mx-28 mb-20">
-            <div className="mb-10 text-center text-3xl font-bold">CÁC SẢN PHẨM LIÊN QUAN</div>
+        <div className="container mx-auto mb-20 px-4">
+            <div className="mb-10 text-center text-2xl font-bold md:text-3xl">CÁC SẢN PHẨM LIÊN QUAN</div>
+
             {data && (
-                <div className={`flex flex-row flex-nowrap gap-5 `}>
-                    {data.map((item) => {
-                        return (
-                            <div key={item.id} className="basis-1/5">
-                                <ProductCard value={item} />
-                            </div>
-                        )
-                    })}
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+                    {data.map((item) => (
+                        <div key={item.id}>
+                            <ProductCard value={item} />
+                        </div>
+                    ))}
                 </div>
             )}
         </div>

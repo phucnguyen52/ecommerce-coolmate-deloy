@@ -21,7 +21,7 @@ function MainLayout() {
         if (!token) console.log(0)
         else
             try {
-                fetch(`http://localhost:8080/api/customer/cart`, {
+                fetch(`https://ecommerce-coolmate-server-production.up.railway.app/api/customer/cart`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

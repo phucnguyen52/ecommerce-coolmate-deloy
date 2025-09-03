@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import StarRating from './StarRating'
 import { format } from 'date-fns'
+
 const ProductReviews = (props) => {
     const [data, setData] = useState()
     const { id, onHandleRating } = props
@@ -25,49 +26,51 @@ const ProductReviews = (props) => {
             console.log('Error fetch rating', error)
         }
     }
+
     useEffect(() => {
         fetchRating()
     }, [id])
+
     return (
         <>
             {data && (
-                <div>
-                    <div className="flex gap-10 px-4 pb-10">
-                        <div className="h-fit basis-1/4 rounded-3xl bg-[#f1f1f1] p-8 text-center">
-                            <div className="text-2xl font-semibold">ĐÁNH GIÁ SẢN PHẨM</div>
-                            {data.totalRecords > 0 && (
+                <div className="mb-10 px-4 md:px-10">
+                    <div className="mb-8 text-center text-2xl font-bold md:text-3xl">ĐÁNH GIÁ SẢN PHẨM</div>
+
+                    <div className="flex flex-col gap-6 md:flex-row">
+                        {/* Tổng quan rating */}
+                        <div className="flex flex-col items-center rounded-3xl bg-[#f1f1f1] p-3 md:basis-1/4 md:p-6">
+                            {data.totalRecords > 0 ? (
                                 <>
-                                    <div className="my-4 text-5xl font-extrabold">{point}</div>
-                                    <div className="my-2 flex justify-around">
-                                        <StarRating
-                                            className="text-4xl"
-                                            css="text-yellow-400 w-10 h-10"
-                                            rating={point}
-                                        />
+                                    <div className="mb-1 mt-2 text-3xl font-extrabold md:text-5xl">{point}</div>
+                                    <StarRating
+                                        className="my-2"
+                                        css="text-yellow-400 w-7 h-7 md:w-10 md:h-10 "
+                                        rating={point}
+                                    />
+                                    <div className="mt-2 text-sm italic text-gray-600">
+                                        Dựa trên {data.totalRecords} đánh giá từ khách hàng
                                     </div>
                                 </>
-                            )}
-                            {data.totalRecords === 0 ? (
-                                <div className="mt-1 italic">(Hiện tại chưa có đánh giá cho sản phẩm này)</div>
                             ) : (
-                                <div className="mt-3 italic">
-                                    Dựa trên {data.totalRecords} đánh giá đến từ khách hàng
-                                </div>
+                                <div className="italic text-gray-500">(Hiện tại chưa có đánh giá cho sản phẩm này)</div>
                             )}
                         </div>
-                        <div className="basis-3/4 py-1">
-                            {data.reviews && (
-                                <div className="gap-y2 grid grid-cols-2">
+
+                        {/* Danh sách review */}
+                        <div className="md:basis-3/4">
+                            {data.reviews && data.reviews.length > 0 ? (
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     {data.reviews.map((item, index) => (
-                                        <div key={index} className="border-b py-4 pl-2 pr-4 text-sm">
-                                            <div className="mb-4 flex items-center justify-between pr-20">
-                                                <div className="flex gap-3">
+                                        <div key={index} className="rounded-xl border p-4 text-sm shadow-sm">
+                                            <div className="mb-3 flex items-center justify-between">
+                                                <div className="flex items-center gap-3">
                                                     <img
                                                         className="h-10 w-10 rounded-full object-cover"
                                                         src={item.userImage}
                                                         alt=""
                                                     />
-                                                    <div className="my-2 font-bold">{item.userName}</div>
+                                                    <div className="font-bold">{item.userName}</div>
                                                 </div>
                                                 <StarRating
                                                     className="text-lg"
@@ -76,21 +79,34 @@ const ProductReviews = (props) => {
                                                 />
                                             </div>
 
-                                            <div className="my-3 text-xs italic text-gray-400">
-                                                {/* {item.color} {item.size.trim()? `/ ${item.size}`: null} */}
+                                            <div className="mb-2 text-xs italic text-gray-500">
+                                                {item.color}
+                                                {item.size?.trim() ? ` / ${item.size}` : ''}
                                             </div>
-                                            <div className="mb-2 mt-4">{item.reviewComment}</div>
-                                            <img
-                                                src={item.reviewImage}
-                                                alt=""
-                                                className="mb-2 h-32 w-32 object-contain"
-                                            />
+
+                                            <div className="mb-3">{item.reviewComment}</div>
+
+                                            {item.reviewImage && (
+                                                <div className="mb-2 flex gap-2 overflow-x-auto">
+                                                    {item.reviewImage.split(',').map((img, i) => (
+                                                        <img
+                                                            key={i}
+                                                            src={img}
+                                                            alt=""
+                                                            className="h-24 w-24 flex-shrink-0 rounded-md object-cover"
+                                                        />
+                                                    ))}
+                                                </div>
+                                            )}
+
                                             <div className="text-xs italic text-gray-400">
                                                 Thời gian: {format(new Date(item.reviewDate), 'dd/MM/yyyy')}
                                             </div>
                                         </div>
                                     ))}
                                 </div>
+                            ) : (
+                                <div className="text-center italic text-gray-500">Không có đánh giá nào</div>
                             )}
                         </div>
                     </div>
@@ -99,4 +115,5 @@ const ProductReviews = (props) => {
         </>
     )
 }
+
 export default ProductReviews

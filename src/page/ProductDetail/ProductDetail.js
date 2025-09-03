@@ -31,7 +31,7 @@ const ProductDetail = () => {
     const imgvoucher = images.voucher
     const sizeDefault = ['S', 'M', 'L', 'XL', '2XL', '3XL']
     const [maxQuantity, setMaxQuantity] = useState(0)
-
+    const [showOption, setShowOption] = useState(false)
     const fetchProduct = async () => {
         try {
             const req = await fetch(
@@ -39,6 +39,7 @@ const ProductDetail = () => {
             )
             const res = await req.json()
             if (res.succes) {
+                console.log(res.product)
                 setData(res.product)
             } else {
                 console.error('ProductDetail: status failed')
@@ -61,7 +62,7 @@ const ProductDetail = () => {
                 })
                 if (res.product && res.product.length > 0) {
                     setColor(res.product[0].color)
-                    if (!checkSize) setMaxQuantity(res.product.quantity)
+                    if (!checkSize) setMaxQuantity(res.product[0].quantity)
                 }
             } else {
                 console.error('ProductDetail: status failed')
@@ -171,12 +172,22 @@ const ProductDetail = () => {
     //image
     function ButtonNext(props) {
         const { onClick } = props
-        return <HiArrowRight onClick={onClick} className="absolute right-7 top-[55%] text-[30px] text-black " />
+        return (
+            <HiArrowRight
+                onClick={onClick}
+                className="absolute right-7 top-1/2 -translate-y-1/2 text-[30px] text-black md:top-[55%] "
+            />
+        )
     }
 
     function ButtonPrev(props) {
         const { onClick } = props
-        return <HiArrowLeft onClick={onClick} className="absolute right-7 top-[45%] z-10 text-[30px] text-gray-300 " />
+        return (
+            <HiArrowLeft
+                onClick={onClick}
+                className="absolute left-5 top-1/2 z-10 -translate-y-1/2 text-[30px] text-gray-300 md:left-auto md:right-7 md:top-[45%]"
+            />
+        )
     }
     const settings = {
         customPaging: function (i) {
@@ -188,11 +199,14 @@ const ProductDetail = () => {
         },
         appendDots: (dots) => (
             <div>
-                <ul className="absolute left-[-60px] top-0 flex max-w-[55px] flex-col gap-2"> {dots} </ul>
+                {/* Desktop: thumbnail bên trái */}
+                <ul className="absolute left-[-60px] top-0 hidden max-w-[55px] flex-col gap-2 lg:flex">{dots}</ul>
+                {/* Mobile: thumbnail dưới ảnh */}
+                <ul className="relative mt-3 flex justify-center gap-2 lg:hidden">{dots}</ul>
             </div>
         ),
         dots: true,
-        dotsClass: 'slick-thumb',
+        dotsClass: 'slick-dots slick-thumb !static',
         infinite: true,
         speed: 500,
         slidesToShow: 1,
@@ -204,19 +218,23 @@ const ProductDetail = () => {
         <>
             {data && (
                 <>
-                    <div className=" mx-auto max-w-6xl px-4 pt-8">
-                        <div className="mx-auto md:max-w-4xl">
-                            <div className="pb-7">
+                    <div className=" mx-auto max-w-6xl px-4 pt-4 md:pt-8">
+                        <div className="mx-auto md:max-w-6xl">
+                            <div className="pb-4 md:pb-7">
                                 <Link to={'/home'}>Sản phẩm</Link> / {data.product_name}{' '}
                             </div>
-                            <div className="relative mx-auto flex flex-col items-center justify-center pb-20  lg:flex-row lg:items-start">
-                                <div className="top-5 w-[45%] lg:sticky">
-                                    <Slider {...settings} className="w-full">
+                            <div
+                                className="relative mx-auto flex flex-col items-center justify-center pb-20 
+                    md:flex-row md:items-start md:gap-6 
+                    lg:gap-10"
+                            >
+                                <div className="top-5 w-full md:h-auto md:w-[45%] lg:sticky">
+                                    <Slider {...settings} className="h-full w-full">
                                         {JSON.parse(data.image).map((item) => {
                                             return (
-                                                <div key={item} className="w-full">
+                                                <div key={item} className="h-full w-full">
                                                     <img
-                                                        className="h-full w-full object-cover"
+                                                        className="h-[350px] w-full object-cover md:h-full"
                                                         src={`${item}`}
                                                         alt=""
                                                     />
@@ -225,29 +243,37 @@ const ProductDetail = () => {
                                         })}
                                     </Slider>
                                 </div>
-                                <div className="w-[60%] px-8">
-                                    <div className="text-4xl font-bold">{data.product_name}</div>
-                                    <div className="my-8 flex items-end gap-2">
+                                <div className="w-full md:w-[60%] md:px-8">
+                                    <div className="mt-3 text-xl font-bold md:mt-0 md:text-4xl">
+                                        {data.product_name}
+                                    </div>
+                                    <div className="my-1 flex items-center gap-2 md:my-8 md:items-end">
                                         {rating && (
                                             <>
                                                 {rating.count ? (
                                                     <>
                                                         <StarRating
                                                             className="text-4xl"
-                                                            css="text-blue-800 w-7 h-7"
+                                                            css="text-blue-800 md:w-7 md:h-7 w-4 h-4"
                                                             rating={rating.point}
                                                         />
-                                                        <div>({rating.count})</div>
+                                                        <div className="text-sm text-gray-700 md:text-base">
+                                                            ({rating.count})
+                                                        </div>
                                                     </>
                                                 ) : (
-                                                    <div className="mr-5 italic">Chưa có đánh giá</div>
+                                                    <div className="mr-5 text-sm italic text-gray-700 md:text-base">
+                                                        Chưa có đánh giá
+                                                    </div>
                                                 )}
                                             </>
                                         )}
-                                        <div>| Đã bán (web): {data.quantitySell}</div>
+                                        <div className="text-sm text-gray-700 md:text-base">
+                                            | Đã bán (web): {data.quantitySell}
+                                        </div>
                                     </div>
                                     {data.discount ? (
-                                        <div className="mb-5 flex gap-2 font-bold">
+                                        <div className="md-2 flex gap-2 font-bold md:mb-5">
                                             <div className="text-2xl">
                                                 {(data.price - data.price * data.discount * 0.01).toFixed()}.000đ
                                             </div>
@@ -257,7 +283,7 @@ const ProductDetail = () => {
                                             <div className="text-xl text-red-600">-{data.discount}%</div>
                                         </div>
                                     ) : (
-                                        <div className="mb-5 text-2xl font-bold">{data.price}.000đ</div>
+                                        <div className="mb-2 text-2xl font-bold md:mb-5">{data.price}.000đ</div>
                                     )}
                                     {/* voucher */}
                                     {vouchers && (
@@ -296,10 +322,10 @@ const ProductDetail = () => {
                                     )}
 
                                     {/* màu sắc */}
-                                    <div>Màu sắc:</div>
+                                    <div className="hidden md:flex">Màu sắc:</div>
                                     {productdetail && (
                                         <>
-                                            <div className="mb-6 mt-2 flex flex-wrap gap-2">
+                                            <div className="mb-6 mt-2 hidden flex-wrap gap-2 md:flex">
                                                 {[
                                                     ...new Set(
                                                         productdetail.productdetail.map((product) => product.color),
@@ -315,7 +341,7 @@ const ProductDetail = () => {
                                                 ))}
                                             </div>
                                             {productdetail.isSize && (
-                                                <div>
+                                                <div className="hidden md:block">
                                                     <div className="flex justify-between">
                                                         <div>Kích thước:</div>
                                                     </div>
@@ -348,7 +374,7 @@ const ProductDetail = () => {
                                             )}
                                         </>
                                     )}
-                                    <div className="mt-8 flex gap-2 border-b pb-12">
+                                    <div className="mt-8 hidden gap-2 border-b pb-12 md:flex">
                                         <div className=" flex w-fit items-center rounded-full border border-gray-600 py-2">
                                             <button className="px-2 text-4xl" onClick={handleDecrease}>
                                                 <TiMinus className="h-6 w-6" />
@@ -380,6 +406,121 @@ const ProductDetail = () => {
                                             </button>
                                         )}
                                     </div>
+                                    <div className="fixed bottom-0 left-0 z-40 w-screen border-t bg-white p-3 md:hidden">
+                                        <button
+                                            className="w-full rounded-full bg-black py-3 text-white"
+                                            onClick={() => setShowOption(true)}
+                                        >
+                                            Thêm vào giỏ hàng
+                                        </button>
+                                    </div>
+
+                                    {showOption && (
+                                        <div className="fixed inset-0 z-50 flex items-end bg-black/40">
+                                            <div className="relative max-h-[80vh] w-screen overflow-y-auto rounded-t-2xl bg-white p-4">
+                                                {/* Nút đóng */}
+                                                <button
+                                                    className="absolute right-4 top-4 text-xl"
+                                                    onClick={() => setShowOption(false)}
+                                                >
+                                                    ✕
+                                                </button>
+
+                                                {/* Hình ảnh + giá */}
+                                                <div className="flex items-center gap-3 border-b pb-3">
+                                                    <img
+                                                        src={`${JSON.parse(data.image)[0]}`}
+                                                        alt=""
+                                                        className="h-20 w-20 rounded-md object-cover"
+                                                    />
+                                                    <div>
+                                                        <div className="text-lg font-semibold text-red-500">
+                                                            {(data.price - data.price * data.discount * 0.01).toFixed()}
+                                                            .000đ
+                                                        </div>
+                                                        <div className="text-sm text-gray-500">Kho: {maxQuantity}</div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Màu sắc */}
+                                                <div className="mt-4 ">
+                                                    <div>Màu sắc:</div>
+                                                    <div className="mt-2 flex flex-wrap gap-2">
+                                                        {[
+                                                            ...new Set(productdetail.productdetail.map((p) => p.color)),
+                                                        ].map((item) => (
+                                                            <div
+                                                                key={item}
+                                                                onClick={() => handleClickColor(item)}
+                                                                className={`cursor-pointer rounded-md border px-3 py-1 ${color === item ? 'bg-black text-white' : 'bg-gray-100'}`}
+                                                            >
+                                                                {item}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                {/* Kích thước */}
+                                                {productdetail.isSize && (
+                                                    <div className="mt-4">
+                                                        <div>Kích thước:</div>
+                                                        <div className="mt-2 flex flex-wrap gap-2">
+                                                            {sizeDefault.map((item) => {
+                                                                const checkSize = productdetail.productdetail
+                                                                    .filter((i) => i.color === color)
+                                                                    .map((p) => p.size)
+                                                                    .includes(item)
+                                                                return (
+                                                                    <div
+                                                                        key={item}
+                                                                        className={`cursor-pointer rounded-md border px-3 py-1 ${checkSize ? (item === size ? 'bg-black text-white' : 'bg-gray-100') : 'cursor-not-allowed opacity-40'}`}
+                                                                        onClick={
+                                                                            checkSize
+                                                                                ? () => handleClickSize(item)
+                                                                                : null
+                                                                        }
+                                                                    >
+                                                                        {item}
+                                                                    </div>
+                                                                )
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {/* Số lượng */}
+                                                <div className="mt-4 flex items-center justify-between">
+                                                    <div>Số lượng:</div>
+                                                    <div className="flex items-center rounded-full border">
+                                                        <button className="px-3 py-1 text-2xl" onClick={handleDecrease}>
+                                                            -
+                                                        </button>
+                                                        <input
+                                                            className="w-12 text-center"
+                                                            type="number"
+                                                            value={quantity}
+                                                            onChange={handleChange}
+                                                        />
+                                                        <button className="px-3 py-1 text-2xl" onClick={handleIncrease}>
+                                                            +
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                {/* Nút xác nhận */}
+                                                <button
+                                                    className="mt-6 w-full rounded-full bg-black py-3 text-white"
+                                                    onClick={() => {
+                                                        handleAdd()
+                                                        setShowOption(false)
+                                                    }}
+                                                >
+                                                    Xác nhận thêm vào giỏ hàng
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <div className="my-4 rounded-lg bg-gray-200 p-6">
                                         <div className="mb-2 font-bold">Giao hàng toàn quốc</div>
                                         <div className="flex items-center gap-2">

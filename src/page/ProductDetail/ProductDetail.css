@@ -1,23 +1,42 @@
 /* CSS cho dot */
 ul li {
-   cursor: pointer;
-   opacity: 0.5;
-   border-radius: 5px;
- }
- ul li a img {
-   border-radius: 3px;
- }
- 
- /* CSS cho dot khi được chọn */
- ul .slick-active{
-   opacity: 1; 
- }
- ul li a img:hover{
-   border: 1px solid black;
- }
-
- .voucher:hover .detaiVoucher {
-  display: inline;
+    cursor: pointer;
+    opacity: 0.5;
+    border-radius: 5px;
+}
+ul li a img {
+    border-radius: 3px;
 }
 
- 
+/* CSS cho dot khi được chọn */
+ul .slick-active {
+    opacity: 1;
+}
+ul li a img:hover {
+    border: 1px solid black;
+}
+
+.voucher:hover .detaiVoucher {
+    display: inline;
+}
+
+.slick-dots.slick-thumb li {
+    width: auto !important;
+    height: auto !important;
+    margin: 0 4px; /* khoảng cách giữa các thumbnail */
+}
+
+.slick-dots.slick-thumb li img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+@media (min-width: 768px) {
+    .slick-dots.slick-thumb li img {
+        width: 100px;
+        height: 90px;
+    }
+}
