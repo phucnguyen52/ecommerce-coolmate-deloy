@@ -13,13 +13,24 @@ import { HiOutlineHome } from 'react-icons/hi2'
 import { IoPricetagsOutline } from 'react-icons/io5'
 import { BiCategory } from 'react-icons/bi'
 import { LuClipboardList } from 'react-icons/lu'
+import { FaRegUser } from 'react-icons/fa'
 function Header() {
     const data = useContext(StoreContext)
     const userDataString = localStorage.getItem('token')
     const [searchValue, setSearchValue] = useState('')
     const navigate = useNavigate()
-    const [openMenu, setOpenMenu] = useState(false)
+
     const inputRef = useRef(null)
+    const [openMenu, setOpenMenu] = useState(false)
+    const [closing, setClosing] = useState(false)
+
+    const handleClose = () => {
+        setClosing(true)
+        setTimeout(() => {
+            setOpenMenu(false)
+            setClosing(false)
+        }, 300) // đúng bằng thời gian animation
+    }
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value)
     }
@@ -145,22 +156,27 @@ function Header() {
                     )}
                     <button
                         className="flex items-center justify-center rounded-md md:hidden"
-                        onClick={() => setOpenMenu(!openMenu)}
+                        onClick={() => setOpenMenu(true)}
                     >
                         <FaList className="h-6 w-6" />
                     </button>
                 </div>
             </div>
             {openMenu && (
-                <div className="fixed inset-0 z-40 bg-black/40 md:hidden" onClick={() => setOpenMenu(false)}>
+                <div
+                    className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 md:hidden ${
+                        openMenu ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+                    }`}
+                    onClick={handleClose}
+                >
                     <div
                         className={`
-        fixed left-0 top-0 z-50 h-full w-64 transform bg-white p-6 shadow-lg transition-transform duration-300
-        ${openMenu ? 'translate-x-0' : '-translate-x-full'}
-      `}
+      fixed left-0 top-0 z-50 h-full w-64 transform bg-white p-6 shadow-lg transition-transform duration-300
+       ${openMenu && !closing ? 'animate-slideUp' : 'animate-slideDown'}
+    `}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <button className="mb-6 w-full text-right" onClick={() => setOpenMenu(false)}>
+                        <button className="mb-6 w-full text-right" onClick={handleClose}>
                             ✕
                         </button>
                         <nav className="flex flex-col gap-4 text-lg font-medium">
@@ -191,8 +207,8 @@ function Header() {
 
                             {userDataString ? (
                                 <div className="flex flex-col gap-4">
-                                    <Link to="/user" className="hidden md:block">
-                                        <FaUser />
+                                    <Link to="/user" className="flex items-center gap-3">
+                                        <FaRegUser /> Thông tin người dùng
                                     </Link>
                                     <Link to="/order" className="flex items-center gap-3">
                                         <LuClipboardList />

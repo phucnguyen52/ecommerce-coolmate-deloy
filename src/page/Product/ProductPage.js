@@ -159,7 +159,7 @@ const ProductPage = () => {
                                     step={50}
                                     marks={{
                                         0: '0',
-                                        1000: '1.000.000 VNĐ',
+                                        1000: '1.000.000',
                                     }}
                                     defaultValue={[filter.min, filter.max]}
                                     onChangeComplete={onChangePrice}

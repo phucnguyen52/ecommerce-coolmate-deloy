@@ -14,6 +14,7 @@ import { useContext } from 'react'
 import { StoreContext } from '../../layout/Main/MainLayout'
 import { constructNow } from 'date-fns'
 import Voucher from '../voucher/voucher'
+import ModalAllAddress from '../../page/User/ModalAllAddress'
 const Purchase = () => {
     const { decreaseCount } = useContext(StoreContext)
     const [modalSuccess, setModalSuccess] = useState(false)
@@ -26,6 +27,7 @@ const Purchase = () => {
     const [vouchers, setVouchers] = useState()
     const [voucher, setVoucher] = useState()
     const [price, setPrice] = useState()
+    const [showModalAddress, setShowModalAddress] = useState(false)
     const token = localStorage.getItem('token')
     const navigate = useNavigate()
     const [note, setNote] = useState('')
@@ -297,7 +299,15 @@ const Purchase = () => {
                             Địa chỉ nhận hàng:
                         </label>
                     </div>
-                    <div className="flex cursor-pointer text-sm text-blue-500 hover:underline md:hidden">Thay đổi</div>
+                    <div
+                        className="flex cursor-pointer text-sm text-blue-500 hover:underline md:hidden"
+                        onClick={() => setShowModalAddress(true)}
+                    >
+                        Thay đổi
+                    </div>
+                    {showModalAddress ? (
+                        <ModalAllAddress setShowModalAddress={setShowModalAddress} fetchDataAddress={fetchData} />
+                    ) : null}
                 </div>
                 <div className=" flex flex-row items-center md:items-center ">
                     <div className="hidden min-w-[120px] text-lg text-[#121f43] md:flex">Họ và tên</div>
@@ -384,7 +394,7 @@ const Purchase = () => {
                     <button
                         type="button"
                         className="me-2  ml-2 flex min-w-[100px] items-center justify-center rounded-lg bg-gray-100 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-500"
-                        onClick={handleClick}
+                        onClick={() => setShowModalAddress(true)}
                     >
                         Thay đổi
                     </button>
@@ -717,7 +727,6 @@ const Purchase = () => {
                     </button>
                 </div>
             </div>
-            {/* modal */}
             {modalSuccess ? (
                 <>
                     <div className="fixed inset-0 z-[1000] flex h-full w-full flex-wrap items-center justify-center overflow-auto p-4 font-[sans-serif] before:fixed before:inset-0 before:h-full before:w-full before:bg-[rgba(0,0,0,0.5)]">
