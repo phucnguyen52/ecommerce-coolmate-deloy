@@ -274,28 +274,33 @@ const Purchase = () => {
             console.error('Lỗi khi gửi yêu cầu tính tiền:', error)
         }
     }
-
+    const [open, setOpen] = useState(false)
     useEffect(() => {
         fetchCaculate()
     }, [voucher?.id])
-
+    useEffect(() => {
+        if (addresses.length > 0) {
+            setSelectedAddress(addresses[0])
+        }
+    }, [addresses])
     return (
-        <div className="mx-auto w-2/3">
+        <div className="mx-auto w-full px-2 md:w-2/3">
             <div className="flex flex-row items-center justify-center ">
-                <div className="my-5 text-2xl font-bold">THANH TOÁN</div>
+                <div className="my-3 text-xl font-bold md:my-5 md:text-2xl">THANH TOÁN</div>
             </div>
-            <hr className="mb-3 flex" />
-            <div className="py-5">
-                <div className="mb-4 flex items-center">
-                    <div className="mt-2 flex items-center">
-                        <FaLocationDot className="mr-1 h-6 w-6" />
-                        <label htmlFor="defaultAddress" className="text-xl font-semibold">
+            <hr className="mb-0 flex md:mb-3" />
+            <div className="px-2 py-2 md:px-0 md:py-5">
+                <div className="mb-1 flex items-center justify-between md:mb-4">
+                    <div className="mt-2 flex items-center justify-center">
+                        <FaLocationDot className="mr-1 h-4 w-4 md:h-6 md:w-6" />
+                        <label htmlFor="defaultAddress" className="text-base font-semibold md:text-xl">
                             Địa chỉ nhận hàng:
                         </label>
                     </div>
+                    <div className="flex cursor-pointer text-sm text-blue-500 hover:underline md:hidden">Thay đổi</div>
                 </div>
-                <div className=" flex">
-                    <div className="flex min-w-[150px] items-center text-lg text-[#121f43]">Họ và tên</div>
+                <div className=" flex flex-row items-center md:items-center ">
+                    <div className="hidden min-w-[120px] text-lg text-[#121f43] md:flex">Họ và tên</div>
                     <label htmlFor="name" className="relative">
                         <input
                             type="text"
@@ -304,26 +309,73 @@ const Purchase = () => {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Họ và tên"
-                            className="peer resize-none rounded-lg border border-[#B1C9DC] px-3.5 py-3 font-medium leading-normal text-[#121F43] outline-none duration-200 placeholder:text-base placeholder:text-slate-500 hover:border-[#121F43] focus:border-red-400 focus:ring-1 focus:ring-red-400"
+                            className="peer resize-none rounded-lg border border-[#B1C9DC] px-2 py-1 font-medium leading-normal text-[#121F43] outline-none duration-200 placeholder:text-base placeholder:text-slate-500 hover:border-[#121F43] focus:border-red-400 focus:ring-1 focus:ring-red-400 md:px-3.5 md:py-3"
                         />
-                        {/* <span className="pointer-events-none absolute left-0 top-3 ml-3 bg-white px-1 text-base font-medium text-slate-400 duration-200 peer-valid:-translate-y-6 peer-valid:text-sm peer-focus:-translate-y-6 peer-focus:text-sm peer-focus:text-[#2499ef]">
-                            Họ và tên
-                        </span> */}
                     </label>
                 </div>
+                <div className="relative mt-2 block w-full md:hidden">
+                    <button
+                        type="button"
+                        onClick={() => setOpen(!open)}
+                        className="flex w-full items-center whitespace-normal break-words rounded-lg bg-gray-100 px-2 py-1 text-left text-sm"
+                    >
+                        <div>
+                            {' '}
+                            {selectedAddress
+                                ? `${selectedAddress.numberPhone} - ${selectedAddress.address}`
+                                : 'Chọn địa chỉ'}
+                        </div>
+                        <svg
+                            class="ms-3 h-2.5 w-2.5"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 10 6"
+                        >
+                            <path
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="m1 1 4 4 4-4"
+                            />
+                        </svg>
+                    </button>
 
-                <div className="mt-4 flex">
-                    <label htmlFor="addressDropdown" className="flex min-w-[150px] items-center text-lg text-[#121f43]">
+                    {open && (
+                        <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-lg bg-white shadow-lg">
+                            {addresses.map((address) => (
+                                <div
+                                    key={address.id}
+                                    value={address.id}
+                                    onClick={() => {
+                                        setSelectedAddress(address)
+                                        setOpen(false)
+                                    }}
+                                    className="whitespace-normal break-words px-4 py-2 text-sm hover:bg-gray-100"
+                                >
+                                    {address.numberPhone} - {address.address}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                <div className="mt-4 hidden md:flex">
+                    <label
+                        htmlFor="addressDropdown"
+                        className="hidden min-w-[120px] items-center text-lg text-[#121f43] md:flex"
+                    >
                         Chọn địa chỉ
                     </label>
                     <select
                         id="addressDropdown"
                         value={selectedAddress}
                         onChange={handleAddressChange}
-                        className="block w-full rounded-lg border-transparent bg-gray-100 px-4 py-3 pe-9 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:bg-neutral-700 dark:text-neutral-400 dark:focus:ring-neutral-600"
+                        className="h-full w-full whitespace-normal text-wrap break-words rounded-lg border-transparent bg-gray-100 px-4 py-3 pe-9 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:bg-neutral-700 dark:text-neutral-400 dark:focus:ring-neutral-600"
                     >
                         {addresses.map((address) => (
-                            <option key={address.id} value={address.id}>
+                            <option key={address.id} value={address.id} className="text-wrap">
                                 {address.numberPhone} {' - '}
                                 {address.address}
                             </option>
@@ -338,8 +390,8 @@ const Purchase = () => {
                     </button>
                 </div>
             </div>
-            <hr className="my-4 mb-3 flex" />
-            <div className="mb-3 flex items-center">
+            <hr className="my-4 mb-3 hidden md:flex" />
+            <div className="mb-3 hidden items-center md:flex ">
                 <div className="flex w-5/12 justify-center whitespace-nowrap font-semibold">Sản phẩm</div>
                 <div className="flex w-2/12 justify-center whitespace-nowrap font-semibold text-slate-600">
                     Màu sắc/Size
@@ -355,24 +407,57 @@ const Purchase = () => {
                     Thành tiền
                 </div>
             </div>
-            <hr className="mb-3 flex" />
+            <hr className="mb-4 mt-2 flex md:mb-3 md:mt-0" />
 
             {selectedProducts.map((selectedProducts, index) => (
-                <div className="mb-3 flex items-center" key={index}>
-                    <div className="flex w-5/12 items-center">
+                <div
+                    className="mb-4 flex flex-col rounded-lg border p-3 md:flex-row md:items-center md:border-0 md:p-0"
+                    key={index}
+                >
+                    <div className="flex w-full  md:w-5/12">
                         <div className="w-1/3">
                             <img src={selectedProducts.image} alt="" className="rounded object-cover" />
                         </div>
-                        <div className="ml-3 w-2/3">
-                            <div className="mb-[2px] text-base font-semibold leading-5">
-                                <div>{selectedProducts.productName}</div>
+                        <div className="ml-3 flex w-full flex-col justify-between md:w-2/3 md:flex-row md:items-center">
+                            <div>
+                                <div className="mb-[2px] text-base font-semibold leading-5">
+                                    <div>{selectedProducts.productName}</div>
+                                </div>
+                                <div className="text-sm text-slate-500 md:hidden">
+                                    {selectedProducts
+                                        ? selectedProducts.size === ''
+                                            ? selectedProducts.color
+                                            : `${selectedProducts.color} / ${selectedProducts.size}`
+                                        : null}
+                                </div>
+                                {selectedProducts.reason && (
+                                    <div className="text-sm italic text-red-500">{selectedProducts.reason}</div>
+                                )}
+                                <div className="flex text-sm text-slate-500 md:hidden">
+                                    <div>Giảm giá:</div>
+                                    <div>{`${selectedProducts.discount}%`}</div>
+                                </div>
                             </div>
-                            {selectedProducts.reason && (
-                                <div className="text-sm italic text-red-500">{selectedProducts.reason}</div>
-                            )}
+                            <div className="flex justify-between md:hidden">
+                                <div className="flex items-baseline gap-1">
+                                    <div className="text-base font-semibold text-orange-600">
+                                        {Math.round(
+                                            (selectedProducts.totalPrice -
+                                                (selectedProducts.totalPrice * selectedProducts.discount) / 100) /
+                                                selectedProducts.quantity,
+                                        ).toLocaleString('vi-VN')}
+                                        .000
+                                    </div>
+
+                                    <div className=" text-sm line-through">
+                                        {Math.round(selectedProducts.unitPrice).toLocaleString('vi-VN')}.000
+                                    </div>
+                                </div>
+                                <div className="text-sm text-slate-500">x {selectedProducts.quantity}</div>
+                            </div>
                         </div>
                     </div>
-                    <div className="flex w-2/12 items-center justify-center">
+                    <div className="hidden w-2/12 items-center justify-center md:flex">
                         <div className="mb-2">
                             <div className="text-slate-500">
                                 {selectedProducts
@@ -383,113 +468,171 @@ const Purchase = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex w-2/12 justify-center">
+                    <div className="hidden w-2/12 justify-center md:flex">
                         {Math.round(selectedProducts.unitPrice).toLocaleString('vi-VN')}.000
                     </div>
-                    <div className="flex w-1/12 justify-center">
+                    <div className="hidden w-1/12 justify-center md:flex">
                         <div>{selectedProducts.quantity}</div>
                     </div>
-                    <div className="flex w-1/12 justify-center">
+                    <div className="hidden w-1/12 justify-center md:flex">
                         <div>{`${selectedProducts.discount}%`}</div>
                     </div>
-                    <div className="flex w-1/12 justify-center">
-                        <div className="">
+                    <hr className="my-2 md:hidden" />
+                    <div className="flex justify-between md:w-1/12 md:justify-center">
+                        <div className="flex text-base md:hidden">
+                            Tổng số tiền ({selectedProducts.quantity} sản phẩm)
+                        </div>
+                        <div className="font-semibold md:font-normal">
                             {Math.round(
                                 selectedProducts.totalPrice -
                                     (selectedProducts.totalPrice * selectedProducts.discount) / 100,
                             ).toLocaleString('vi-VN')}
-                            .000
+                            .000đ
                         </div>
                     </div>
                 </div>
             ))}
 
-            <hr className="mb-3 flex" />
-            <div className="mb-5">
-                <div className="mb-3 text-xl font-semibold">Mã giảm giá</div>
+            <hr className="mb-3 hidden md:flex" />
+            <div className="mb-0 md:mb-5">
+                <div className="mb-1 text-base font-semibold md:mb-3 md:text-xl">Mã giảm giá</div>
                 {vouchers?.length > 0 ? (
-                    <div className="flex gap-2 overflow-x-auto pb-4 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:h-2 ">
-                        {vouchers.map((v, index) => (
-                            <div
-                                className={
-                                    voucher?.id === v.id
-                                        ? 'relative cursor-default rounded-lg border-2 border-blue-400 p-1'
-                                        : 'cursor-pointer p-1'
-                                }
-                                onClick={() => setVoucher(v)}
-                                key={index}
-                            >
-                                <Voucher voucher={v} />
-                                {voucher?.id === v.id && price?.message && (
-                                    <div className="absolute bottom-[-16px] text-xs italic text-red-500">
-                                        Chưa đủ số lượng
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
+                    <>
+                        <div
+                            className="flex gap-2 overflow-x-auto pb-2 md:hidden 
+                [&::-webkit-scrollbar-thumb]:rounded-full 
+                [&::-webkit-scrollbar-thumb]:bg-gray-300 
+                [&::-webkit-scrollbar-track]:rounded-full 
+                [&::-webkit-scrollbar-track]:bg-gray-100 
+                [&::-webkit-scrollbar]:h-2"
+                        >
+                            {vouchers.map((v, index) => (
+                                <div
+                                    className={`min-w-[250px] ${
+                                        voucher?.id === v.id
+                                            ? 'relative cursor-default rounded-lg border-2 border-blue-400 p-1'
+                                            : 'cursor-pointer p-1'
+                                    }`}
+                                    onClick={() => setVoucher(v)}
+                                    key={index}
+                                >
+                                    <Voucher voucher={v} />
+                                    {voucher?.id === v.id && price?.message && (
+                                        <div className="absolute bottom-[-16px] text-xs italic text-red-500">
+                                            Chưa đủ số lượng
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        <div className="hidden gap-2 overflow-x-auto pb-4 md:flex [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:h-2 ">
+                            {vouchers.map((v, index) => (
+                                <div
+                                    className={
+                                        voucher?.id === v.id
+                                            ? 'relative cursor-default rounded-lg border-2 border-blue-400 p-1'
+                                            : 'cursor-pointer p-1'
+                                    }
+                                    onClick={() => setVoucher(v)}
+                                    key={index}
+                                >
+                                    <Voucher voucher={v} />
+                                    {voucher?.id === v.id && price?.message && (
+                                        <div className="absolute bottom-[-16px] text-xs italic text-red-500">
+                                            Chưa đủ số lượng
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </>
                 ) : (
                     <div className="font-semibold italic">Không có voucher phù hợp</div>
                 )}
             </div>
-            <div className="flex justify-between rounded bg-white px-2 py-5">
-                <div className="text-xl font-semibold">Phương thức thanh toán</div>
-                <div className="flex flex-col">
-                    <div>
+            <div className="flex flex-col rounded bg-white py-0 md:flex-row md:justify-between md:py-5">
+                <div className="mb-2 text-base font-semibold md:mb-0 md:text-xl">Phương thức thanh toán</div>
+
+                <div className="flex flex-col gap-2 md:flex-col">
+                    <div className="flex flex-col gap-2 md:flex-row">
                         <button
                             type="button"
-                            className="mb-2 me-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                            className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-sm font-medium text-gray-900 
+                           hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 md:w-auto 
+                           md:px-5 md:py-2.5 dark:border-gray-600 dark:bg-gray-800 
+                           dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 
+                           dark:focus:ring-gray-700"
                         >
-                            <div className="flex cursor-pointer items-center">
-                                <CiDeliveryTruck className="mr-1 h-5 w-5" />
-                                <div>Thanh toán khi nhận hàng</div>
-                            </div>
-                        </button>
-                        <button
-                            type="button"
-                            className="pointer-events-none mb-2 me-2 cursor-not-allowed rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 opacity-50 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-                        >
-                            <div className="flex items-center ">
-                                <MdAppShortcut className="mr-1 h-5 w-5" />
-                                <div>Quét QR bằng ứng dụng ngân hàng</div>
-                            </div>
-                        </button>
-                    </div>
-                    <div>
-                        <button
-                            type="button"
-                            className="pointer-events-none mb-2 me-2 cursor-not-allowed rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 opacity-50 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-                        >
-                            <div className="flex items-center">
-                                <BsCreditCard className="mr-1 h-5 w-5" />
-                                <div>Thẻ tín dụng / Ghi nợ</div>
-                            </div>
-                        </button>
-                        <button
-                            type="button"
-                            className="pointer-events-none mb-2 me-2 cursor-not-allowed rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 opacity-50 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-                        >
-                            <div className="flex items-center">
-                                <IoWalletOutline className="mr-1 h-5 w-5" />
-                                <div>Ví điện tử</div>
+                            <div className="flex items-center justify-center md:justify-start">
+                                <CiDeliveryTruck className="mr-2 h-5 w-5" />
+                                <span>Thanh toán khi nhận hàng</span>
                             </div>
                         </button>
 
                         <button
                             type="button"
-                            className="pointer-events-none mb-2 me-2 cursor-not-allowed rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 opacity-50 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                            className="pointer-events-none w-full cursor-not-allowed rounded-lg border border-gray-300 
+                           bg-white px-2 py-1.5 text-sm font-medium text-gray-900 opacity-50 hover:bg-gray-100 focus:outline-none 
+                           focus:ring-4 focus:ring-gray-100 md:w-auto md:px-5 
+                           md:py-2.5 dark:border-gray-600 dark:bg-gray-800 dark:text-white 
+                           dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                         >
-                            <div className="flex items-center">
-                                <img src={momo} alt="" className="mr-1 h-6 w-6" />
-                                <div>Thanh toán MoMo</div>
+                            <div className="flex items-center justify-center md:justify-start">
+                                <MdAppShortcut className="mr-2 h-5 w-5" />
+                                <span>Quét QR bằng ứng dụng ngân hàng</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div className="flex flex-col gap-2 md:flex-row">
+                        <button
+                            type="button"
+                            className="pointer-events-none w-full cursor-not-allowed rounded-lg border border-gray-300 
+                           bg-white px-2 py-1.5 text-sm font-medium text-gray-900 opacity-50 hover:bg-gray-100 focus:outline-none 
+                           focus:ring-4 focus:ring-gray-100 md:w-auto md:px-5 
+                           md:py-2.5 dark:border-gray-600 dark:bg-gray-800 dark:text-white 
+                           dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                        >
+                            <div className="flex items-center justify-center md:justify-start">
+                                <BsCreditCard className="mr-2 h-5 w-5" />
+                                <span>Thẻ tín dụng / Ghi nợ</span>
+                            </div>
+                        </button>
+
+                        <button
+                            type="button"
+                            className="pointer-events-none w-full cursor-not-allowed rounded-lg border border-gray-300 
+                           bg-white px-2 py-1.5 text-sm font-medium text-gray-900 opacity-50 hover:bg-gray-100 focus:outline-none 
+                           focus:ring-4 focus:ring-gray-100 md:w-auto md:px-5 
+                           md:py-2.5 dark:border-gray-600 dark:bg-gray-800 dark:text-white 
+                           dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                        >
+                            <div className="flex items-center justify-center md:justify-start">
+                                <IoWalletOutline className="mr-2 h-5 w-5" />
+                                <span>Ví điện tử</span>
+                            </div>
+                        </button>
+
+                        <button
+                            type="button"
+                            className="pointer-events-none w-full cursor-not-allowed rounded-lg border border-gray-300 
+                           bg-white px-2 py-1.5 text-sm font-medium text-gray-900 opacity-50 hover:bg-gray-100 focus:outline-none 
+                           focus:ring-4 focus:ring-gray-100 md:w-auto md:px-5 
+                           md:py-2.5 dark:border-gray-600 dark:bg-gray-800 dark:text-white 
+                           dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                        >
+                            <div className="flex items-center justify-center md:justify-start">
+                                <img src={momo} alt="" className="mr-2 h-6 w-6" />
+                                <span>Thanh toán MoMo</span>
                             </div>
                         </button>
                     </div>
                 </div>
             </div>
-            <hr className="mb-3 flex" />
-            <div className="p-3">
-                <div className="mb-4 text-lg font-semibold">Ghi chú</div>
+
+            <hr className="mb-3 hidden md:flex" />
+            <div className="">
+                <div className="my-2 text-base font-semibold md:mb-4 md:text-xl">Ghi chú</div>
                 <textarea
                     type="text"
                     name=""
@@ -502,13 +645,14 @@ const Purchase = () => {
                 ></textarea>
             </div>
             <hr className="my-3 flex" />
-            <div className="flex justify-end">
-                <div className="w-3/12">
-                    <div className="mb-1 flex justify-between text-base text-slate-600">
+            <div className="flex flex-col md:flex-row md:justify-end">
+                <div className="mb-2 font-semibold md:hidden">Chi tiết thanh toán</div>
+                <div className="md:w-3/12">
+                    <div className="mb-1 flex justify-between text-sm text-slate-600 md:text-base">
                         <div className="">Tổng tiền hàng: </div>
                         <div>{Math.round(totalWithoutDiscount).toLocaleString('vi-VN')}.000</div>
                     </div>
-                    <div className="mb-1 flex justify-between text-base text-slate-600">
+                    <div className="mb-1 flex justify-between text-sm text-slate-600 md:text-base">
                         <div className="">Giảm giá</div>
                         <div>
                             {price
@@ -518,14 +662,14 @@ const Purchase = () => {
                         </div>
                     </div>
                     {/* {price?.totalDiscount && (
-                        <div className="mb-1 flex justify-between text-base text-slate-600">
+                        <div className="mb-1 flex justify-between text-sm md:text-base text-slate-600">
                             <div className="">Mã giảm giá</div>
                             <div>
                                 {price?.totalDiscount ? Math.round(price.totalDiscount).toLocaleString('vi-VN') : 0}.000
                             </div>
                         </div>
                     )} */}
-                    <div className="flex justify-between text-base text-slate-600">
+                    <div className="flex justify-between text-sm text-slate-600 md:text-base">
                         <div className="">Phí vận chuyển</div>
                         <div>Miễn phí</div>
                     </div>
@@ -533,9 +677,9 @@ const Purchase = () => {
             </div>
             <hr className="my-3 flex" />
 
-            <div className="flex items-center justify-end">
-                <div className="mr-2.5">Tổng thanh toán:</div>
-                <div className=" text-2xl font-semibold">
+            <div className="mb-5 flex items-center justify-between md:justify-end">
+                <div className="mr-2.5 text-sm md:text-lg">Tổng thanh toán:</div>
+                <div className="text-lg font-semibold md:text-2xl">
                     {Math.round(sumMoney - (price?.voucherDiscount ? price.voucherDiscount : 0)).toLocaleString(
                         'vi-VN',
                     )}
@@ -543,17 +687,36 @@ const Purchase = () => {
                 </div>
             </div>
 
-            <hr className="my-3 flex" />
-            <div className="mb-4 flex justify-end">
+            <hr className="my-3 hidden md:flex" />
+            <div className="mb-4 hidden justify-end md:flex">
                 <button
                     type="submit"
-                    className="text-basex min-w-48 rounded-full bg-black px-4 py-3 font-semibold text-white hover:bg-neutral-300 hover:text-black hover:transition-all"
+                    className="min-w-48 rounded-full bg-black px-4 py-3 text-base font-semibold text-white hover:bg-neutral-300 hover:text-black hover:transition-all"
                     onClick={handlePlaceOrder}
                 >
                     Đặt hàng
                 </button>
             </div>
-
+            <div className="fixed bottom-0 left-0 z-40 w-screen border-t bg-white p-3 md:hidden">
+                <div className="flex w-full items-center justify-end md:justify-between">
+                    <div className="mr-4 flex items-center justify-center">
+                        <div className="mr-2.5 text-sm md:text-lg">Tổng cộng:</div>
+                        <div className="text-lg font-semibold md:text-2xl">
+                            {Math.round(sumMoney - (price?.voucherDiscount ? price.voucherDiscount : 0)).toLocaleString(
+                                'vi-VN',
+                            )}
+                            .000đ
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        className="rounded-md bg-black px-4 py-2 text-base font-semibold text-white hover:bg-neutral-300 hover:text-black hover:transition-all md:min-w-48 md:rounded-full md:px-4 md:py-3"
+                        onClick={handlePlaceOrder}
+                    >
+                        Đặt hàng
+                    </button>
+                </div>
+            </div>
             {/* modal */}
             {modalSuccess ? (
                 <>

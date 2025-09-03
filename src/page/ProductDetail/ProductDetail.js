@@ -32,6 +32,14 @@ const ProductDetail = () => {
     const sizeDefault = ['S', 'M', 'L', 'XL', '2XL', '3XL']
     const [maxQuantity, setMaxQuantity] = useState(0)
     const [showOption, setShowOption] = useState(false)
+    const [isClosing, setIsClosing] = useState(false)
+    const closeModal = () => {
+        setIsClosing(true)
+        setTimeout(() => {
+            setShowOption(false)
+            setIsClosing(false)
+        }, 300) // thời gian trùng với animation
+    }
     const fetchProduct = async () => {
         try {
             const req = await fetch(
@@ -416,13 +424,17 @@ const ProductDetail = () => {
                                     </div>
 
                                     {showOption && (
-                                        <div className="fixed inset-0 z-50 flex items-end bg-black/40">
-                                            <div className="relative max-h-[80vh] w-screen overflow-y-auto rounded-t-2xl bg-white p-4">
+                                        <div
+                                            className="fixed inset-0 z-50 flex items-end bg-black/40"
+                                            onClick={closeModal}
+                                        >
+                                            <div
+                                                className={`relative max-h-[80vh] w-screen transform rounded-t-2xl bg-white p-4
+              ${isClosing ? 'animate-slideDown' : 'animate-slideUp'}`}
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
                                                 {/* Nút đóng */}
-                                                <button
-                                                    className="absolute right-4 top-4 text-xl"
-                                                    onClick={() => setShowOption(false)}
-                                                >
+                                                <button className="absolute right-4 top-4 text-xl" onClick={closeModal}>
                                                     ✕
                                                 </button>
 

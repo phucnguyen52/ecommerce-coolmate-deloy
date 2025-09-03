@@ -28,7 +28,7 @@ const ProductRelate = (props) => {
     }, [])
 
     return (
-        <div className="container mx-auto mb-20 px-4">
+        <div className="container mx-auto mb-10 px-4">
             <div className="mb-10 text-center text-2xl font-bold md:text-3xl">CÁC SẢN PHẨM LIÊN QUAN</div>
 
             {data && (

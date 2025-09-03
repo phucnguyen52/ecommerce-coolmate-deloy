@@ -5,7 +5,7 @@
 
 body {
     margin: 0;
-     font-family: "Lato", sans-serif;
+    font-family: 'Lato', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -20,4 +20,30 @@ code {
         -webkit-appearance: none;
         margin: 0;
     }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(100%);
+    }
+}
+
+.animate-slideUp {
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+.animate-slideDown {
+    animation: slideDown 0.3s ease-in forwards;
 }
