@@ -180,41 +180,33 @@ function Header() {
                             ✕
                         </button>
                         <nav className="flex flex-col gap-4 text-lg font-medium">
-                            <Link
-                                to={APP_ROUTER.HOME}
-                                onClick={() => setOpenMenu(false)}
-                                className="flex items-center gap-3"
-                            >
+                            <Link to={APP_ROUTER.HOME} onClick={handleClose} className="flex items-center gap-3">
                                 <HiOutlineHome />
                                 Trang chủ
                             </Link>
-                            <Link
-                                to={APP_ROUTER.PRODUCT}
-                                onClick={() => setOpenMenu(false)}
-                                className="flex items-center gap-3"
-                            >
+                            <Link to={APP_ROUTER.PRODUCT} onClick={handleClose} className="flex items-center gap-3">
                                 <BiCategory />
                                 Sản phẩm
                             </Link>
-                            <Link
-                                to={APP_ROUTER.SALE}
-                                onClick={() => setOpenMenu(false)}
-                                className="flex items-center gap-3"
-                            >
+                            <Link to={APP_ROUTER.SALE} onClick={handleClose} className="flex items-center gap-3">
                                 <IoPricetagsOutline />
                                 Giảm giá
                             </Link>
 
                             {userDataString ? (
                                 <div className="flex flex-col gap-4">
-                                    <Link to="/user" className="flex items-center gap-3">
+                                    <Link
+                                        to={APP_ROUTER.USER}
+                                        className="flex items-center gap-3"
+                                        onClick={handleClose}
+                                    >
                                         <FaRegUser /> Thông tin người dùng
                                     </Link>
-                                    <Link to="/order" className="flex items-center gap-3">
+                                    <Link to="/order" className="flex items-center gap-3" onClick={handleClose}>
                                         <LuClipboardList />
                                         Đơn hàng
                                     </Link>
-                                    <Link to="/auth/logout" className="flex items-center gap-3">
+                                    <Link to="/auth/logout" className="flex items-center gap-3" onClick={handleClose}>
                                         <IoIosLogOut />
                                         Đăng xuất
                                     </Link>

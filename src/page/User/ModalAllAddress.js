@@ -115,7 +115,9 @@ const ModalAllAddress = ({ setShowModalAddress, fetchDataAddress }) => {
             )
             if (response.data.succes) {
                 setAddresses(updatedAddresses)
-                fetchDataAddress()
+                if (typeof fetchDataAddress === 'function') {
+                    fetchDataAddress()
+                }
                 toast.success('Xóa địa chỉ thành công', { autoClose: 1000 })
             }
         } catch (error) {
@@ -135,7 +137,9 @@ const ModalAllAddress = ({ setShowModalAddress, fetchDataAddress }) => {
             )
             if (response.data.succes) {
                 fetchData()
-                fetchDataAddress()
+                if (typeof fetchDataAddress === 'function') {
+                    fetchDataAddress()
+                }
             }
         } catch (error) {
             console.error('Lỗi khi cập nhật địa chỉ mặc định:', error)
@@ -151,7 +155,7 @@ const ModalAllAddress = ({ setShowModalAddress, fetchDataAddress }) => {
                     >
                         <div className="relative mx-auto my-6 w-full lg:w-3/5" onClick={(e) => e.stopPropagation()}>
                             {/*content*/}
-                            <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
+                            <div className="relative flex max-h-[80vh] w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
                                 {/*header*/}
                                 <button
                                     className="absolute right-4 top-4 text-red-500 hover:text-red-600"
@@ -164,7 +168,7 @@ const ModalAllAddress = ({ setShowModalAddress, fetchDataAddress }) => {
                                     <h3 className="pr-10 text-xl font-semibold md:text-3xl">Địa chỉ của người dùng</h3>
                                 </div>
                                 {/*body*/}
-                                <div className="relative flex-auto p-6">
+                                <div className="relative flex-auto overflow-y-auto p-6">
                                     <div>
                                         {addresses.map((data, index) => (
                                             <div

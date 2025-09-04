@@ -232,8 +232,8 @@ const ProductDetail = () => {
                                 <Link to={'/home'}>Sản phẩm</Link> / {data.product_name}{' '}
                             </div>
                             <div
-                                className="relative mx-auto flex flex-col items-center justify-center pb-20 
-                    md:flex-row md:items-start md:gap-6 
+                                className="relative mx-auto flex flex-col items-center justify-center pb-6 md:flex-row
+                    md:items-start md:gap-6 md:pb-20 
                     lg:gap-10"
                             >
                                 <div className="top-5 w-full md:h-auto md:w-[45%] lg:sticky">
@@ -430,7 +430,7 @@ const ProductDetail = () => {
                                         >
                                             <div
                                                 className={`relative max-h-[80vh] w-screen transform rounded-t-2xl bg-white p-4
-              ${isClosing ? 'animate-slideDown' : 'animate-slideUp'}`}
+              ${isClosing ? 'animate-slideDownShoppingCart' : 'animate-slideUpShoppingCart'}`}
                                                 onClick={(e) => e.stopPropagation()}
                                             >
                                                 {/* Nút đóng */}

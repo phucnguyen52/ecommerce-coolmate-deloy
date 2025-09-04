@@ -19,6 +19,43 @@ const PurchaseOrder = () => {
     const ratingDescriptions = ['Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
     const [ratingDescription, setRatingDescription] = useState('')
     const token = localStorage.getItem('token')
+    const [orderCounts, setOrderCounts] = useState({
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+    })
+
+    const fetchAllOrders = async () => {
+        try {
+            const statuses = [1, 2, 3, 4]
+
+            const promises = statuses.map((status) =>
+                axios.get(`https://ecommerce-coolmate-server-production.up.railway.app/api/customer/order/${status}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }),
+            )
+
+            const responses = await Promise.all(promises)
+
+            const counts = {}
+            statuses.forEach((status, idx) => {
+                const res = responses[idx].data
+                counts[status] = res.succes ? res.order.length : 0
+            })
+            console.log('Order counts:', counts) // Debugging line
+            setOrderCounts(counts)
+        } catch (error) {
+            console.error('Error fetching orders:', error)
+        }
+    }
+
+    useEffect(() => {
+        fetchAllOrders()
+    }, [token])
+
     const fetchOrdersByStatus = async (status) => {
         try {
             const response = await axios.get(
@@ -33,7 +70,7 @@ const PurchaseOrder = () => {
 
             if (response.data.succes) {
                 const sortedOrders = orders.sort((a, b) => b.id - a.id)
-
+                console.log('Fetched orders:', sortedOrders) // Debugging line
                 setGroupedOrders(sortedOrders)
                 // setCurrentStatus(status)
             }
@@ -169,8 +206,11 @@ const PurchaseOrder = () => {
                     }`}
                     href="#"
                 >
-                    <span className="bg-gradient-to-r from-pink-500 to-pink-500 bg-[length:0%_2px] bg-left-bottom bg-no-repeat transition-all duration-500 ease-out hover:text-pink-500 group-hover:bg-[length:100%_2px]">
-                        ĐANG CHỜ XÁC NHẬN
+                    <span className="inline-flex items-center gap-1 text-nowrap">
+                        CHỜ XÁC NHẬN
+                        <span className="ml-1 rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white md:px-2 md:py-0.5">
+                            {orderCounts[1] || 0}
+                        </span>
                     </span>
                 </a>
 
@@ -181,8 +221,11 @@ const PurchaseOrder = () => {
                     }`}
                     href="#"
                 >
-                    <span className="bg-gradient-to-r from-pink-500 to-pink-500 bg-[length:0%_2px] bg-left-bottom bg-no-repeat transition-all duration-500 ease-out hover:text-pink-500 group-hover:bg-[length:100%_2px]">
-                        ĐANG CHỜ VẬN CHUYỂN
+                    <span className="inline-flex items-center gap-1 text-nowrap">
+                        CHỜ VẬN CHUYỂN
+                        <span className="ml-1 rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white md:px-2 md:py-0.5">
+                            {orderCounts[2] || 0}
+                        </span>
                     </span>
                 </a>
 
@@ -193,8 +236,11 @@ const PurchaseOrder = () => {
                     }`}
                     href="#"
                 >
-                    <span className="bg-gradient-to-r from-pink-500 to-pink-500 bg-[length:0%_2px] bg-left-bottom bg-no-repeat transition-all duration-500 ease-out hover:text-pink-500 group-hover:bg-[length:100%_2px]">
+                    <span className="inline-flex items-center gap-1 text-nowrap">
                         ĐANG GIAO HÀNG
+                        <span className="ml-1 rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white md:px-2 md:py-0.5">
+                            {orderCounts[3] || 0}
+                        </span>
                     </span>
                 </a>
 
@@ -205,8 +251,11 @@ const PurchaseOrder = () => {
                     }`}
                     href="#"
                 >
-                    <span className="bg-gradient-to-r from-pink-500 to-pink-500 bg-[length:0%_2px] bg-left-bottom bg-no-repeat transition-all duration-500 ease-out hover:text-pink-500 group-hover:bg-[length:100%_2px]">
-                        ĐÃ GIAO HÀNG
+                    <span className="inline-flex items-center gap-1 text-nowrap">
+                        ĐÃ GIAO
+                        <span className="ml-1 rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white md:px-2 md:py-0.5">
+                            {orderCounts[4] || 0}
+                        </span>
                     </span>
                 </a>
             </div>
@@ -222,7 +271,7 @@ const PurchaseOrder = () => {
                 {currentStatus && groupedOrders && (
                     <div>
                         {groupedOrders.map((group, idx) => (
-                            <div key={groupedOrders.id} className="mx-2 mb-6 rounded-md bg-gray-200/60">
+                            <div key={idx} className="mx-2 mb-6 rounded-md bg-gray-200/60">
                                 <div>
                                     <div className="text-md hidden items-center justify-between py-2 md:flex">
                                         <div
@@ -389,57 +438,65 @@ const PurchaseOrder = () => {
                                 {showModal && (
                                     <div
                                         id="popup-modal"
-                                        className="fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-gray-300 bg-opacity-10"
+                                        className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-10 p-4"
+                                        onClick={() => setShowModal(false)}
                                     >
-                                        <div className="relative max-h-full w-full max-w-md rounded-lg bg-white p-4 shadow">
-                                            <div className="relative">
-                                                <button
-                                                    type="button"
-                                                    className="absolute right-[-16px] top-[-16px] flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
-                                                    onClick={() => setShowModal(false)}
+                                        <div
+                                            className="relative w-full max-w-sm rounded-lg bg-white shadow-lg sm:max-w-md md:max-w-lg"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {/* Nút đóng */}
+                                            <button
+                                                type="button"
+                                                className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 hover:text-gray-700"
+                                                onClick={() => setShowModal(false)}
+                                            >
+                                                <svg
+                                                    className="h-4 w-4"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                    xmlns="http://www.w3.org/2000/svg"
                                                 >
-                                                    <svg
-                                                        className="h-4 w-4"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            clipRule="evenodd"
-                                                            d="M10.586 10l5.707-5.707a1 1 0 10-1.414-1.414L9.172 8.586 3.465 2.879a1 1 0 00-1.414 1.414L7.758 10 2.051 15.707a1 1 0 101.414 1.414L9.172 11.414l5.707 5.707a1 1 0 001.414-1.414L10.586 10z"
-                                                        />
-                                                    </svg>
-                                                </button>
-                                                <div className="p-4 text-center md:p-5">
-                                                    <svg
-                                                        className="mx-auto mb-4 h-12 w-12 text-gray-400 dark:text-gray-200"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 20 20"
-                                                    >
-                                                        <path
-                                                            stroke="currentColor"
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth="2"
-                                                            d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                                                        />
-                                                    </svg>
-                                                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                        Bạn có chắc muốn hủy đơn hàng này không?
-                                                    </h3>
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
+                                                        d="M10.586 10l5.707-5.707a1 1 0 10-1.414-1.414L9.172 8.586 3.465 2.879a1 1 0 00-1.414 1.414L7.758 10 2.051 15.707a1 1 0 101.414 1.414L9.172 11.414l5.707 5.707a1 1 0 001.414-1.414L10.586 10z"
+                                                    />
+                                                </svg>
+                                            </button>
+
+                                            {/* Nội dung */}
+                                            <div className="p-6 text-center">
+                                                <svg
+                                                    className="mx-auto mb-4 h-12 w-12 text-gray-400"
+                                                    aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 20 20"
+                                                >
+                                                    <path
+                                                        stroke="currentColor"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                                    />
+                                                </svg>
+                                                <h3 className="mb-5 text-base font-medium text-gray-700 sm:text-lg">
+                                                    Bạn có chắc muốn hủy đơn hàng này không?
+                                                </h3>
+
+                                                <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
                                                     <button
                                                         type="button"
-                                                        onClick={() => cancelOrder()} // Pass orderId here if needed
-                                                        className="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+                                                        onClick={() => cancelOrder()}
+                                                        className="rounded-lg bg-red-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300"
                                                     >
                                                         Có, chắc chắn
                                                     </button>
                                                     <button
                                                         type="button"
-                                                        className="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+                                                        className="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 focus:outline-none focus:ring-4 focus:ring-gray-200"
                                                         onClick={() => setShowModal(false)}
                                                     >
                                                         Không, quay lại
@@ -449,12 +506,25 @@ const PurchaseOrder = () => {
                                         </div>
                                     </div>
                                 )}
+
                                 {showRateModal && (
                                     <div
                                         id="rate-product-modal"
-                                        className="fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-20"
+                                        className="fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-10 p-3 sm:p-0"
+                                        onClick={() => {
+                                            setShowRateModal(false)
+                                            setRating(null)
+                                            setHover(null)
+                                            setComment('')
+                                            setRatingDescription('')
+                                            setRating(null)
+                                            setImageUrl('')
+                                        }}
                                     >
-                                        <div className="relative max-h-full w-full max-w-xl rounded-lg bg-white p-4 shadow">
+                                        <div
+                                            className="relative max-h-full w-full max-w-xl rounded-lg bg-white p-4 shadow"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
                                             <div className="relative">
                                                 <button
                                                     type="button"
@@ -482,10 +552,14 @@ const PurchaseOrder = () => {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <div className="p-4 text-center md:p-5">
-                                                    <div className=" mb-4 text-2xl font-bold">ĐÁNH GIÁ SẢN PHẨM</div>
+                                                <div className="text-center md:p-5">
+                                                    <div className="mb-2 text-lg font-bold sm:text-xl md:mb-4 md:text-2xl">
+                                                        ĐÁNH GIÁ SẢN PHẨM
+                                                    </div>
                                                     <div className="flex items-center">
-                                                        <div className="min-w-40">Chất lượng sản phẩm</div>
+                                                        <div className="textsm min-w-40 md:text-base">
+                                                            Chất lượng sản phẩm
+                                                        </div>
                                                         <div className="ml-4 flex">
                                                             {[...Array(5)].map((star, index) => {
                                                                 const currentRating = index + 1
@@ -507,13 +581,13 @@ const PurchaseOrder = () => {
                                                                                 }}
                                                                             />
                                                                             <FaStar
-                                                                                size={30}
                                                                                 color={
                                                                                     currentRating <= (hover || rating)
                                                                                         ? '#ffc107'
                                                                                         : '#e4e5e9'
                                                                                 }
-                                                                                className="cursor-pointer"
+                                                                                className={`cursor-pointer 
+              text-2xl sm:text-3xl md:text-3xl`}
                                                                                 onClick={() => setHover(currentRating)}
                                                                             />
                                                                         </label>
@@ -609,7 +683,7 @@ const PurchaseOrder = () => {
                                                                         <img
                                                                             src={imageUrl}
                                                                             alt="Uploaded"
-                                                                            className="h-full w-[150px] rounded-sm object-cover"
+                                                                            className="h-[120px] w-[120px] rounded-sm object-cover sm:h-[150px] sm:w-[150px]"
                                                                         />
                                                                     )}
                                                                 </div>
@@ -618,7 +692,7 @@ const PurchaseOrder = () => {
                                                             <>
                                                                 <div className="mt-4 flex justify-center">
                                                                     {' '}
-                                                                    <div className="h-[150px] w-[150px] border-2 border-dashed"></div>
+                                                                    <div className="h-[120px] w-[120px] border-2 border-dashed sm:h-[150px] sm:w-[150px]"></div>
                                                                 </div>
                                                             </>
                                                         )}

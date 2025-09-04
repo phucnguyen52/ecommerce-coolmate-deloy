@@ -35,21 +35,26 @@ const ProductReviews = (props) => {
         <>
             {data && (
                 <div className="mb-10 px-4 md:px-10">
-                    <div className="mb-8 text-center text-2xl font-bold md:text-3xl">ĐÁNH GIÁ SẢN PHẨM</div>
+                    <div className="mb-3 text-center text-2xl font-bold md:mb-8 md:text-3xl">ĐÁNH GIÁ SẢN PHẨM</div>
 
-                    <div className="flex flex-col gap-6 md:flex-row">
+                    <div className="flex flex-col gap-3 md:flex-row md:gap-6">
                         {/* Tổng quan rating */}
-                        <div className="flex flex-col items-center rounded-3xl bg-[#f1f1f1] p-3 md:basis-1/4 md:p-6">
+                        <div className="flex flex-row items-center   gap-2 rounded-3xl bg-[#f1f1f1] p-3 md:basis-1/4 md:flex-col md:gap-0 md:p-6">
                             {data.totalRecords > 0 ? (
                                 <>
-                                    <div className="mb-1 mt-2 text-3xl font-extrabold md:text-5xl">{point}</div>
+                                    <div className="mb-0 mt-0 text-xl font-extrabold md:mb-1 md:mt-2 md:text-5xl">
+                                        {point}
+                                    </div>
                                     <StarRating
-                                        className="my-2"
-                                        css="text-yellow-400 w-7 h-7 md:w-10 md:h-10 "
+                                        className="my-0 md:my-2"
+                                        css="text-yellow-400 w-5 h-5 md:w-10 md:h-10 "
                                         rating={point}
                                     />
-                                    <div className="mt-2 text-sm italic text-gray-600">
+                                    <div className="mt-2 hidden text-sm italic text-gray-600 md:block">
                                         Dựa trên {data.totalRecords} đánh giá từ khách hàng
+                                    </div>
+                                    <div className=" flex text-sm italic text-gray-600 md:hidden">
+                                        ({data.totalRecords} đánh giá)
                                     </div>
                                 </>
                             ) : (

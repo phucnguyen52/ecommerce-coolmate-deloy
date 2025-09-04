@@ -22,13 +22,13 @@ const SpecificAddress = ({
     const [provinces, setProvinces] = useState([])
     const [districts, setDistricts] = useState([])
     const [wards, setWards] = useState([])
-    const [province, setProvince] = useState('' || provinceName)
-    const [district, setDistrict] = useState('' || districtName)
-    const [ward, setWard] = useState('' || wardName)
-    const [numberAddress, setNumberAddress] = useState('' || numberAddressName)
+    const [province, setProvince] = useState(provinceName ?? '')
+    const [district, setDistrict] = useState(districtName ?? '')
+    const [ward, setWard] = useState(wardName ?? '')
+    const [numberAddress, setNumberAddress] = useState(numberAddressName ?? '')
     const [reset, setReset] = useState(false)
-    const [phone, setPhone] = useState(numberPhone)
-    const [id, setId] = useState(addressId)
+    const [phone, setPhone] = useState(numberPhone ?? '')
+    const [id, setId] = useState(addressId ?? '')
     const [isFormValid, setIsFormValid] = useState(false)
     useEffect(() => {
         const fetchPublicProvince = async () => {
@@ -40,7 +40,7 @@ const SpecificAddress = ({
         fetchPublicProvince()
     }, [])
     useEffect(() => {
-        setDistrict(null)
+        setDistrict('')
         const fetchPublicDistrict = async () => {
             const response = await apiGetPublicDistrict(province)
             if (response.status === 200) {
@@ -52,7 +52,7 @@ const SpecificAddress = ({
         !province && setDistricts([])
     }, [province])
     useEffect(() => {
-        setWard(null)
+        setWard('')
         const fetchPublicWard = async () => {
             const response = await apiGetPublicWard(district)
             if (response.status === 200) {
@@ -108,7 +108,7 @@ const SpecificAddress = ({
         if (validate()) {
             try {
                 const formattedAddress = formatAddress()
-
+                console.log('fa', formattedAddress)
                 const response = await axios.post(
                     'https://ecommerce-coolmate-server-production.up.railway.app/api/customer/address',
                     { address: formattedAddress, numberPhone: phone },
@@ -123,9 +123,14 @@ const SpecificAddress = ({
                     resetModal()
                     setShowAddAddressModal(false)
                     fetchData()
-                    fetchDataAddress()
+                    if (typeof fetchDataAddress === 'function') {
+                        fetchDataAddress()
+                    }
+                } else {
+                    toast.error('Thêm địa chỉ không thành công') // 👈 check thêm nếu succes = false
                 }
             } catch (error) {
+                console.log('error', error)
                 toast.error('Thêm địa chỉ không thành công', error)
             }
         }
@@ -155,7 +160,9 @@ const SpecificAddress = ({
                     resetModal()
                     fetchData()
                     setShowUpdateAddressModal(false)
-                    fetchDataAddress()
+                    if (typeof fetchDataAddress === 'function') {
+                        fetchDataAddress()
+                    }
                 }
             } catch (error) {
                 toast.error('Cập nhật địa chỉ không thành công')

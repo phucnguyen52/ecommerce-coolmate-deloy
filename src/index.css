@@ -22,7 +22,7 @@ code {
     }
 }
 
-@keyframes slideUp {
+@keyframes slideUpShoppingCart {
     from {
         transform: translateY(100%);
     }
@@ -31,7 +31,7 @@ code {
     }
 }
 
-@keyframes slideDown {
+@keyframes slideDownShoppingCart {
     from {
         transform: translateY(0);
     }
@@ -40,12 +40,12 @@ code {
     }
 }
 
-.animate-slideUp {
-    animation: slideUp 0.3s ease-out forwards;
+.animate-slideUpShoppingCart {
+    animation: slideUpShoppingCart 0.3s ease-out forwards;
 }
 
-.animate-slideDown {
-    animation: slideDown 0.3s ease-in forwards;
+.animate-slideDownShoppingCart {
+    animation: slideDownShoppingCart 0.3s ease-in forwards;
 }
 
 @keyframes slideUp {
