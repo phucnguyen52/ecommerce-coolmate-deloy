@@ -24,7 +24,7 @@ const getOauthGoogleUrl = () => {
     const qs = new URLSearchParams(options)
     return `${rootUrl}?${qs.toString()}`
 }
-const oauthGoogleUrl = getOauthGoogleUrl()
+
 function Login() {
     const navigate = useNavigate()
     const [isShowPassword, setIsShowPassword] = useState(false)
@@ -34,6 +34,7 @@ function Login() {
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState('')
     const [searchParams] = useSearchParams()
+    const oauthGoogleUrl = getOauthGoogleUrl()
     useEffect(() => {
         const token = searchParams.get('token')
         localStorage.setItem('token', token)
