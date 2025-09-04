@@ -318,7 +318,7 @@ const PurchaseOrder = () => {
                                             </div>
                                         )}
                                     </div>
-                                    <hr className="flex" />
+
                                     {group.OrderDetail.map((order, orderIdx) => (
                                         <div
                                             className="flex flex-col border-b p-3 md:flex-row md:items-center md:justify-around"

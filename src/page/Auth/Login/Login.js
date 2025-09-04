@@ -1,12 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import Image from '../../../assets/images/login.jpg'
 import { FcGoogle } from 'react-icons/fc'
-import { FaFacebookF } from 'react-icons/fa'
 import { PiEyeSlash } from 'react-icons/pi'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import Cookies from 'js-cookie'
+import LOGO from '../../../assets/img/LOGO.png'
+
+const getOauthGoogleUrl = () => {
+    const { REACT_APP_GOOGLE_CLIENT_ID, REACT_APP_GOOGLE_AUTHORIZED_REDIRECT_URI } = process.env
+    const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
+    const options = {
+        redirect_uri: REACT_APP_GOOGLE_AUTHORIZED_REDIRECT_URI,
+        client_id: REACT_APP_GOOGLE_CLIENT_ID,
+        access_type: 'offline',
+        response_type: 'code',
+        prompt: 'consent',
+        scope: [
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email',
+        ].join(' '),
+    }
+    const qs = new URLSearchParams(options)
+    return `${rootUrl}?${qs.toString()}`
+}
+const oauthGoogleUrl = getOauthGoogleUrl()
 function Login() {
     const navigate = useNavigate()
     const [isShowPassword, setIsShowPassword] = useState(false)
@@ -15,6 +33,12 @@ function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState('')
+    const [searchParams] = useSearchParams()
+    useEffect(() => {
+        const token = searchParams.get('token')
+        localStorage.setItem('token', token)
+        navigate('/')
+    }, [searchParams, navigate])
     const handleSubmit = async (e) => {
         setEmailError('')
         setPasswordError('')
@@ -82,7 +106,12 @@ function Login() {
         return resultEmail && resultPassword
     }
     return (
-        <div className="mx-auto  flex h-screen w-full max-w-5xl items-center justify-center md:flex-row">
+        <div className="relative  mx-auto flex h-screen w-full max-w-5xl items-center justify-center md:flex-row">
+            <div className="absolute left-1/2 top-0 flex w-full -translate-x-1/2 items-center justify-center bg-slate-100 sm:hidden">
+                <div className="">
+                    <img src={LOGO} alt="Coolmate" className="h-14 w-14 lg:h-20 lg:w-20" />
+                </div>
+            </div>
             <div className="w-full p-4 md:w-3/6">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4 text-3xl font-medium md:text-5xl">Đăng nhập</div>
@@ -92,9 +121,9 @@ function Login() {
                     </div>
                     <div className="mb-4 text-sm font-bold">Đăng nhập hoặc đăng ký (miễn phí)</div>
                     <div className="flex">
-                        <a href="#!" className="mr-2 rounded border border-solid border-gray-400 p-2">
+                        <Link to={oauthGoogleUrl} className="mr-2 rounded border border-solid border-gray-400 p-2">
                             <FcGoogle className="h-8 w-8" />
-                        </a>
+                        </Link>
                     </div>
                     <div className="relative">
                         <div className="ml-5 p-4 text-sm before:absolute before:left-0 before:top-7 before:block before:h-px before:w-[6%] before:flex-1 before:bg-gray-400 before:content-[''] after:absolute after:right-0 after:top-7 after:block after:h-px after:w-[78%] after:flex-1 after:bg-gray-400 after:content-[''] lg:after:w-10/12">
