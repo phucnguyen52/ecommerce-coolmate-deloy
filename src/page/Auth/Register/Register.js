@@ -1,11 +1,30 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Image from '../../../assets/images/register.jpg'
 import { FcGoogle } from 'react-icons/fc'
 import { FaFacebookF } from 'react-icons/fa'
 import { PiEyeSlash } from 'react-icons/pi'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import LOGO from '../../../assets/img/LOGO.png'
+const getOauthGoogleUrl = () => {
+    const { REACT_APP_GOOGLE_CLIENT_ID, REACT_APP_GOOGLE_AUTHORIZED_REDIRECT_URI } = process.env
+    const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
+    const options = {
+        redirect_uri: REACT_APP_GOOGLE_AUTHORIZED_REDIRECT_URI,
+        client_id: REACT_APP_GOOGLE_CLIENT_ID,
+        access_type: 'offline',
+        response_type: 'code',
+        prompt: 'consent',
+        scope: [
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email',
+        ].join(' '),
+    }
+    const qs = new URLSearchParams(options)
+    return `${rootUrl}?${qs.toString()}`
+}
+
 function Register() {
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
@@ -24,6 +43,16 @@ function Register() {
     const [otpError, setOtpError] = useState('')
     const navigate = useNavigate()
     const otpRefs = useRef([])
+    const [searchParams] = useSearchParams()
+    const oauthGoogleUrl = getOauthGoogleUrl()
+    useEffect(() => {
+        const token = searchParams.get('token')
+        if (token) {
+            localStorage.setItem('token', token)
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+            navigate('/')
+        }
+    }, [searchParams, navigate])
     const handleInputChange = (index, value) => {
         const newOtp = [...otp]
         newOtp[index] = value
@@ -186,6 +215,11 @@ function Register() {
     }
     return (
         <div className="mx-auto  flex h-screen w-full max-w-5xl items-center justify-center md:flex-row">
+            <div className="absolute left-1/2 top-0 flex w-full -translate-x-1/2 items-center justify-center bg-slate-100 sm:hidden">
+                <Link to="/">
+                    <img src={LOGO} alt="Coolmate" className="h-14 w-14 lg:h-20 lg:w-20" />
+                </Link>
+            </div>
             <div className="w-full p-4 md:w-3/6">
                 <div className="mb-4 text-3xl font-medium md:text-5xl">Đăng ký</div>
                 <div className="mb-4 text-sm">
@@ -193,16 +227,7 @@ function Register() {
                     cho bất kỳ đơn hàng nào.
                 </div>
                 <div className="mb-4 text-sm font-bold">Đăng nhập hoặc đăng ký (miễn phí)</div>
-                <div className="flex">
-                    <a href="#!" className="mr-2 rounded border border-solid border-gray-400 p-2">
-                        <FcGoogle className="h-8 w-8" />
-                    </a>
-                </div>
-                <div className="relative">
-                    <div className="ml-5 p-4 text-sm before:absolute before:left-0 before:top-7 before:block before:h-px before:w-[6%] before:flex-1 before:bg-gray-400 before:content-[''] after:absolute after:right-0 after:top-7 after:block after:h-px after:w-[78%] after:flex-1 after:bg-gray-400 after:content-[''] lg:after:w-10/12">
-                        Hoặc
-                    </div>
-                </div>
+
                 <div className="flex flex-col">
                     <div>
                         <input
@@ -275,6 +300,14 @@ function Register() {
                 >
                     Đăng nhập
                 </Link>
+                <div className="flex flex-col items-center">
+                    <div className="my-2 mt-3 font-bold">Hoặc kết nối với</div>
+                    <div className="flex">
+                        <Link to={oauthGoogleUrl} className="mr-2 rounded border border-solid border-gray-400 p-2">
+                            <FcGoogle className="h-8 w-8" />
+                        </Link>
+                    </div>
+                </div>
                 {isOtpSent && (
                     <>
                         <div className={`fixed inset-0 z-10 overflow-y-auto ${isOtpSent ? 'block' : 'hidden'}`}>

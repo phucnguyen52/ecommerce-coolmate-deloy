@@ -69,7 +69,29 @@ const ListProducts = () => {
         if (current >= data.length - slide + 1) setCurrent(0)
         else setCurrent(current + 1)
     }
+    const [touchStartX, setTouchStartX] = useState(0)
+    const [touchStartTime, setTouchStartTime] = useState(0)
 
+    const minSwipeDistance = 50
+    const minSwipeVelocity = 0.5 // px/ms
+
+    const onTouchStart = (e) => {
+        setTouchStartX(e.touches[0].clientX)
+        setTouchStartTime(Date.now())
+    }
+
+    const onTouchEnd = (e) => {
+        const touchEndX = e.changedTouches[0].clientX
+        const deltaX = touchEndX - touchStartX
+        const deltaTime = Date.now() - touchStartTime
+        const velocity = Math.abs(deltaX / deltaTime) // px per ms
+
+        if (Math.abs(deltaX) > minSwipeDistance || velocity > minSwipeVelocity) {
+            if (deltaX < 0)
+                nextSlide() // vuốt trái
+            else previousSlide() // vuốt phải
+        }
+    }
     return (
         <>
             <div className="mt-0 sm:mt-8 lg:mb-20">
@@ -96,8 +118,10 @@ const ListProducts = () => {
                         className={`duration-40 h-500px flex transition ease-out`}
                         style={{
                             transform: `translateX(-${current * (100 / slide)}%)`,
-                            transition: `2s`,
+                            transition: `transform 0.5s ease-out`,
                         }}
+                        onTouchStart={onTouchStart}
+                        onTouchEnd={onTouchEnd}
                     >
                         {data &&
                             data.map((product) => (

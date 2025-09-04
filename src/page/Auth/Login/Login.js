@@ -112,9 +112,9 @@ function Login() {
     return (
         <div className="relative  mx-auto flex h-screen w-full max-w-5xl items-center justify-center md:flex-row">
             <div className="absolute left-1/2 top-0 flex w-full -translate-x-1/2 items-center justify-center bg-slate-100 sm:hidden">
-                <div className="">
+                <Link to="/">
                     <img src={LOGO} alt="Coolmate" className="h-14 w-14 lg:h-20 lg:w-20" />
-                </div>
+                </Link>
             </div>
             <div className="w-full p-4 md:w-3/6">
                 <form onSubmit={handleSubmit}>
@@ -124,16 +124,7 @@ function Login() {
                         cho bất kỳ đơn hàng nào.
                     </div>
                     <div className="mb-4 text-sm font-bold">Đăng nhập hoặc đăng ký (miễn phí)</div>
-                    <div className="flex">
-                        <Link to={oauthGoogleUrl} className="mr-2 rounded border border-solid border-gray-400 p-2">
-                            <FcGoogle className="h-8 w-8" />
-                        </Link>
-                    </div>
-                    <div className="relative">
-                        <div className="ml-5 p-4 text-sm before:absolute before:left-0 before:top-7 before:block before:h-px before:w-[6%] before:flex-1 before:bg-gray-400 before:content-[''] after:absolute after:right-0 after:top-7 after:block after:h-px after:w-[78%] after:flex-1 after:bg-gray-400 after:content-[''] lg:after:w-10/12">
-                            Hoặc
-                        </div>
-                    </div>
+
                     <div className="flex flex-col">
                         <input
                             type="text"
@@ -177,6 +168,14 @@ function Login() {
                         {/* <div className="cursor-pointer text-sm font-medium text-blue-700 hover:text-black">
                             Quên mật khẩu
                         </div> */}
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <div className="my-2 mt-3 font-bold">Hoặc kết nối với</div>
+                        <div className="flex">
+                            <Link to={oauthGoogleUrl} className="mr-2 rounded border border-solid border-gray-400 p-2">
+                                <FcGoogle className="h-8 w-8" />
+                            </Link>
+                        </div>
                     </div>
                 </form>
             </div>

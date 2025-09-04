@@ -129,7 +129,7 @@ function ProductCard(props) {
 
                     {variant && (
                         <div
-                            className="product-add absolute bottom-0 left-0 right-0 m-auto w-full rounded-lg bg-black bg-opacity-10 p-4 text-center text-sm opacity-0 backdrop-blur-[20px]"
+                            className="product-add bottom-0 left-0 right-0 m-auto hidden w-full rounded-lg bg-black bg-opacity-10 p-4 text-center text-sm opacity-0 backdrop-blur-[20px] md:absolute"
                             style={{ maxWidth: `calc(100% - 3rem)` }}
                         >
                             {checkSize(variant) ? (
@@ -169,7 +169,7 @@ function ProductCard(props) {
 
                 {/* MÀU SẮC */}
                 {variant && (
-                    <div className="flex flex-wrap gap-1 py-3">
+                    <div className="hidden flex-wrap gap-1 py-3 md:flex">
                         {[...new Set(variant.map((item) => item.color))].map((item) => {
                             return (
                                 <div
@@ -184,18 +184,20 @@ function ProductCard(props) {
                     </div>
                 )}
                 <Link to={`/product/${value.id}`}>
-                    <div className="pb-2 text-base text-[#231f20]">{value.nameProduct}</div>
+                    <div className="clamp-2-lines mt-3 text-sm leading-5 text-[#231f20] sm:text-base md:mt-0">
+                        {value.nameProduct}
+                    </div>
                 </Link>
                 {value.discount ? (
-                    <div className="flex text-sm">
+                    <div className="mt-2 flex gap-1 text-sm sm:gap-2 md:gap-3">
                         <div className="font-bold text-[#242424]">
                             {((value.price * (100 - value.discount)) / 100).toFixed()}.000đ
                         </div>
-                        <del className=" px-3 text-gray-400">{value.price}.000đ</del>
+                        <del className=" text-gray-400">{value.price}.000đ</del>
                         <div className="text-red-500">{value.discount}%</div>
                     </div>
                 ) : (
-                    <div className="font-bold text-[#242424]">{value.price}.000đ</div>
+                    <div className="mt-2 font-bold  text-[#242424]">{value.price}.000đ</div>
                 )}
             </div>
         </>

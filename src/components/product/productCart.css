@@ -1,5 +1,12 @@
 .product-img:hover .product-add {
-   transform: translate3d(0, -50px, 0);
-   transition: all .3s;
-   opacity: 100;
+    transform: translate3d(0, -50px, 0);
+    transition: all 0.3s;
+    opacity: 100;
+}
+.clamp-2-lines {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* số dòng tối đa */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
