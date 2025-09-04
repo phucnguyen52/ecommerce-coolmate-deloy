@@ -37,8 +37,10 @@ function Login() {
     const oauthGoogleUrl = getOauthGoogleUrl()
     useEffect(() => {
         const token = searchParams.get('token')
-        localStorage.setItem('token', token)
-        navigate('/')
+        if (token) {
+            localStorage.setItem('token', token)
+            navigate('/')
+        }
     }, [searchParams, navigate])
     const handleSubmit = async (e) => {
         setEmailError('')
