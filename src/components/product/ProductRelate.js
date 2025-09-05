@@ -29,7 +29,7 @@ const ProductRelate = (props) => {
 
     return (
         <div className="container mx-auto mb-7 px-4 md:mb-10">
-            <div className="mb-5 text-center text-2xl font-bold md:mb-10 md:text-3xl">CÁC SẢN PHẨM LIÊN QUAN</div>
+            <div className="mb-5 text-center text-xl font-bold md:mb-10 md:text-3xl">CÁC SẢN PHẨM LIÊN QUAN</div>
 
             {data && (
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">

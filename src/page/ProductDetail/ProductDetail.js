@@ -252,7 +252,7 @@ const ProductDetail = () => {
                                     </Slider>
                                 </div>
                                 <div className="w-full md:w-[60%] md:px-8">
-                                    <div className="mt-3 text-xl font-bold md:mt-0 md:text-4xl">
+                                    <div className="mt-3 text-base font-bold leading-tight md:mt-0 md:text-4xl">
                                         {data.product_name}
                                     </div>
                                     <div className="my-1 flex items-center gap-2 md:my-8 md:items-end">
@@ -281,7 +281,7 @@ const ProductDetail = () => {
                                         </div>
                                     </div>
                                     {data.discount ? (
-                                        <div className="md-2 flex gap-2 font-bold md:mb-5">
+                                        <div className="mb-0 flex gap-2 font-bold md:mb-5">
                                             <div className="text-2xl">
                                                 {(data.price - data.price * data.discount * 0.01).toFixed()}.000đ
                                             </div>
@@ -291,12 +291,12 @@ const ProductDetail = () => {
                                             <div className="text-xl text-red-600">-{data.discount}%</div>
                                         </div>
                                     ) : (
-                                        <div className="mb-2 text-2xl font-bold md:mb-5">{data.price}.000đ</div>
+                                        <div className="mb-0 text-2xl font-bold md:mb-5">{data.price}.000đ</div>
                                     )}
                                     {/* voucher */}
                                     {vouchers && (
                                         <div className="flex">
-                                            <div className="text-nowrap py-1 pr-2">Mã giảm giá: </div>
+                                            <div className="text-nowrap py-0 pr-2 md:py-1">Mã giảm giá: </div>
                                             {vouchers?.length > 0 ? (
                                                 <div className="flex flex-wrap gap-2">
                                                     {vouchers.map((voucher) => (
@@ -324,7 +324,7 @@ const ProductDetail = () => {
                                                     ))}
                                                 </div>
                                             ) : (
-                                                <div className="py-1 italic">(Không có)</div>
+                                                <div className="py-0 italic md:py-1">(Không có)</div>
                                             )}
                                         </div>
                                     )}
@@ -546,7 +546,7 @@ const ProductDetail = () => {
                                         </div>
                                     </div>
                                     <div className="border-t">
-                                        <div className="py-4 font-bold">Đặc điểm nổi bật</div>
+                                        <div className="py-2 font-bold md:py-4">Đặc điểm nổi bật</div>
                                         <div>
                                             {data.descriptionProducts.split('\u005C\u005C').map((item, index) => (
                                                 <div key={index} className="my-2 flex gap-3 italic">

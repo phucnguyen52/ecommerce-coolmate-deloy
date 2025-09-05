@@ -198,7 +198,19 @@ const PurchaseOrder = () => {
                 <div className="my-5 text-xl font-bold md:text-2xl">ĐƠN MUA</div>
             </div>
             <hr className="mb-3 flex" />
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            <div className="px-2 sm:hidden">
+                <select
+                    value={currentStatus}
+                    onChange={(e) => handleStatusClick(Number(e.target.value))}
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                >
+                    <option value={1}>CHỜ XÁC NHẬN ({orderCounts[1] || 0})</option>
+                    <option value={2}>CHỜ VẬN CHUYỂN ({orderCounts[2] || 0})</option>
+                    <option value={3}>ĐANG GIAO HÀNG ({orderCounts[3] || 0})</option>
+                    <option value={4}>ĐÃ GIAO ({orderCounts[4] || 0})</option>
+                </select>
+            </div>
+            <div className="hidden grid-cols-2 gap-4 sm:grid lg:grid-cols-4">
                 <a
                     onClick={() => handleStatusClick(1)}
                     className={`group text-center text-black transition-all duration-300 ease-in-out focus:text-pink-500 ${
@@ -342,7 +354,7 @@ const PurchaseOrder = () => {
                                                         {order.product}
                                                     </div>
                                                     <div className="flex flex-nowrap gap-2 text-sm text-slate-500 md:hidden">
-                                                        <div>Màu sắc/Kích thước:</div>
+                                                        <div className="hidden md:flex">Màu sắc/Kích thước:</div>
                                                         <span>
                                                             {order.color ? (
                                                                 order.color
