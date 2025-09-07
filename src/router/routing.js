@@ -73,6 +73,11 @@ const router = createBrowserRouter([
                 index: true,
             },
             {
+                path: APP_ROUTER.SEARCHPAGE,
+                element: <Search />,
+                index: true,
+            },
+            {
                 path: APP_ROUTER.PRODUCTDETAIL,
                 element: <ProductDetail />,
             },

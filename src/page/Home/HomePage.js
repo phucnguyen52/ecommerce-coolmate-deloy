@@ -7,7 +7,7 @@ const HomePage = () => {
 
     return (
         <>
-            <Banner className="h-[300px]" />
+            <Banner className="h-[200px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]" />
             <ListProducts />
             {/* {data && (
                 <OutstandingProducts

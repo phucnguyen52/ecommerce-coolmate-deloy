@@ -79,26 +79,37 @@ const SalePage = () => {
 
     return (
         <div>
-            <div className="m-14">
-                <div className="mb-4 text-xl font-bold">TẤT CẢ MÃ GIẢM GIÁ</div>
-                <div className="grid max-h-[40vh] w-full grid-cols-4 gap-4 overflow-y-auto [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 [&::-webkit-scrollbar]:w-2">
-                    {vouchers && (
-                        <>
-                            {vouchers.map((voucher) => (
-                                <Voucher voucher={voucher} key={voucher.id} />
-                            ))}
-                        </>
-                    )}
+            <div className="m-4 md:m-8 lg:m-14">
+                <div className="mb-4 text-lg font-bold md:text-xl">TẤT CẢ MÃ GIẢM GIÁ</div>
+                <div
+                    className="grid max-h-[40vh] w-full 
+                grid-cols-1 place-items-center gap-3 overflow-y-auto 
+                sm:grid-cols-2 sm:place-items-stretch 
+                md:grid-cols-3 
+                md:gap-4 lg:grid-cols-4
+                [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 
+                dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 
+                [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 
+                dark:[&::-webkit-scrollbar-track]:bg-neutral-700 
+                [&::-webkit-scrollbar]:w-2"
+                >
+                    {vouchers && vouchers.map((voucher) => <Voucher voucher={voucher} key={voucher.id} />)}
                 </div>
             </div>
-            <div className="m-14">
-                <div className="mb-4 text-xl font-bold">SALE UP TO 50%</div>
+
+            <div className="m-4 md:m-8 lg:m-14">
+                <div className="mb-4 text-lg font-bold md:text-xl">SALE UP TO 50%</div>
+
                 {categorys && (
-                    <div className="mb-10 flex flex-wrap items-stretch gap-2">
+                    <div className="mb-6 flex flex-wrap gap-2 md:mb-10">
                         {categorys.map((item) => (
                             <div
                                 key={item.id}
-                                className={`${item.id === filter.category ? 'bg-black text-white' : 'cursor-pointer hover:font-semibold hover:underline'} content-center overflow-hidden rounded-lg border px-4 py-2 text-center`}
+                                className={`${
+                                    item.id === filter.category
+                                        ? 'bg-black text-white'
+                                        : 'cursor-pointer hover:font-semibold hover:underline'
+                                } rounded-lg border px-3 py-2 text-sm md:px-4 md:text-base`}
                                 onClick={() => handleSelectCategory(item.id)}
                             >
                                 {item.categoryName}
@@ -106,9 +117,10 @@ const SalePage = () => {
                         ))}
                     </div>
                 )}
+
                 {products?.length > 0 ? (
                     <>
-                        <div className="grid grid-cols-5 gap-4">
+                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4 lg:grid-cols-5">
                             {products.map((item, index) => (
                                 <ProductCard key={index} value={item} className="w-full" />
                             ))}
@@ -116,7 +128,7 @@ const SalePage = () => {
                         <PageNumber num={Math.ceil(listProduct?.length / 10)} setPage={setPage} page={page} />
                     </>
                 ) : (
-                    <div className="py-40 text-center">Không có sản phẩm phù hợp</div>
+                    <div className="py-20 text-center text-sm md:py-40 md:text-base">Không có sản phẩm phù hợp</div>
                 )}
             </div>
         </div>

@@ -13,6 +13,7 @@ import { IoPricetagsOutline } from 'react-icons/io5'
 import { BiCategory } from 'react-icons/bi'
 import { LuClipboardList } from 'react-icons/lu'
 import { FaRegUser } from 'react-icons/fa'
+import { IoSearchOutline } from 'react-icons/io5'
 function Header() {
     const data = useContext(StoreContext)
     const userDataString = localStorage.getItem('token')
@@ -44,6 +45,11 @@ function Header() {
         }
     }
     const isSearchPage = window.location.pathname.startsWith('/search')
+    const handleGoSearchPage = () => {
+        handleClose()
+        navigate('/search')
+    }
+
     return (
         <header>
             <div className="z-50 flex w-full items-center justify-between px-4 py-2 text-black shadow-lg lg:px-10">
@@ -59,7 +65,10 @@ function Header() {
                     <Link to={APP_ROUTER.PRODUCT} className="cursor-pointer px-6 hover:font-semibold hover:underline">
                         SẢN PHẨM
                     </Link>
-                    <Link to={APP_ROUTER.SALE} className="cursor-pointer px-6 hover:font-semibold hover:underline">
+                    <Link
+                        onClick={handleGoSearchPage}
+                        className="cursor-pointer px-6 hover:font-semibold hover:underline"
+                    >
                         GIẢM GIÁ
                     </Link>
                 </div>
@@ -191,7 +200,10 @@ function Header() {
                                 <IoPricetagsOutline />
                                 Giảm giá
                             </Link>
-
+                            <Link to={APP_ROUTER.SEARCHPAGE} onClick={handleClose} className="flex items-center gap-3">
+                                <IoSearchOutline />
+                                Tìm kiếm sản phẩm
+                            </Link>
                             {userDataString ? (
                                 <div className="flex flex-col gap-4">
                                     <Link

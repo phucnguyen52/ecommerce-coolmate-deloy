@@ -10,6 +10,7 @@ export const APP_ROUTER = {
     COLLECTION: '/collection',
     SALE: '/sale',
     SEARCH: '/search/:searchValue',
+    SEARCHPAGE: '/search',
     PURCHASE: '/purchase',
     CART: '/cart',
     CARTTEST: 'carttest',

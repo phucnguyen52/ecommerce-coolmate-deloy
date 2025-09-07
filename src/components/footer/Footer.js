@@ -69,7 +69,7 @@ function Footer() {
                 <hr className="lg:border-1 mx-0 hidden border-gray-700 " />
 
                 {/* PHẦN GIỮA */}
-                <div className="mt-3 hidden grid-cols-1 gap-6 text-sm sm:grid-cols-2 md:grid-cols-3 lg:grid lg:grid-cols-5">
+                {/* <div className="mt-3 hidden grid-cols-1 gap-6 text-sm sm:grid-cols-2 md:grid-cols-3 lg:grid lg:grid-cols-5">
                     <div>
                         <p className="my-3 text-lg font-bold md:text-xl">COOLCLUB</p>
                         <p className="my-2 cursor-pointer hover:text-yellow-500">Đăng kí thành viên</p>
@@ -115,7 +115,7 @@ function Footer() {
                             Phường Tân Thuận Đông, Quận 7, Tp. Hồ Chí Minh
                         </p>
                     </div>
-                </div>
+                </div> */}
 
                 <hr className="border-1 mx-0 mt-6 border-gray-700" />
 
